@@ -13,5 +13,6 @@ namespace AdConta.ViewModel
         bool IsSelected { get; set; }
         string Header { get; }
         double DGridHeight { get; }
+        bool CanExpand { get; set; }
     }
 }
