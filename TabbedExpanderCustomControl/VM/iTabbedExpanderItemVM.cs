@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using AdConta;
 
-namespace AdConta.ViewModel
+namespace TabbedExpanderCustomControl
 {
     public interface iTabbedExpanderItemVM
     {
@@ -13,6 +15,10 @@ namespace AdConta.ViewModel
         bool IsSelected { get; set; }
         string Header { get; }
         double DGridHeight { get; }
-        bool CanExpand { get; set; }
+        bool Expandible { get; set; }
+        /// <summary>
+        /// Only if Expandible == false
+        /// </summary>
+        ControlTemplate HeaderTemplate { get; set; }
     }
 }

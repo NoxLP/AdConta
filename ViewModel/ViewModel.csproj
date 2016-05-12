@@ -43,8 +43,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandsInCommon.cs" />
     <Compile Include="DataTableHelperVMBase.cs" />
-    <Compile Include="iTabbedExpanderItemVM.cs" />
-    <Compile Include="aTabsWithTabbedExpVM.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
     <Compile Include="VMAsientoBase.cs" />
     <Compile Include="VMTabBase.cs" />
     <Compile Include="ViewModelBase.cs" />
@@ -58,6 +57,10 @@
     <ProjectReference Include="..\GlobalSettings\GlobalSettings.csproj">
       <Project>{697dc7b8-7608-4b68-970b-1e67be52979b}</Project>
       <Name>GlobalSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TabbedExpanderCustomControl\TabbedExpanderCustomControl.csproj">
+      <Project>{e11c702f-ebbc-4d3a-beb7-7fb951db254d}</Project>
+      <Name>TabbedExpanderCustomControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

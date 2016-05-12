@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using AdConta.ViewModel;
+using TabbedExpanderCustomControl;
 
 namespace AdConta
 {
@@ -31,6 +32,29 @@ namespace AdConta
                     return (DataTemplate)Application.Resources["TabCdad"];
                 default: return null;
             }
+        }
+    }
+
+    /// <summary>
+    /// Template selector for Tabbed expander headers
+    /// </summary>
+    public class TabExpHeaderTemplateSelector : DataTemplateSelector
+    {
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            App Application = App.Current as App;
+            iTabbedExpanderItemVM tab = item as iTabbedExpanderItemVM;
+
+            if (!tab.Expandible)
+            {
+                switch (tab.Type)
+                {
+                    
+                    default: return null;
+                }
+            }
+
+            return (DataTemplate)Application.Resources["TabItemStyle1"];
         }
     }
 }

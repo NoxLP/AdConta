@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using TabbedExpanderCustomControl;
 
 namespace AdConta.ViewModel
 {
@@ -14,6 +15,7 @@ namespace AdConta.ViewModel
         private ExpanderTabType _Type;
         private int _TabComCod = 0;
         private aTabsWithTabbedExpVM _BaseTab = null;
+        private bool _Expandible = true;
 
         private bool _IsSelected;
         private bool _IsWindowed;
@@ -43,6 +45,15 @@ namespace AdConta.ViewModel
             set { this._BaseTab = value; }
         }
         public virtual double DGridHeight { get; }
+        public bool Expandible
+        {
+            get { return this._Expandible; }
+            set
+            {
+                if (this._Expandible != value)
+                    this._Expandible = value;
+            }
+        }
 
         public virtual string Header { get; }
         public bool IsSelected

@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using AdConta.Models;
 using AdConta.ViewModel;
 using AdConta;
+using TabbedExpanderCustomControl;
 
 namespace ModuloContabilidad
 {

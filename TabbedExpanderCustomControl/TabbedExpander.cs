@@ -260,18 +260,24 @@ namespace TabbedExpanderCustomControl
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
+                        iTabbedExpanderItemVM tabVM = tab.DataContext as iTabbedExpanderItemVM;
                         if (!this.TabsList.Contains(tab))
                         {
-                            tab.Tag = tab.DataContext;
+                            tab.Tag = tabVM;
                             this.TabsList.Add(tab);
                         }
 
-                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
-                        if (!this.TogsList.Contains(tog))
+                        if (tabVM.Expandible)
                         {
-                            this.TogsList.Add(tog);
-                            tog.Click += ToggleButtonClick;
+                            ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                            if (!this.TogsList.Contains(tog))
+                            {
+                                this.TogsList.Add(tog);
+                                tog.Click += ToggleButtonClick;
+                            }
                         }
+                        else if (tabVM.HeaderTemplate != null)
+                            tab.Template = tabVM.HeaderTemplate;
                     }));
                 }
             }
