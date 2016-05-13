@@ -77,30 +77,34 @@
                                                         DockPanel.Dock="Left"/>
                     </DockPanel>
                 </TabItem>
-                <TabItem Header="Asientos y punteo">
-                    <DockPanel LastChildFill="True">
-                        <DockPanel DockPanel.Dock="Right">
-                            <Button x:Name="TabButProp" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,8,5"
+                <TabbedExpander:TabExpTabItem Header="Asientos y punteo" Expandible="False">
+                    <TabbedExpander:TabExpTabItem.TEHeaderTemplate>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="True">
+                                <DockPanel DockPanel.Dock="Right">
+                                    <Button x:Name="TabButProp" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,8,5"
                                         DockPanel.Dock="Right"
                                         >Prop</Button>
-                            <Button x:Name="TabButProv" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
+                                    <Button x:Name="TabButProv" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
                                         DockPanel.Dock="Right"
                                         >Prov</Button>
-                        </DockPanel>
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                            <Button x:Name="TabButPunt" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="8,5,5,5"
+                                </DockPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                                    <Button x:Name="TabButPunt" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="8,5,5,5"
                                         Click="TabButPunt_Click"
                                         >Punteo</Button>
-                            <Button x:Name="TabButAS" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
+                                    <Button x:Name="TabButAS" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
                                         Command="{Binding NewAs}"
                                         >AS</Button>
-                            <Button x:Name="TabButAC" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
+                                    <Button x:Name="TabButAC" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
                                         >AC</Button>
-                            <Button x:Name="TabButBorra" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
+                                    <Button x:Name="TabButBorra" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
                                         >B</Button>
-                        </StackPanel>
-                    </DockPanel>
-                </TabItem>
+                                </StackPanel>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </TabbedExpander:TabExpTabItem.TEHeaderTemplate>
+                </TabbedExpander:TabExpTabItem>
                 <TabItem Header="Buscar">
                     <Grid>
                         <Grid.ColumnDefinitions>

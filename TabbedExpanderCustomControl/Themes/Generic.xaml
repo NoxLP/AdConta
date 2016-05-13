@@ -274,8 +274,7 @@
                                 BorderThickness="1,1,1,0" 
                                 Background="{TemplateBinding Background}" 
                                 Padding="{TemplateBinding Padding}">-->
-            <Border x:Name="Bd" 
-                                BorderBrush="Transparent" 
+            <Border x:Name="Bd" BorderBrush="Transparent" 
                                 BorderThickness="0" 
                                 Background="{TemplateBinding Background}" 
                                 Padding="{TemplateBinding Padding}">
@@ -365,8 +364,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Header" Value="{Binding Header}"/>
-        <!--<Setter Property="Template" Value="{StaticResource TabExpDefaultHeader}"/>-->
-        
+        <Setter Property="Template" Value="{StaticResource TabExpDefaultHeader}"/>
     </Style>
     <Style TargetType="{x:Type local:TabbedExpander}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>

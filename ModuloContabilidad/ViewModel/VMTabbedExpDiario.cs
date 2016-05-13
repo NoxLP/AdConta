@@ -29,6 +29,7 @@ namespace ModuloContabilidad
                     this._Expandible = value;
             }
         }
+        public System.Windows.Controls.ControlTemplate TEHeaderTemplate { get; set; }
 
         public bool IsSelected
         {

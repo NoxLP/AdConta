@@ -54,7 +54,8 @@ namespace AdConta.ViewModel
                     this._Expandible = value;
             }
         }
-
+        public System.Windows.Controls.ControlTemplate TEHeaderTemplate { get; set; }
+                
         public virtual string Header { get; }
         public bool IsSelected
         {

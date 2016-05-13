@@ -212,6 +212,17 @@ namespace TabbedExpanderCustomControl
             {
                 tab.Tag = tab.DataContext;
                 this.TabsList.Add(tab);
+
+                TabExpTabItem tabExp = tab as TabExpTabItem;
+                if (tabExp != null)
+                {
+                    Border bd = tabExp.Template.FindName("Bd", tabExp) as Border;
+                    ContentPresenter cp = new ContentPresenter();
+                    cp.Content = tabExp.TEHeaderTemplate;
+                    bd.Child = cp;
+                    
+                    //tabExp.Template = tabExp.TEHeaderTemplate;
+                }
             }
 
             children = ParentGrid.FindVisualChildren<ToggleButton>();
@@ -260,7 +271,10 @@ namespace TabbedExpanderCustomControl
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
-                        iTabbedExpanderItemVM tabVM = tab.DataContext as iTabbedExpanderItemVM;
+                        iTabbedExpanderItemBase tabVM = (tab is iTabbedExpanderItemBase ? 
+                            tab as iTabbedExpanderItemBase : 
+                            tab.DataContext as iTabbedExpanderItemBase);
+
                         if (!this.TabsList.Contains(tab))
                         {
                             tab.Tag = tabVM;
@@ -276,8 +290,17 @@ namespace TabbedExpanderCustomControl
                                 tog.Click += ToggleButtonClick;
                             }
                         }
-                        else if (tabVM.HeaderTemplate != null)
-                            tab.Template = tabVM.HeaderTemplate;
+                        else if (tabVM.TEHeaderTemplate != null)
+                        {
+                            TabExpTabItem tabExp = tab as TabExpTabItem;
+                            Border bd = tabExp.Template.FindName("Bd", tabExp) as Border;
+                            ContentPresenter cp = new ContentPresenter();
+                            cp.Content = tabExp.TEHeaderTemplate;
+                            bd.Child = cp;
+
+                            //tabExp.Template = tabExp.TEHeaderTemplate;
+                        }
+                        //tab.Template = tabVM.TEHeaderTemplate;
                     }));
                 }
             }
@@ -292,9 +315,13 @@ namespace TabbedExpanderCustomControl
                     //and each datacontext saved as each tabitem's tag (OnApplyTemplate and OnItemsChanged if(e.NewItems != null) ), 
                     //so the tag and the tabitem persist, can be found in this event, and togglebutton click can be unsubscribed
                     TabItem tab = this.TabsList.Find(x => x.Tag == item);
-                    ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
-                    tog.Click -= ToggleButtonClick;
-                    this.TogsList.Remove(tog);
+                    //If the tab is not expandible, it have no tog button and no event, so don't unsubscribe
+                    if (tab != null)
+                    {
+                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                        tog.Click -= ToggleButtonClick;
+                        this.TogsList.Remove(tog);
+                    }
                     this.TabsList.Remove(tab);
                 }
             }

@@ -9,16 +9,23 @@ using AdConta;
 
 namespace TabbedExpanderCustomControl
 {
-    public interface iTabbedExpanderItemVM
+    public interface iTabbedExpanderItemVM : iTabbedExpanderItemBase
     {
         ExpanderTabType Type { get; }
         bool IsSelected { get; set; }
         string Header { get; }
         double DGridHeight { get; }
+    }
+
+    public interface iTabbedExpanderItemBase
+    {
+        /// <summary>
+        /// Tells tabbed expander is this tab can expand(true) or it works as a toolbar(false)
+        /// </summary>
         bool Expandible { get; set; }
         /// <summary>
         /// Only if Expandible == false
         /// </summary>
-        ControlTemplate HeaderTemplate { get; set; }
+        ControlTemplate TEHeaderTemplate { get; set; }
     }
 }
