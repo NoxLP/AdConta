@@ -24,6 +24,34 @@
         <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:BoolHeightToHeightMulticonverter x:Key="BoolToHeightMulticonverter"/>
+        <ControlTemplate x:Key="AsientosYPunteoTabItem"  TargetType="{x:Type ContentControl}">
+            <DockPanel LastChildFill="True">
+                <DockPanel DockPanel.Dock="Right">
+                    <Button x:Name="TabButProp" VerticalAlignment="Top" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,8,2"
+                                        DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        >
+                        <TextBlock VerticalAlignment="Top" Text="Prop" HorizontalAlignment="Center" Width="Auto" Height="Auto" Padding="0" Margin="0"/>
+                    </Button>
+                    <Button x:Name="TabButProv" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,5,2"
+                                        DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
+                                        >Prov</Button>
+                </DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button x:Name="TabButPunt" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="8,2,5,2"
+                                        Click="TabButPunt_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        >Punteo</Button>
+                    <Button x:Name="TabButAS" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,5,2"
+                                        Command="{Binding NewAs}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        >AS</Button>
+                    <Button x:Name="TabButAC" VerticalAlignment="Center" Height="20" HorizontalAlignment="Center" Width="55" Margin="0,2,5,2"
+                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        >AC</Button>
+                    <Button x:Name="TabButBorra" VerticalAlignment="Center" Height="20" HorizontalAlignment="Center" Width="55" Margin="0,2,5,2"
+                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                                        >B</Button>
+                </StackPanel>
+            </DockPanel>
+        </ControlTemplate>
     </UserControl.Resources>
 
     <Grid x:Name="MayorRootGrid">
@@ -56,7 +84,7 @@
                                            PanelBackground="{StaticResource BackgroundExpandersColor}"
                                            SelectedBackground="{StaticResource BackgroundAppColor}"
                                            Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="25"
+                                           EXPANDER_NOTEXPANDED_HEIGHT="28"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
                                            BorderBrush="Transparent" BorderThickness="0">
                 <!--ElementName=RootTabMayor, Path=TabExpItemsSource}"-->
@@ -77,34 +105,8 @@
                                                         DockPanel.Dock="Left"/>
                     </DockPanel>
                 </TabItem>
-                <TabbedExpander:TabExpTabItem Header="Asientos y punteo" Expandible="False">
-                    <TabbedExpander:TabExpTabItem.TEHeaderTemplate>
-                        <ControlTemplate>
-                            <DockPanel LastChildFill="True">
-                                <DockPanel DockPanel.Dock="Right">
-                                    <Button x:Name="TabButProp" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,8,5"
-                                        DockPanel.Dock="Right"
-                                        >Prop</Button>
-                                    <Button x:Name="TabButProv" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
-                                        DockPanel.Dock="Right"
-                                        >Prov</Button>
-                                </DockPanel>
-                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                    <Button x:Name="TabButPunt" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="8,5,5,5"
-                                        Click="TabButPunt_Click"
-                                        >Punteo</Button>
-                                    <Button x:Name="TabButAS" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" Width="55" Margin="0,5,5,5"
-                                        Command="{Binding NewAs}"
-                                        >AS</Button>
-                                    <Button x:Name="TabButAC" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
-                                        >AC</Button>
-                                    <Button x:Name="TabButBorra" VerticalAlignment="Center" Height="35" HorizontalAlignment="Center" Width="55" Margin="0,5,5,5"
-                                        >B</Button>
-                                </StackPanel>
-                            </DockPanel>
-                        </ControlTemplate>
-                    </TabbedExpander:TabExpTabItem.TEHeaderTemplate>
-                </TabbedExpander:TabExpTabItem>
+                <TabbedExpander:TabExpTabItem Header="Asientos y punteo" Expandible="False" 
+                                              TEHeaderTemplate="{StaticResource AsientosYPunteoTabItem}"/>
                 <TabItem Header="Buscar">
                     <Grid>
                         <Grid.ColumnDefinitions>

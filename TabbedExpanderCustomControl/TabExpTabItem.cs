@@ -15,7 +15,7 @@ using System.Collections.Specialized;
 namespace TabbedExpanderCustomControl
 {
     /// <summary>
-    /// Optional TabItem for creating not expandible tabitems directly in xaml
+    /// Optional TabItem for creating not expandible tabitems directly in xaml. Expandible have to be FALSE and specify TEHeaderTemplate in XAML
     /// </summary>
     public class TabExpTabItem : TabItem, iTabbedExpanderItemBase
     {
@@ -32,14 +32,12 @@ namespace TabbedExpanderCustomControl
 
         public ControlTemplate TEHeaderTemplate
         {
-            get { return (ControlTemplate)GetValue(HeaderTemplateProperty); }
-            set { SetValue(HeaderTemplateProperty, value); }
+            get { return (ControlTemplate)GetValue(TEHeaderTemplateProperty); }
+            set { SetValue(TEHeaderTemplateProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for HeaderTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TEHeaderTemplateProperty =
             DependencyProperty.Register("TEHeaderTemplate", typeof(ControlTemplate), typeof(TabExpTabItem), new PropertyMetadata(null));
-
-
     }
 }

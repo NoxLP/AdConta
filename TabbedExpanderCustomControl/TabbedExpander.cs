@@ -214,14 +214,14 @@ namespace TabbedExpanderCustomControl
                 this.TabsList.Add(tab);
 
                 TabExpTabItem tabExp = tab as TabExpTabItem;
-                if (tabExp != null)
+                if (tabExp != null && tabExp.Expandible == false)
                 {
-                    Border bd = tabExp.Template.FindName("Bd", tabExp) as Border;
-                    ContentPresenter cp = new ContentPresenter();
-                    cp.Content = tabExp.TEHeaderTemplate;
-                    bd.Child = cp;
-                    
-                    //tabExp.Template = tabExp.TEHeaderTemplate;
+                    Border bd = tab.Template.FindName("Bd", tab) as Border;
+                    ContentControl cc = new ContentControl();
+                    cc.Name = "Content";
+                    cc.Content = tabExp.TEHeaderTemplate;
+                    cc.Template = tabExp.TEHeaderTemplate;
+                    bd.Child = cc;
                 }
             }
 
@@ -268,21 +268,23 @@ namespace TabbedExpanderCustomControl
             {
                 foreach (object item in e.NewItems)
                 {
+
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
-                        iTabbedExpanderItemBase tabVM = (tab is iTabbedExpanderItemBase ? 
+                        var tabVM = tab.DataContext;
+                        iTabbedExpanderItemBase tabExp = (tab is iTabbedExpanderItemBase ? 
                             tab as iTabbedExpanderItemBase : 
                             tab.DataContext as iTabbedExpanderItemBase);
 
-                        if (!this.TabsList.Contains(tab))
+                        if (tabExp == null || tabExp.Expandible)
                         {
-                            tab.Tag = tabVM;
-                            this.TabsList.Add(tab);
-                        }
+                            if (!this.TabsList.Contains(tab))
+                            {
+                                tab.Tag = tabVM;
+                                this.TabsList.Add(tab);
+                            }
 
-                        if (tabVM.Expandible)
-                        {
                             ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
                             if (!this.TogsList.Contains(tog))
                             {
@@ -290,17 +292,15 @@ namespace TabbedExpanderCustomControl
                                 tog.Click += ToggleButtonClick;
                             }
                         }
-                        else if (tabVM.TEHeaderTemplate != null)
+                        else
                         {
-                            TabExpTabItem tabExp = tab as TabExpTabItem;
-                            Border bd = tabExp.Template.FindName("Bd", tabExp) as Border;
-                            ContentPresenter cp = new ContentPresenter();
-                            cp.Content = tabExp.TEHeaderTemplate;
-                            bd.Child = cp;
-
-                            //tabExp.Template = tabExp.TEHeaderTemplate;
+                            Border bd = tab.Template.FindName("Bd", tab) as Border;
+                            ContentControl cc = new ContentControl();
+                            cc.Name = "Content";
+                            cc.Content = tabExp.TEHeaderTemplate;
+                            cc.Template = tabExp.TEHeaderTemplate;
+                            bd.Child = cc;
                         }
-                        //tab.Template = tabVM.TEHeaderTemplate;
                     }));
                 }
             }
