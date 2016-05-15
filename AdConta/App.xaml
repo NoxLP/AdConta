@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="/Resources/CloseTabButton.xaml"/>
                 <ResourceDictionary Source="/Resources/PinButton.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TabbedExpanderCustomControl;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="/Resources/AbleTabControlResources.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 

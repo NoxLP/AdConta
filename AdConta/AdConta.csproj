@@ -85,6 +85,10 @@
     </Compile>
     <Compile Include="TemplateSelectors.cs" />
     <Compile Include="VMMain.cs" />
+    <Page Include="Resources\AbleTabControlResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AbleTabControl\AbleTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

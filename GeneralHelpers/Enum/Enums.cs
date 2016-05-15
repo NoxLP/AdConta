@@ -21,6 +21,10 @@ namespace AdConta
     /// </summary>
     public enum ExpanderTabType : int { Diario = 0, Simple, Complejo }
     /// <summary>
+    /// Enum for specify top or bottom TabbedExpander
+    /// </summary>
+    public enum TabExpWhich : byte { Top = 0, Bottom}
+    /// <summary>
     /// Debit/credit enum
     /// </summary>
     public enum DebitCredit
@@ -30,7 +34,7 @@ namespace AdConta
         [Description("False")]
         Credit
     }
-
+    
     [AttributeUsage(AttributeTargets.All)]
     public class DebitCreditAtttribute : DescriptionAttribute
     {
