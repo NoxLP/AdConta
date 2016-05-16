@@ -53,6 +53,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Diario.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />
     <Compile Include="TabDiarioUC.xaml.cs">
       <DependentUpon>TabDiarioUC.xaml</DependentUpon>

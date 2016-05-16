@@ -21,7 +21,7 @@ namespace ModuloContabilidad
         {
             base.IsWindowed = GlobalSettings.Properties.Settings.Default.ASIENTOSIMPLE_WINDOWED;
             base.Fecha = DateTime.Today;
-            base.Type = TabExpTabType.Simple;
+            base.TabExpType = TabExpTabType.Simple;
             this._model = new AsientoSimpleModel(base.TabComCod, true);
             this._MoveAsientoToWindow = new Command_MoveAsientoToWindow(this);
         }

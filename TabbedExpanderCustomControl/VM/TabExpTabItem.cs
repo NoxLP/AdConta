@@ -21,14 +21,13 @@ namespace TabbedExpanderCustomControl
     public class TabExpTabItemBaseVM : INotifyPropertyChanged, iTabbedExpanderItemBase
     {
         #region fields
-        private TabExpTabType _TabExpType;
         private bool _Expandible = true;
         private ControlTemplate _TEHeaderTemplate;
-        private string _Header;
+        private string _Header = "";
         #endregion
 
         #region properties
-        public virtual TabExpTabType TabExpType { get { return this._TabExpType; } }
+        public virtual TabExpTabType TabExpType { get; set; }
         public bool Expandible
         {
             get { return this._Expandible; }

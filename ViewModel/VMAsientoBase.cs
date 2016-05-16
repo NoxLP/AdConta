@@ -10,7 +10,6 @@ namespace AdConta.ViewModel
 {
     public class VMAsientoBase : TabExpTabItemBaseVM, IPublicNotify
     {
-
         #region fields
         private TabExpTabType _Type;
         private int _TabComCod = 0;
@@ -29,7 +28,7 @@ namespace AdConta.ViewModel
         #endregion
 
         #region properties
-        public TabExpTabType Type
+        public override TabExpTabType TabExpType
         {
             get { return this._Type; }
             set { this._Type = value; }

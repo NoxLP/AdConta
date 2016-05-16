@@ -33,7 +33,9 @@ namespace ModuloContabilidad
             this._model = new TabMayorModel(base.TabComCod);
             this._StatusGridSource = new DataTable();
             this.PopulateStatusGrid();
-            this._TabbedExpanderItemsSource = new ObservableCollection<iTabbedExpanderItemVM>();
+
+            this.TopTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
+            this.BottomTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
 
             this._NextRecord = new Command_NextRecord_Mayor(this);
             this._PrevRecord = new Command_PrevRecord_Mayor(this);
@@ -43,12 +45,12 @@ namespace ModuloContabilidad
         #region fields
         private TabMayorModel _model;
         private Mayor_SearchType _SearchType;
-
         private DataTable _StatusGridSource;
-        private ObservableCollection<iTabbedExpanderItemVM> _TabbedExpanderItemsSource;
-        private int _TabbedExpanderSelectedIndex;
 
-
+        #region tabbed expander
+        private int _TopTabbedExpanderSelectedIndex;
+        private int _BottomTabbedExpanderSelectedIndex;
+        #endregion
         #endregion
 
         #region properties
@@ -61,7 +63,7 @@ namespace ModuloContabilidad
         public DataView StatusGridSource { get { return this._StatusGridSource.DefaultView; } }
         //TODO cuando se cambie la cuenta Y el punteo esté activado, hay que hacer propchanged aquí en StatusGridSaldoPunteado
         public decimal StatusGridSaldoPunteado { get { return this.GetSaldoPunteado(); } }
-        public ObservableCollection<iTabbedExpanderItemVM> TabbedExpanderItemsSource
+        /*public ObservableCollection<iTabbedExpanderItemVM> TabbedExpanderItemsSource
         {
             get { return this._TabbedExpanderItemsSource; }
             set
@@ -84,13 +86,35 @@ namespace ModuloContabilidad
                     this.PublicNotifyPropChanged("TabbedExpanderSelectedIndex");
                 }
             }
-        }
+        }*/
 
-        #region tabbed expander        
+        #region tabbed expander
         public override ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
         public override ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
-        public override int TopTabbedExpanderSelectedIndex { get; set; }
-        public override int BottomTabbedExpanderSelectedIndex { get; set; }
+        public override int TopTabbedExpanderSelectedIndex
+        {
+            get { return this._TopTabbedExpanderSelectedIndex; }
+            set
+            {
+                if (this._TopTabbedExpanderSelectedIndex != value)
+                {
+                    this._TopTabbedExpanderSelectedIndex = value;
+                    this.NotifyPropChanged("TopTabbedExpanderSelectedIndex");
+                }
+            }
+        }
+        public override int BottomTabbedExpanderSelectedIndex
+        {
+            get { return this._BottomTabbedExpanderSelectedIndex; }
+            set
+            {
+                if (this._BottomTabbedExpanderSelectedIndex != value)
+                {
+                    this._BottomTabbedExpanderSelectedIndex = value;
+                    this.NotifyPropChanged("BottomTabbedExpanderSelectedIndex");
+                }
+            }
+        }
         #endregion
         #endregion
 
@@ -294,7 +318,7 @@ namespace ModuloContabilidad
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = tab.TabComCod;
                 VM.BaseTab = tab;
-                VM.Type = TabExpTabType.Simple;
+                VM.TabExpType = TabExpTabType.Simple;
 
 
                 tab.AddAndSelectTabInTabbedExpander(VM, TabExpWhich.Bottom);
@@ -317,7 +341,7 @@ namespace ModuloContabilidad
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = this._tab.TabComCod;
                 VM.BaseTab = this._tab as VMTabMayor;
-                VM.Type = TabExpTabType.Simple;
+                VM.TabExpType = TabExpTabType.Simple;
                 ASUC.DataContext = VM;
                 AsientosWindow w = new AsientosWindow();
 

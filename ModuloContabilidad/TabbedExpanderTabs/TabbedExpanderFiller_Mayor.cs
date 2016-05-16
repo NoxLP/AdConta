@@ -28,14 +28,27 @@ namespace ModuloContabilidad
         protected override void FillTopTabExp()
         {
             base.Tabs = new List<TabExpTabItemBaseVM>(3);
-            base.Tabs.Add(new TabExpTabItemBaseVM() { Expandible = true, ParentVM = TabExpContainer, TEHeaderTemplate = null });
+            base.Tabs.Add(new TabExpTabItemBaseVM()
+            {
+                Expandible = true,
+                ParentVM = TabExpContainer,
+                TEHeaderTemplate = null,
+                TabExpType = AdConta.TabExpTabType.Mayor1_Cuenta
+            });
             base.Tabs.Add(new TabExpTabItemBaseVM()
             {
                 Expandible = false,
                 ParentVM = TabExpContainer,
-                TEHeaderTemplate = Application.Current.Resources["AsientosYPunteoTabItem"] as ControlTemplate
+                TEHeaderTemplate = Application.Current.Resources["AsientosYPunteoTabItem"] as ControlTemplate,
+                TabExpType = AdConta.TabExpTabType.NotExpandible
             });
-            base.Tabs.Add(new TabExpTabItemBaseVM() { Expandible = true, ParentVM = TabExpContainer, TEHeaderTemplate = null });
+            base.Tabs.Add(new TabExpTabItemBaseVM()
+            {
+                Expandible = true,
+                ParentVM = TabExpContainer,
+                TEHeaderTemplate = null,
+                TabExpType = AdConta.TabExpTabType.Mayor3_Buscar
+            });
 
             foreach (TabExpTabItemBaseVM tab in Tabs) base.TabExpContainer.AddTabInTabbedExpander(tab, AdConta.TabExpWhich.Top);
         }
@@ -44,7 +57,12 @@ namespace ModuloContabilidad
         {
             base.Tabs.Clear();
             base.Tabs = new List<TabExpTabItemBaseVM>(1);
-            base.Tabs.Add(new VMTabbedExpDiario() { Expandible = true, ParentVM = TabExpContainer, TEHeaderTemplate = null });
+            base.Tabs.Add(new VMTabbedExpDiario()
+            {
+                Expandible = true,
+                ParentVM = TabExpContainer,
+                TEHeaderTemplate = null
+            });
 
             base.TabExpContainer.AddAndSelectTabInTabbedExpander(Tabs[0], AdConta.TabExpWhich.Bottom);
         }

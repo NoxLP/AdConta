@@ -7,8 +7,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Data;
 using ModuloContabilidad;
 using ModuloGestion;
+using TabbedExpanderCustomControl;
+using Extensions;
 using AdConta.ViewModel;
 
 namespace AdConta
@@ -85,7 +88,43 @@ namespace AdConta
             GlobalSettings.Properties.Settings.Default.MINCODCUENTAS = min;
             GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS = max;
         }
+        private void BindTabbedExpanders<T>(TabbedExpander TopTE, TabbedExpander BottomTE, T tab) where T : aTabsWithTabExpVM
+        {
+            TopTE.SetBinding(
+                TabbedExpander.ItemsSourceProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    //Path = new PropertyPath((tab as aTabsWithTabExpVM).TopTabbedExpanderItemsSource),
+                    Path = new PropertyPath("TopTabbedExpanderItemsSource"),
+                    Mode = BindingMode.OneWay
+                });
+            TopTE.SetBinding(
+                TabbedExpander.SelectedIndexProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("TopTabbedExpanderSelectedIndex"),
+                    Mode = BindingMode.TwoWay
+                });
 
+            BottomTE.SetBinding(
+                TabbedExpander.ItemsSourceProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("BottomTabbedExpanderItemsSource"),
+                    Mode = BindingMode.TwoWay
+                });
+            BottomTE.SetBinding(
+                TabbedExpander.SelectedIndexProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("BottomTabbedExpanderSelectedIndex"),
+                    Mode = BindingMode.TwoWay
+                });
+        }
         #endregion
 
         #region public methods
@@ -97,19 +136,23 @@ namespace AdConta
         {
             VMTabBase tab;
             TabHeader TabHeaders = new TabHeader();
+            AbleTabControl.AbleTabControl ATC = (App.Current.MainWindow as MainWindow).AbleTabControl;
+            TabbedExpander TopTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "TopTabbedExpander");
+            TabbedExpander BottomTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
 
             switch (type)
             {
                 case TabType.Mayor:
                     tab = new VMTabMayor();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabbedExpanderFiller_Mayor TabExpFiller = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
-                    AbleTabControl.AbleTabControl ATC = (App.Current.MainWindow as MainWindow).AbleTabControl;
-                    
+                    TabbedExpanderFiller_Mayor TabExpFillerM = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
+                    BindTabbedExpanders<VMTabMayor>(TopTabExp, BottomTabExp, tab as VMTabMayor);
                     break;
                 case TabType.Diario:
                     tab = new VMTabDiario();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                    TabbedExpanderFiller_Diario TabExpFillerD = new TabbedExpanderFiller_Diario(tab as aTabsWithTabExpVM);
+                    BindTabbedExpanders<VMTabDiario>(TopTabExp, BottomTabExp, tab as VMTabDiario);
                     break;
                 case TabType.Props:
                     tab = new VMTabProps();
@@ -122,6 +165,8 @@ namespace AdConta
                 default:
                     tab = new VMTabMayor();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                    TabExpFillerM = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
+                    BindTabbedExpanders<VMTabMayor>(TopTabExp, BottomTabExp, tab as VMTabMayor);
                     break;
             }
             this.Tabs.Add(tab);

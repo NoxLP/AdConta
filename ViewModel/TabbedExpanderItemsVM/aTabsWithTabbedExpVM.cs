@@ -29,12 +29,12 @@ namespace AdConta.ViewModel
         {
             if (WhichTabExp == TabExpWhich.Top)
             {
-                this.TopTabbedExpanderItemsSource.Add(tabVM);
+                TopTabbedExpanderItemsSource.Add(tabVM);
                 NotifyPropChanged("TopTabbedExpanderItemsSource");
             }
             else
             {
-                this.BottomTabbedExpanderItemsSource.Add(tabVM);
+                BottomTabbedExpanderItemsSource.Add(tabVM);
                 NotifyPropChanged("BottomTabbedExpanderItemsSource");
             }
         }
@@ -48,14 +48,14 @@ namespace AdConta.ViewModel
         {
             if(WhichTabExp == TabExpWhich.Top)
             {
-                this.TopTabbedExpanderItemsSource.Add(tabVM);
-                this.TopTabbedExpanderSelectedIndex = this.TopTabbedExpanderItemsSource.IndexOf(tabVM);
+                TopTabbedExpanderItemsSource.Add(tabVM);
+                TopTabbedExpanderSelectedIndex = this.TopTabbedExpanderItemsSource.IndexOf(tabVM);
                 NotifyPropChanged("TopTabbedExpanderItemsSource");
             }
             else
             {
-                this.BottomTabbedExpanderItemsSource.Add(tabVM);
-                this.BottomTabbedExpanderSelectedIndex = this.BottomTabbedExpanderItemsSource.IndexOf(tabVM);
+                BottomTabbedExpanderItemsSource.Add(tabVM);
+                BottomTabbedExpanderSelectedIndex = this.BottomTabbedExpanderItemsSource.IndexOf(tabVM);
                 NotifyPropChanged("BottomTabbedExpanderItemsSource");
             }            
         }

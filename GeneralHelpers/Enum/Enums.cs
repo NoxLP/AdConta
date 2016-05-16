@@ -21,11 +21,12 @@ namespace AdConta
     /// </summary>
     public enum TabExpTabType : int
     {
-        Diario = 0,
+        NotExpandible = 0,
+        Diario,
         Simple,
         Complejo,
         Mayor1_Cuenta,
-        Mayor2_Buscar
+        Mayor3_Buscar
     }
     /// <summary>
     /// Enum for specify top or bottom TabbedExpander

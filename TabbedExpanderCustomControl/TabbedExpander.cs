@@ -273,9 +273,7 @@ namespace TabbedExpanderCustomControl
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
                         var tabVM = tab.DataContext;
-                        iTabbedExpanderItemBase tabExp = (tab is iTabbedExpanderItemBase ? 
-                            tab as iTabbedExpanderItemBase : 
-                            tab.DataContext as iTabbedExpanderItemBase);
+                        TabExpTabItemBaseVM tabExp = item as TabExpTabItemBaseVM;
 
                         if (tabExp == null || tabExp.Expandible)
                         {

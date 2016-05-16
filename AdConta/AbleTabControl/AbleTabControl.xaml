@@ -10,41 +10,79 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:userc="clr-namespace:AdConta.UserControls"
              xmlns:main="clr-namespace:AdConta"
+             xmlns:ModuloContabilidad="clr-namespace:ModuloContabilidad;assembly=ModuloContabilidad"
              xmlns:TabbedExpander="clr-namespace:TabbedExpanderCustomControl;assembly=TabbedExpanderCustomControl"
+             xmlns:converters="clr-namespace:Converters;assembly=Converters"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <main:TabItemTemplateSelector x:Key="TabTemplSelector"/>
+        
         <LinearGradientBrush x:Key="BorderGradient" StartPoint="1,0" EndPoint="1,1">
             <GradientStop Color="DimGray" Offset="0.96"/>
             <GradientStop Color="Transparent" Offset="1"/>
         </LinearGradientBrush>
-        <Style x:Key="TabControlStyle1" TargetType="{x:Type TabControl}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="Padding" Value="4,4,4,4"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
-            <Setter Property="Background" Value="#F9F9F9"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TabControl}">
-                        <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="ColumnDefinition0"/>
-                                <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
-                                <RowDefinition x:Name="RowDefinition1" Height="*"/>
-                            </Grid.RowDefinitions>
-                            <DockPanel Grid.Column="0">
-                            <TabPanel x:Name="HeaderPanel" DockPanel.Dock="Top"
-                                  Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" 
-                                      KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
-                                <TabbedExpander:TabbedExpander x:Name="TopTabbedExpander" 
+        <LinearGradientBrush x:Key="SplitterGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="Gray" Offset="0"/>
+            <GradientStop Color="{Binding Source={StaticResource BackgroundAppColor}, Path=Color}" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <ModuloContabilidad:TabbedExpTemplateSelector_ModContabilidad x:Key="TabbedExpTemplateSelector"/>
+        <converters:BoolHeightToHeightMulticonverter x:Key="BoolToHeightMulticonverter"/>
+        <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
+        
+    </UserControl.Resources>
+    <Grid Background="{StaticResource BackgroundAppColor}" Margin="0">
+        <TabControl x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"
+                    SelectedIndex="{Binding ElementName=Root, Path=SelectedIndex}" ItemsSource="{Binding ElementName=Root, Path=ItemsSourceProperty}" 
+                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0">
+            <!--="{StaticResource TabControlStyle1}">-->
+            <!-- ItemContainerStyle="{StaticResource draggable}" SelectionChanged="RootTabControl_SelectionChanged">-->
+            <TabControl.Style>
+                <Style x:Name="TabControlStyle1" TargetType="{x:Type TabControl}">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Setter Property="Padding" Value="4,4,4,4"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
+                    <Setter Property="Background" Value="#F9F9F9"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabControl}">
+                                <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="ColumnDefinition0"/>
+                                        <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                                        <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                                        <!--Splitter row-->
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition x:Name="BottomTERow"
+                                               MaxHeight="{Binding ElementName=BottomTabbedExpander, Path=MaxHeight, Mode=OneWay}"
+                                               MinHeight="{Binding ElementName=BottomTabbedExpander, Path=MinHeight, Mode=OneWay}">
+                                            <RowDefinition.Height>
+                                                <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
+                                                      ConverterParameter="TEToRow"
+                                                      Mode="TwoWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
+                                                    <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
+                                                    <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
+                                                </MultiBinding>
+                                            </RowDefinition.Height>
+                                        </RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <DockPanel Grid.Column="0">
+                                        <TabPanel x:Name="HeaderPanel" DockPanel.Dock="Top"
+                                           Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" 
+                                           KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                                        <TabbedExpander:TabbedExpander x:Name="TopTabbedExpander" 
                                            TabStripPlacement="Top" 
                                            VerticalAlignment="Top"
                                            Margin="0,0,0,2"
@@ -54,59 +92,90 @@
                                            Background="{StaticResource BackgroundAppColor}"
                                            EXPANDER_NOTEXPANDED_HEIGHT="28"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
-                                           BorderBrush="Transparent" BorderThickness="0">
-                                    
-                                </TabbedExpander:TabbedExpander>
-                            </DockPanel>
-                            <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
-                                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Border>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="TabStripPlacement" Value="Bottom">
-                                <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
-                                <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
-                                <Setter Property="Margin" TargetName="HeaderPanel" Value="2,0,2,2"/>
-                            </Trigger>
-                            <Trigger Property="TabStripPlacement" Value="Left">
-                                <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                                <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="0"/>
-                                <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1"/>
-                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
-                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
-                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                                <Setter Property="Margin" TargetName="HeaderPanel" Value="2,2,0,2"/>
-                            </Trigger>
-                            <Trigger Property="TabStripPlacement" Value="Right">
-                                <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
-                                <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
-                                <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
-                                <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0"/>
-                                <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
-                                <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
-                                <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
-                                <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
-                                <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-    <Grid Background="{StaticResource BackgroundAppColor}" Margin="0">
-        <TabControl x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"
-                    SelectedIndex="{Binding ElementName=Root, Path=SelectedIndex}" ItemsSource="{Binding ElementName=Root, Path=ItemsSourceProperty}" 
-                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0" 
-                    Style="{StaticResource TabControlStyle1}">
-            <!-- ItemContainerStyle="{StaticResource draggable}" SelectionChanged="RootTabControl_SelectionChanged">-->
+                                           BorderBrush="Transparent" BorderThickness="0"
+                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"/>
+                                    </DockPanel>
+                                    <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                                        <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </Border>
+                                    <GridSplitter Grid.Row="2" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Margin="3,2,3,4"
+                                          IsEnabled="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay}" 
+                                          Visibility="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay,
+                                      Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=TESplitter}"
+                                          HorizontalAlignment="Stretch" 
+                                          Width="Auto" 
+                                          Height="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay,
+                                      Converter={StaticResource BoolToHeightConverter}, ConverterParameter=TEIsExpandedToSplitterHeight}" 
+                                          VerticalAlignment="Bottom" 
+                                          Background="{StaticResource SplitterGradient}"/>
+                                    <!--BorderBrush="{StaticResource SplitterGradient}" BorderThickness="1"/>-->
+                                    <Grid Grid.Row="3" Background="{StaticResource BackgroundAppColor}" x:Name="MayorRootGridRow3" Margin="0">
+                                        <TabbedExpander:TabbedExpander x:Name="BottomTabbedExpander" 
+                                           TabStripPlacement="Bottom" 
+                                           VerticalAlignment="Stretch"
+                                           MaxHeight="400"
+                                           MinHeight="130"
+                                           Margin="0,0,0,2"
+                                           Padding="0"
+                                           PanelBackground="{StaticResource BackgroundExpandersColor}"
+                                           SelectedBackground="{StaticResource BackgroundAppColor}"
+                                           Background="{StaticResource BackgroundAppColor}"
+                                           EXPANDER_NOTEXPANDED_HEIGHT="25"
+                                           EXPANDER_EXPANDED_HEIGHT="NaN"
+                                           BorderBrush="Transparent" BorderThickness="0"
+                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}">
+                                            <TabbedExpander:TabbedExpander.Height>
+                                                <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}" 
+                                                      ConverterParameter="RowToTE"
+                                                      Mode="OneWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding RelativeSource="{RelativeSource Self}" Path="IsExpanded"/>
+                                                    <Binding ElementName="BottomTERow" Path="ActualHeight"/>
+                                                    <Binding RelativeSource="{RelativeSource Self}" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
+                                                </MultiBinding>
+                                            </TabbedExpander:TabbedExpander.Height>
+                                        </TabbedExpander:TabbedExpander>
+                                    </Grid>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="TabStripPlacement" Value="Bottom">
+                                        <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
+                                        <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                                        <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                        <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                                        <Setter Property="Margin" TargetName="HeaderPanel" Value="2,0,2,2"/>
+                                    </Trigger>
+                                    <Trigger Property="TabStripPlacement" Value="Left">
+                                        <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                                        <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                                        <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="0"/>
+                                        <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1"/>
+                                        <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                                        <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                                        <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                        <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                        <Setter Property="Margin" TargetName="HeaderPanel" Value="2,2,0,2"/>
+                                    </Trigger>
+                                    <Trigger Property="TabStripPlacement" Value="Right">
+                                        <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                                        <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                                        <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
+                                        <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0"/>
+                                        <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                                        <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                                        <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                                        <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                                        <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Style>
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem">
                     <Style.Resources>

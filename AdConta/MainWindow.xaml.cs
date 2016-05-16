@@ -28,6 +28,9 @@ namespace AdConta
             InitializeComponent();
 
             this.WindowState = WindowState.Maximized;
+            /*this.Dispatcher.BeginInvoke(
+                System.Windows.Threading.DispatcherPriority.Loaded, 
+                (Action)(() => this.AbleTabControl.DataContext = this.DataContext));*/
         }
 
         #region helpers

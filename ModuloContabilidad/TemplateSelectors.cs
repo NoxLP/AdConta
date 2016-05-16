@@ -36,7 +36,7 @@ namespace ModuloContabilidad
                 case TabExpTabType.Mayor1_Cuenta:
                     TabItem.Header = "Cuenta";
                     return (DataTemplate)Application.Current.Resources["TabExpMayor1"];
-                case TabExpTabType.Mayor2_Buscar:
+                case TabExpTabType.Mayor3_Buscar:
                     TabItem.Header = "Buscar";
                     return (DataTemplate)Application.Current.Resources["TabExpMayor2"]; 
                 default: return null;

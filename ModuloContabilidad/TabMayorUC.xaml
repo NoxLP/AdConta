@@ -15,15 +15,7 @@
              d:DesignHeight="500" d:DesignWidth="650"
              Loaded="RootTabMayor_Loaded">
     <UserControl.Resources>
-        <LinearGradientBrush x:Key="SplitterGradient" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="Gray" Offset="0"/>
-            <GradientStop Color="{Binding Source={StaticResource BackgroundAppColor}, Path=Color}" Offset="1.0"/>
-        </LinearGradientBrush>
-        <local:TabbedExpTemplateSelector_ModContabilidad x:Key="TabbedExpTemplateSelector"/>
         <converters:AsientoDGridHeightConverter x:Key="ASHeightConverter"/>
-        <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <converters:BoolHeightToHeightMulticonverter x:Key="BoolToHeightMulticonverter"/>
         <ControlTemplate x:Key="AsientosYPunteoTabItem"  TargetType="{x:Type ContentControl}">
             <DockPanel LastChildFill="True">
                 <DockPanel DockPanel.Dock="Right">
@@ -140,162 +132,75 @@
     </UserControl.Resources>
 
     <Grid x:Name="MayorRootGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" MinHeight="50"/>
-            <RowDefinition Height="Auto"/>
-            <!--Splitter row-->
-            <RowDefinition x:Name="BottomTERow"
-                           MaxHeight="{Binding ElementName=BottomTabbedExpander, Path=MaxHeight, Mode=OneWay}"
-                           MinHeight="{Binding ElementName=BottomTabbedExpander, Path=MinHeight, Mode=OneWay}">
-                <RowDefinition.Height>
-                    <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
-                                  ConverterParameter="TEToRow"
-                                  Mode="TwoWay"
-                                  UpdateSourceTrigger="PropertyChanged">
-                        <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
-                        <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
-                        <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
-                    </MultiBinding>
-                </RowDefinition.Height>
-            </RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="3,0,3,0">
-            <TabbedExpander:TabbedExpander x:Name="TopTabbedExpander" 
-                                           TabStripPlacement="Top" 
-                                           VerticalAlignment="Top"
-                                           Margin="0,0,0,2"
-                                           Padding="0"
-                                           PanelBackground="{StaticResource BackgroundExpandersColor}"
-                                           SelectedBackground="{StaticResource BackgroundAppColor}"
-                                           Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="28"
-                                           EXPANDER_EXPANDED_HEIGHT="NaN"
-                                           BorderBrush="Transparent" BorderThickness="0">
-                <!--ElementName=RootTabMayor, Path=TabExpItemsSource}"-->
-                <!--ElementName=RootTabMayor, Path=TabExpSelectedIndex, Mode=TwoWay}"-->
-                <TabItem Header="Cuenta">
-                    
-                </TabItem>
-                <TabItem Header="Asientos y punteo"/>
-                <!-- Expandible="False" 
-                                              TEHeaderTemplate="{StaticResource AsientosYPunteoTabItem}"/>-->
-                <TabItem Header="Buscar">
-                    
-                </TabItem>
-            </TabbedExpander:TabbedExpander>
-        </Grid>
-        <Grid Grid.Row="1" Margin="3,0,3,0">
-            <DockPanel LastChildFill="True">
-                <!--Formato euros: StringFormat={}{0:C}-->
-                <DataGrid x:Name="TabDGridStatus" HeadersVisibility="None" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" 
+        <DockPanel LastChildFill="True">
+            <!--Formato euros: StringFormat={}{0:C}-->
+            <DataGrid x:Name="TabDGridStatus" HeadersVisibility="None" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" 
                           IsReadOnly="True" Margin="0,0,0,2" RowHeaderWidth="0" AutoGenerateColumns="False"
                           SelectionMode="Single" SelectionUnit="Cell" CanUserAddRows="False" ItemsSource="{Binding StatusGridSource, Mode=OneWay}"
                           HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray" GridLinesVisibility="Vertical"
                           Background="{StaticResource MayorDGridBackground}" 
                           Height="{Binding ElementName=TabDGridStatus, Path=RowHeight, Mode=OneWay}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
+                    <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridCenterCellStyle}"/>
-                        <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100"    
+                    <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100"    
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridCenterCellStyle}"/>
-                        <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"  
+                    <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"  
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"   
+                    <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"   
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"    
+                    <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"    
                                             CellStyle="{StaticResource CellBackgroundGray}"
                                             ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                        <DataGridHyperlinkColumn Header="Recibo" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
+                    <DataGridHyperlinkColumn Header="Recibo" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
                                                  ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                        <DataGridHyperlinkColumn Header="Factura" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
+                    <DataGridHyperlinkColumn Header="Factura" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
                                                  ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <!--<TextBox Text="Sumas y Saldos" DockPanel.Dock="Bottom" BorderBrush="Blue" BorderThickness="0.5" Background="LightGray" FontSize="11"
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--<TextBox Text="Sumas y Saldos" DockPanel.Dock="Bottom" BorderBrush="Blue" BorderThickness="0.5" Background="LightGray" FontSize="11"
                          HorizontalAlignment="Stretch" TextAlignment="Center"/>-->
-                <DataGrid x:Name="TabDGridPrincipal" DockPanel.Dock="Bottom" RowHeaderWidth="0" 
+            <DataGrid x:Name="TabDGridPrincipal" DockPanel.Dock="Bottom" RowHeaderWidth="0" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"
                           IsReadOnly="True" Margin="0,2,0,0" ItemsSource="{Binding DView, Mode=OneWay}" AutoGenerateColumns="False" 
                           SelectionMode="Single" SelectionUnit="Cell" CanUserAddRows="False"
                           HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray"
                           Background="{StaticResource MayorDGridBackground}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"  
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"  
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
+                    <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridCenterCellStyle}"/>
-                        <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100" 
+                    <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridLeftCellStyle}"/>
-                        <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
+                    <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
+                    <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                        <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
+                    <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
                                             ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                        <DataGridHyperlinkColumn Header="Recibo" Binding="{Binding Recibo}" Width="0.3*" 
+                    <DataGridHyperlinkColumn Header="Recibo" Binding="{Binding Recibo}" Width="0.3*" 
                                                  HeaderStyle="{StaticResource DGridLeftHeaderStyle}"
                                                  ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                        <DataGridHyperlinkColumn Header="Factura" Binding="{Binding Factura}" Width="0.3*" 
+                    <DataGridHyperlinkColumn Header="Factura" Binding="{Binding Factura}" Width="0.3*" 
                                                  HeaderStyle="{StaticResource DGridLeftHeaderStyle}"
                                                  ElementStyle="{StaticResource DGridRightCellStyle}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <!--Height="{Binding DataGridHeight}"-->
-            </DockPanel>
-        </Grid>
-        <GridSplitter Grid.Row="2" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Margin="3,2,3,4"
-                      IsEnabled="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay}" 
-                      Visibility="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay,
-            Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=TESplitter}"
-                      HorizontalAlignment="Stretch" 
-                      Width="Auto" 
-                      Height="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay,
-            Converter={StaticResource BoolToHeightConverter}, ConverterParameter=TEIsExpandedToSplitterHeight}" 
-                      VerticalAlignment="Bottom" 
-                      Background="{StaticResource SplitterGradient}"/>
-        <!--BorderBrush="{StaticResource SplitterGradient}" BorderThickness="1"/>-->
-        <Grid Grid.Row="3" Background="{StaticResource BackgroundAppColor}" x:Name="MayorRootGridRow3" Margin="0">
-            <TabbedExpander:TabbedExpander x:Name="BottomTabbedExpander" 
-                                           TabStripPlacement="Bottom" 
-                                           VerticalAlignment="Stretch"
-                                           MaxHeight="400"
-                                           MinHeight="130"
-                                           Margin="0,0,0,2"
-                                           Padding="0"
-                                           PanelBackground="{StaticResource BackgroundExpandersColor}"
-                                           SelectedBackground="{StaticResource BackgroundAppColor}"
-                                           Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="25"
-                                           EXPANDER_EXPANDED_HEIGHT="NaN"
-                                           BorderBrush="Transparent" BorderThickness="0"
-                                           ItemsSource="{Binding TabbedExpanderItemsSource, Mode=OneWay}"
-                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"
-                                           IsExpanded="False">
-                <TabbedExpander:TabbedExpander.Height>
-                    <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}" 
-                                  ConverterParameter="RowToTE"
-                                  Mode="OneWay"
-                                  UpdateSourceTrigger="PropertyChanged">
-                        <Binding RelativeSource="{RelativeSource Self}" Path="IsExpanded"/>
-                        <Binding ElementName="BottomTERow" Path="ActualHeight"/>
-                        <Binding RelativeSource="{RelativeSource Self}" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
-                    </MultiBinding>
-                </TabbedExpander:TabbedExpander.Height>
-            </TabbedExpander:TabbedExpander>
-        </Grid>
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--Height="{Binding DataGridHeight}"-->
+        </DockPanel>
     </Grid>
 </UserControl>
