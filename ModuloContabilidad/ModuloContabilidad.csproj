@@ -53,6 +53,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />
     <Compile Include="TabDiarioUC.xaml.cs">
       <DependentUpon>TabDiarioUC.xaml</DependentUpon>
     </Compile>
@@ -63,7 +64,7 @@
       <DependentUpon>AsientosWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplateSelectors.cs" />
-    <Compile Include="ViewModel\VMTabbedExpDiario.cs" />
+    <Compile Include="TabbedExpanderTabs\VMTabbedExpDiario.cs" />
     <Compile Include="ViewModel\VMAsientoSimple.cs" />
     <Compile Include="ViewModel\VMTabDiario.cs" />
     <Compile Include="ViewModel\VMTabMayor.cs" />

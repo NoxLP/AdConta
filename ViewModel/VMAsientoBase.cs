@@ -8,13 +8,13 @@ using TabbedExpanderCustomControl;
 
 namespace AdConta.ViewModel
 {
-    public class VMAsientoBase : ViewModelBase, iTabbedExpanderItemVM, IPublicNotify
+    public class VMAsientoBase : TabExpTabItemBaseVM, IPublicNotify
     {
 
         #region fields
-        private ExpanderTabType _Type;
+        private TabExpTabType _Type;
         private int _TabComCod = 0;
-        private aTabsWithTabbedExpVM _BaseTab = null;
+        private aTabsWithTabExpVM _BaseTab = null;
         private bool _Expandible = true;
 
         private bool _IsSelected;
@@ -29,7 +29,7 @@ namespace AdConta.ViewModel
         #endregion
 
         #region properties
-        public ExpanderTabType Type
+        public TabExpTabType Type
         {
             get { return this._Type; }
             set { this._Type = value; }
@@ -39,22 +39,12 @@ namespace AdConta.ViewModel
             get { return this._TabComCod; }
             set { this._TabComCod = value; }
         }
-        public aTabsWithTabbedExpVM BaseTab
+        public aTabsWithTabExpVM BaseTab
         {
             get { return this._BaseTab; }
             set { this._BaseTab = value; }
         }
         public virtual double DGridHeight { get; }
-        public bool Expandible
-        {
-            get { return this._Expandible; }
-            set
-            {
-                if (this._Expandible != value)
-                    this._Expandible = value;
-            }
-        }
-        public System.Windows.Controls.ControlTemplate TEHeaderTemplate { get; set; }
                 
         public virtual string Header { get; }
         public bool IsSelected

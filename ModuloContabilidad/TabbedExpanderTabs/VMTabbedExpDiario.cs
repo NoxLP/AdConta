@@ -9,7 +9,7 @@ using TabbedExpanderCustomControl;
 
 namespace ModuloContabilidad
 {
-    public class VMTabbedExpDiario : ViewModelBase, iTabbedExpanderItemVM, IPublicNotify
+    public class VMTabbedExpDiario : TabExpTabItemBaseVM, IPublicNotify
     {
         #region fields
         private bool _IsSelected;
@@ -17,19 +17,9 @@ namespace ModuloContabilidad
         #endregion
 
         #region properties
-        public ExpanderTabType Type { get { return ExpanderTabType.Diario; } }
+        public override TabExpTabType TabExpType { get { return TabExpTabType.Diario; } }
         public string Header { get { return "Vista diario"; } }
         public double DGridHeight { get; }
-        public bool Expandible
-        {
-            get { return this._Expandible; }
-            set
-            {
-                if (this._Expandible != value)
-                    this._Expandible = value;
-            }
-        }
-        public System.Windows.Controls.ControlTemplate TEHeaderTemplate { get; set; }
 
         public bool IsSelected
         {

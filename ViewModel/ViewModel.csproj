@@ -45,6 +45,7 @@
     <Compile Include="Commands\CommandsInCommon.cs" />
     <Compile Include="DataTableHelperVMBase.cs" />
     <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabbedExpanderFillerBase.cs" />
     <Compile Include="VMAsientoBase.cs" />
     <Compile Include="VMTabBase.cs" />
     <Compile Include="ViewModelBase.cs" />

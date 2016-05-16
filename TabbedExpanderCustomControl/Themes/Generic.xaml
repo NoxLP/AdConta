@@ -267,7 +267,7 @@
         <GradientStop Color="#BEE6FD" Offset=".5"/>
         <GradientStop Color="#A7D9F5" Offset="1"/>
     </LinearGradientBrush>
-    <ControlTemplate x:Key="TabExpTabItemTemplate" TargetType="{x:Type local:TabExpTabItem}">
+    <ControlTemplate x:Key="TabExpTabItemTemplate" TargetType="{x:Type TabItem}">
         <Grid SnapsToDevicePixels="true">
             <!--<Border x:Name="Bd" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
@@ -279,8 +279,8 @@
                                 Background="{TemplateBinding Background}" 
                                 Padding="{TemplateBinding Padding}">
                 <ContentControl x:Name="Content" 
-                                  Content="{TemplateBinding TEHeaderTemplate}"
-                                  ContentTemplate="{TemplateBinding TEHeaderTemplate}"
+                                  Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.TEHeaderTemplate}"
+                                  ContentTemplate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.TEHeaderTemplate}"
                                   FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}">
                 </ContentControl>
             </Border>

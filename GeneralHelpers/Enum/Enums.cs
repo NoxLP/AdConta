@@ -19,7 +19,14 @@ namespace AdConta
     /// <summary>
     /// Enum for different tabs that can be in TabMayor's bottom tabbed expander
     /// </summary>
-    public enum ExpanderTabType : int { Diario = 0, Simple, Complejo }
+    public enum TabExpTabType : int
+    {
+        Diario = 0,
+        Simple,
+        Complejo,
+        Mayor1_Cuenta,
+        Mayor2_Buscar
+    }
     /// <summary>
     /// Enum for specify top or bottom TabbedExpander
     /// </summary>

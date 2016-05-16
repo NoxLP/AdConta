@@ -213,7 +213,7 @@ namespace TabbedExpanderCustomControl
                 tab.Tag = tab.DataContext;
                 this.TabsList.Add(tab);
 
-                TabExpTabItem tabExp = tab as TabExpTabItem;
+                TabExpTabItemBaseVM tabExp = tab.DataContext as TabExpTabItemBaseVM;
                 if (tabExp != null && tabExp.Expandible == false)
                 {
                     Border bd = tab.Template.FindName("Bd", tab) as Border;

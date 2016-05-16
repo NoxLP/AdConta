@@ -18,7 +18,7 @@ namespace ModuloContabilidad
 {
     public enum Mayor_SearchType : int { Fecha = 0, Concepto, Importe, ImporteDebe, ImporteHaber, Recibo, Factura }
 
-    public class VMTabMayor : aTabsWithTabbedExpVM
+    public class VMTabMayor : aTabsWithTabExpVM
     {
         public VMTabMayor()
         {
@@ -61,7 +61,7 @@ namespace ModuloContabilidad
         public DataView StatusGridSource { get { return this._StatusGridSource.DefaultView; } }
         //TODO cuando se cambie la cuenta Y el punteo esté activado, hay que hacer propchanged aquí en StatusGridSaldoPunteado
         public decimal StatusGridSaldoPunteado { get { return this.GetSaldoPunteado(); } }
-        public override ObservableCollection<iTabbedExpanderItemVM> TabbedExpanderItemsSource
+        public ObservableCollection<iTabbedExpanderItemVM> TabbedExpanderItemsSource
         {
             get { return this._TabbedExpanderItemsSource; }
             set
@@ -73,7 +73,7 @@ namespace ModuloContabilidad
                 }
             }
         }
-        public override int TabbedExpanderSelectedIndex
+        public int TabbedExpanderSelectedIndex
         {
             get { return this._TabbedExpanderSelectedIndex; }
             set
@@ -86,6 +86,12 @@ namespace ModuloContabilidad
             }
         }
 
+        #region tabbed expander        
+        public override ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
+        public override ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
+        public override int TopTabbedExpanderSelectedIndex { get; set; }
+        public override int BottomTabbedExpanderSelectedIndex { get; set; }
+        #endregion
         #endregion
 
         #region commands
@@ -288,10 +294,11 @@ namespace ModuloContabilidad
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = tab.TabComCod;
                 VM.BaseTab = tab;
-                VM.Type = ExpanderTabType.Simple;
+                VM.Type = TabExpTabType.Simple;
 
 
-                tab.TabbedExpanderItemsSource.Add(VM);
+                tab.AddAndSelectTabInTabbedExpander(VM, TabExpWhich.Bottom);
+                //tab.TabbedExpanderSelectedIndex = tab.TabbedExpanderItemsSource.IndexOf(VM);
                 //tab.PublicNotifyPropChanged("TabbedExpanderItemsSource");
                 /*MainWindow w = App.Current.MainWindow as MainWindow;
                 TabMayorUC mayorUC = w.AbleTabControl.RootTabControl.FindVisualChild<TabMayorUC>(x =>
@@ -302,7 +309,6 @@ namespace ModuloContabilidad
                 });
                 mayorUC.TabExpItemsSource.Add(VM);
                 mayorUC.TabExpSelectedIndex = mayorUC.TabExpItemsSource.IndexOf(VM);*/
-                tab.TabbedExpanderSelectedIndex = tab.TabbedExpanderItemsSource.IndexOf(VM);
             }
             //else create, show and focus a new window with the usercontrol as content
             else
@@ -311,7 +317,7 @@ namespace ModuloContabilidad
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = this._tab.TabComCod;
                 VM.BaseTab = this._tab as VMTabMayor;
-                VM.Type = ExpanderTabType.Simple;
+                VM.Type = TabExpTabType.Simple;
                 ASUC.DataContext = VM;
                 AsientosWindow w = new AsientosWindow();
 

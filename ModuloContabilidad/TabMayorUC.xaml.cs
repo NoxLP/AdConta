@@ -64,9 +64,9 @@ namespace ModuloContabilidad
         /// <param name="e"></param>
         private void RootTabMayor_Loaded(object sender, RoutedEventArgs e)
         {
-            VMTabMayor DC = (this.DataContext as VMTabMayor);
+            /*VMTabMayor DC = (this.DataContext as VMTabMayor);
             if (DC.TabbedExpanderItemsSource.Count == 0)
-                DC.TabbedExpanderItemsSource.Add(new VMTabbedExpDiario());
+                DC.TabbedExpanderItemsSource.Add(new VMTabbedExpDiario());*/
             //DC.ExpanderRowHeight = new GridLength(1, GridUnitType.Pixel);
         }
         /// <summary>

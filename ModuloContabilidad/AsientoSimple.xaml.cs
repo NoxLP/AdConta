@@ -34,7 +34,7 @@ namespace ModuloContabilidad
             VMAsientoSimple VM = this.DataContext as VMAsientoSimple;
 
             //if (VM.BaseTab.Type == TabType.Mayor)
-            (VM.BaseTab as AdConta.ViewModel.aTabsWithTabbedExpVM).TabbedExpanderItemsSource.Remove(VM);
+            (VM.BaseTab as AdConta.ViewModel.aTabsWithTabExpVM).BottomTabbedExpanderItemsSource.Remove(VM);
             //TODO manage rest of tab types
         }
     }

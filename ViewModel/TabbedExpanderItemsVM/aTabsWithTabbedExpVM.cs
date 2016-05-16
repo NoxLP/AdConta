@@ -9,21 +9,55 @@ using TabbedExpanderCustomControl;
 
 namespace AdConta.ViewModel
 {
-    public abstract class aTabsWithTabbedExpVM : VMTabBase
+    public abstract class aTabsWithTabExpVM : VMTabBase
     {
         #region properties
-        public abstract ObservableCollection<iTabbedExpanderItemVM> TopTabbedExpanderItemsSource { get; set; }
-        public abstract ObservableCollection<TabExpTabItem> BottomTabbedExpanderItemsSource { get; set; }
+        public abstract ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
+        public abstract ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
         public abstract int TopTabbedExpanderSelectedIndex { get; set; }
         public abstract int BottomTabbedExpanderSelectedIndex { get; set; }
-        public abstract 
         #endregion
 
         #region helpers
-        public virtual void AddAndSelectTabInTabbedExpander(iTabbedExpanderItemVM tabVM, TabExpWhich TabExp)
+        /// <summary>
+        /// Add tabVM to tabbed expander of type WhichTabExp(top or bottom) through ItemsSource. 
+        /// Used when new tabs are added or selected in AbleTabControl.
+        /// </summary>
+        /// <param name="tabVM"></param>
+        /// <param name="WhichTabExp"></param>
+        public virtual void AddTabInTabbedExpander(TabExpTabItemBaseVM tabVM, TabExpWhich WhichTabExp)
         {
-            this.TabbedExpanderItemsSource.Add(tabVM);
-            this.TabbedExpanderSelectedIndex = this.TabbedExpanderItemsSource.IndexOf(tabVM);
+            if (WhichTabExp == TabExpWhich.Top)
+            {
+                this.TopTabbedExpanderItemsSource.Add(tabVM);
+                NotifyPropChanged("TopTabbedExpanderItemsSource");
+            }
+            else
+            {
+                this.BottomTabbedExpanderItemsSource.Add(tabVM);
+                NotifyPropChanged("BottomTabbedExpanderItemsSource");
+            }
+        }
+        /// <summary>
+        /// Add tabVM to tabbed expander of type WhichTabExp(top or bottom) through ItemsSource.
+        /// Used when tabs are added or changed in any tabbed expander.
+        /// </summary>
+        /// <param name="tabVM"></param>
+        /// <param name="WhichTabExp"></param>
+        public virtual void AddAndSelectTabInTabbedExpander(TabExpTabItemBaseVM tabVM, TabExpWhich WhichTabExp)
+        {
+            if(WhichTabExp == TabExpWhich.Top)
+            {
+                this.TopTabbedExpanderItemsSource.Add(tabVM);
+                this.TopTabbedExpanderSelectedIndex = this.TopTabbedExpanderItemsSource.IndexOf(tabVM);
+                NotifyPropChanged("TopTabbedExpanderItemsSource");
+            }
+            else
+            {
+                this.BottomTabbedExpanderItemsSource.Add(tabVM);
+                this.BottomTabbedExpanderSelectedIndex = this.BottomTabbedExpanderItemsSource.IndexOf(tabVM);
+                NotifyPropChanged("BottomTabbedExpanderItemsSource");
+            }            
         }
         #endregion
     }

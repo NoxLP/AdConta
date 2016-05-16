@@ -11,7 +11,7 @@ namespace TabbedExpanderCustomControl
 {
     public interface iTabbedExpanderItemVM : iTabbedExpanderItemBase
     {
-        ExpanderTabType Type { get; }
+        TabExpTabType Type { get; }
         bool IsSelected { get; set; }
         string Header { get; }
         double DGridHeight { get; }

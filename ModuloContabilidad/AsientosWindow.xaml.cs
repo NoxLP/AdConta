@@ -64,7 +64,7 @@ namespace ModuloContabilidad
 
             //TODO else to manage AbleTabControl.VMTabDiario*/
 
-            VM.BaseTab.AddAndSelectTabInTabbedExpander(VM);
+            VM.BaseTab.AddAndSelectTabInTabbedExpander(VM, AdConta.TabExpWhich.Bottom);
             this.Close();
         }
     }

@@ -85,6 +85,7 @@ namespace AdConta
             GlobalSettings.Properties.Settings.Default.MINCODCUENTAS = min;
             GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS = max;
         }
+
         #endregion
 
         #region public methods
@@ -102,6 +103,9 @@ namespace AdConta
                 case TabType.Mayor:
                     tab = new VMTabMayor();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                    TabbedExpanderFiller_Mayor TabExpFiller = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
+                    AbleTabControl.AbleTabControl ATC = (App.Current.MainWindow as MainWindow).AbleTabControl;
+                    
                     break;
                 case TabType.Diario:
                     tab = new VMTabDiario();
