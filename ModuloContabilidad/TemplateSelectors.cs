@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using AdConta;
 using TabbedExpanderCustomControl;
+using Extensions;
 
 namespace ModuloContabilidad
 {
@@ -26,19 +27,24 @@ namespace ModuloContabilidad
             {
                 case TabExpTabType.Diario:
                     TabItem.Header = "Vista Diario";
-                    return (DataTemplate)Application.Current.Resources["TabbedExpanderDiario"];
+                    DataTemplate dtemp = (DataTemplate)Application.Current.Resources["TabExpTabDiario"];
+                    return dtemp;
                 case TabExpTabType.Simple:
                     TabItem.Header = "Asiento simple";
-                    return (DataTemplate)Application.Current.Resources["AsSimpleUC"];
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabAsSimple"];
+                    return dtemp;
                 case TabExpTabType.Complejo:
                     TabItem.Header = "Asiento complejo";
-                    return (DataTemplate)Application.Current.Resources[""];
+                    dtemp = (DataTemplate)Application.Current.Resources[""];
+                    return dtemp;
                 case TabExpTabType.Mayor1_Cuenta:
                     TabItem.Header = "Cuenta";
-                    return (DataTemplate)Application.Current.Resources["TabExpMayor1"];
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabCuenta"];
+                    return dtemp;
                 case TabExpTabType.Mayor3_Buscar:
                     TabItem.Header = "Buscar";
-                    return (DataTemplate)Application.Current.Resources["TabExpMayor2"]; 
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabBuscar"];
+                    return dtemp;
                 default: return null;
             }
         }

@@ -13,7 +13,6 @@ namespace AdConta.ViewModel
         #region fields
         private TabExpTabType _Type;
         private int _TabComCod = 0;
-        private aTabsWithTabExpVM _BaseTab = null;
         private bool _Expandible = true;
 
         private bool _IsSelected;
@@ -38,14 +37,8 @@ namespace AdConta.ViewModel
             get { return this._TabComCod; }
             set { this._TabComCod = value; }
         }
-        public aTabsWithTabExpVM BaseTab
-        {
-            get { return this._BaseTab; }
-            set { this._BaseTab = value; }
-        }
         public virtual double DGridHeight { get; }
-                
-        public virtual string Header { get; }
+
         public bool IsSelected
         {
             get { return _IsSelected; }

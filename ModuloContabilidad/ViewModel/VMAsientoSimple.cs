@@ -74,7 +74,7 @@ namespace ModuloContabilidad
                 this._tab.PinButtonVisibility = Visibility.Collapsed;
                 this._tab.IsWindowed = true;
 
-                (this._tab.BaseTab as aTabsWithTabExpVM).BottomTabbedExpanderItemsSource.Remove(this._tab);
+                (this._tab.ParentVM as aTabsWithTabExpVM).BottomTabbedExpanderItemsSource.Remove(this._tab);
 
                 AsientosWindow w = new AsientosWindow();
                 w.Name = "testWindow";

@@ -13,6 +13,7 @@ using AdConta.Models;
 using AdConta.ViewModel;
 using AdConta;
 using TabbedExpanderCustomControl;
+using Extensions;
 
 namespace ModuloContabilidad
 {
@@ -40,6 +41,7 @@ namespace ModuloContabilidad
             this._NextRecord = new Command_NextRecord_Mayor(this);
             this._PrevRecord = new Command_PrevRecord_Mayor(this);
             this._NewAS = new Command_NewAsientoSimple(this);
+            this._Punteo = new Command_Punteo(this);
         }
 
         #region fields
@@ -122,12 +124,14 @@ namespace ModuloContabilidad
         private Command_NextRecord_Mayor _NextRecord;
         private Command_PrevRecord_Mayor _PrevRecord;
         private Command_NewAsientoSimple _NewAS;
+        private Command_Punteo _Punteo;
         #endregion
 
         #region commands props
         public ICommand NextRecord { get { return this._NextRecord; } }
         public ICommand PrevRecord { get { return this._PrevRecord; } }
         public ICommand NewAs { get { return this._NewAS; } }
+        public ICommand Punteo { get { return this._Punteo; } }
         #endregion
 
         #region helpers
@@ -317,7 +321,7 @@ namespace ModuloContabilidad
                 VMTabMayor tab = this._tab as VMTabMayor;
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = tab.TabComCod;
-                VM.BaseTab = tab;
+                VM.ParentVM = tab;
                 VM.TabExpType = TabExpTabType.Simple;
 
 
@@ -340,7 +344,7 @@ namespace ModuloContabilidad
                 AsientoSimple ASUC = new AsientoSimple();
                 VMAsientoSimple VM = new VMAsientoSimple();
                 VM.TabComCod = this._tab.TabComCod;
-                VM.BaseTab = this._tab as VMTabMayor;
+                VM.ParentVM = this._tab as VMTabMayor;
                 VM.TabExpType = TabExpTabType.Simple;
                 ASUC.DataContext = VM;
                 AsientosWindow w = new AsientosWindow();
@@ -349,6 +353,33 @@ namespace ModuloContabilidad
                 w.Show();
                 w.Focus();
             }
+        }
+    }
+
+    public class Command_Punteo : ICommand
+    {
+        private VMTabBase _tab;
+
+        public Command_Punteo(VMTabBase tab)
+        {
+            this._tab = tab;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public void Execute(object parameter)
+        {
+            TabMayorUC UC = Application.Current.MainWindow.FindFirstVisualChildOfType<TabMayorUC>();
+            UC.ModifyPunteoColumn();
         }
     }
 }

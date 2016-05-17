@@ -55,11 +55,20 @@
   <ItemGroup>
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Diario.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />
+    <Compile Include="TabbedExpanderTabs\TabExpTabBuscarUC.xaml.cs">
+      <DependentUpon>TabExpTabBuscarUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedExpanderTabs\TabExpTabCuentaUC.xaml.cs">
+      <DependentUpon>TabExpTabCuentaUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedExpanderTabs\TabExpTabDiarioUC.xaml.cs">
+      <DependentUpon>TabExpTabDiarioUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TabDiarioUC.xaml.cs">
       <DependentUpon>TabDiarioUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AsientoSimple.xaml.cs">
-      <DependentUpon>AsientoSimple.xaml</DependentUpon>
+    <Compile Include="TabbedExpanderTabs\TabExpTabAsientoSimpleUC.xaml.cs">
+      <DependentUpon>TabExpTabAsientoSimpleUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="AsientosWindow.xaml.cs">
       <DependentUpon>AsientosWindow.xaml</DependentUpon>
@@ -69,9 +78,25 @@
     <Compile Include="ViewModel\VMAsientoSimple.cs" />
     <Compile Include="ViewModel\VMTabDiario.cs" />
     <Compile Include="ViewModel\VMTabMayor.cs" />
+    <Resource Include="Resources\ContabilidadRD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Page Include="Resources\PinButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TabbedExpanderTabs\TabExpTabBuscarUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedExpanderTabs\TabExpTabCuentaUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedExpanderTabs\TabExpTabDiarioUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TabMayorUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -88,7 +113,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AsientoSimple.xaml">
+    <Page Include="TabbedExpanderTabs\TabExpTabAsientoSimpleUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

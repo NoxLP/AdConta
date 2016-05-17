@@ -13,13 +13,14 @@ using System.Data;
 using System.Reflection;
 using AdConta.Models;
 using AdConta.ViewModel;
+using TabbedExpanderCustomControl;
 
 namespace AdConta
 {
     /// <summary>
     /// Viewmodel for tabs of type Cdades.
     /// </summary>
-    public class VMTabCdad : VMTabBase//, IDataErrorInfo
+    public class VMTabCdad : aTabsWithTabExpVM//, IDataErrorInfo
     {
         public VMTabCdad() 
         {
@@ -43,6 +44,11 @@ namespace AdConta
         //private DataTable _ComTable;
         private bool _ReadOnlyAll = true;
         private double _TabPanelWidth;
+
+        #region tabbed expander
+        private int _TopTabbedExpanderSelectedIndex;
+        private int _BottomTabbedExpanderSelectedIndex;
+        #endregion
         #endregion
 
         #region properties
@@ -369,6 +375,35 @@ namespace AdConta
                 }
             }
         }
+
+        #region tabbed expander
+        public override ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
+        public override ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
+        public override int TopTabbedExpanderSelectedIndex
+        {
+            get { return this._TopTabbedExpanderSelectedIndex; }
+            set
+            {
+                if (this._TopTabbedExpanderSelectedIndex != value)
+                {
+                    this._TopTabbedExpanderSelectedIndex = value;
+                    this.NotifyPropChanged("TopTabbedExpanderSelectedIndex");
+                }
+            }
+        }
+        public override int BottomTabbedExpanderSelectedIndex
+        {
+            get { return this._BottomTabbedExpanderSelectedIndex; }
+            set
+            {
+                if (this._BottomTabbedExpanderSelectedIndex != value)
+                {
+                    this._BottomTabbedExpanderSelectedIndex = value;
+                    this.NotifyPropChanged("BottomTabbedExpanderSelectedIndex");
+                }
+            }
+        }
+        #endregion
         #endregion
 
         #region commands

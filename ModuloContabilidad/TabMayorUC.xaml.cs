@@ -54,6 +54,48 @@ namespace ModuloContabilidad
             statusCol.HeaderStyle = Application.Current.Resources["DGridHeaderStyle"] as Style;
             statusCol.ElementStyle = Application.Current.Resources["StatusDGridRightCellStyle"] as Style;
         }
+
+        public void ModifyPunteoColumn()
+        {
+            //TODO HAY QUE GUARDAR EL PUNTEO EN LA BASE DE DATOS
+            if (this.TabDGridPrincipal.Columns.Count == this._TabDGridPrincipalInitColumnsCount + 1)
+            {
+                DataGridCheckBoxColumn col = new DataGridCheckBoxColumn();
+                DataGridTextColumn statusCol = new DataGridTextColumn();
+                DefineDGridColumns(ref col, ref statusCol);
+
+                /*int index = this.TabDGridPrincipal.Columns.IndexOf(
+                    this.TabDGridPrincipal.Columns.First(x => (string)x.Header == "Recibo"));
+                this.TabDGridPrincipal.Columns[index].Visibility = Visibility.Collapsed;
+                this.TabDGridPrincipal.Columns[index + 1].Visibility = Visibility.Collapsed;*/
+
+                this.TabDGridPrincipal.Columns[this._TabDGridPrincipalInitColumnsCount - 1].Visibility = Visibility.Collapsed;
+                this.TabDGridPrincipal.Columns[this._TabDGridPrincipalInitColumnsCount].Visibility = Visibility.Collapsed;
+                this.TabDGridStatus.Columns[this._TabDGridPrincipalInitColumnsCount - 1].Visibility = Visibility.Collapsed;
+                this.TabDGridStatus.Columns[this._TabDGridPrincipalInitColumnsCount].Visibility = Visibility.Collapsed;
+
+                this.TabDGridPrincipal.Columns.Insert(this._TabDGridPrincipalInitColumnsCount - 1, col);
+                this.TabDGridStatus.Columns.Insert(this._TabDGridPrincipalInitColumnsCount - 1, statusCol);
+            }
+            else
+            {
+                int index = this.TabDGridPrincipal.Columns.IndexOf(
+                    this.TabDGridPrincipal.Columns.First(x => (string)x.Header == "Recibo"));
+                this.TabDGridPrincipal.Columns[index].Visibility = Visibility.Visible;
+                this.TabDGridPrincipal.Columns[index + 1].Visibility = Visibility.Visible;
+                this.TabDGridStatus.Columns[index].Visibility = Visibility.Visible;
+                this.TabDGridStatus.Columns[index + 1].Visibility = Visibility.Visible;
+
+                DataGridCheckBoxColumn col = this.TabDGridPrincipal.Columns.First(x => (string)x.Header == "Punteo") as DataGridCheckBoxColumn;
+                DataGridTextColumn statusCol = this.TabDGridStatus.Columns.First(x => (string)x.Header == "Saldo Punteado") as DataGridTextColumn;
+
+                if (col != null)
+                {
+                    this.TabDGridPrincipal.Columns.Remove(col);
+                    this.TabDGridStatus.Columns.Remove(statusCol);
+                }
+            }
+        }
         #endregion
 
         #region user control events

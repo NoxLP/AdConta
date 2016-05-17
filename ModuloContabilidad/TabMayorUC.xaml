@@ -15,120 +15,7 @@
              d:DesignHeight="500" d:DesignWidth="650"
              Loaded="RootTabMayor_Loaded">
     <UserControl.Resources>
-        <converters:AsientoDGridHeightConverter x:Key="ASHeightConverter"/>
-        <ControlTemplate x:Key="AsientosYPunteoTabItem"  TargetType="{x:Type ContentControl}">
-            <DockPanel LastChildFill="True">
-                <DockPanel DockPanel.Dock="Right">
-                    <Button x:Name="TabButProp" VerticalAlignment="Top" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,8,2"
-                                        DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        >
-                        <TextBlock VerticalAlignment="Top" Text="Prop" HorizontalAlignment="Center" Width="Auto" Height="Auto" Padding="0" Margin="0"/>
-                    </Button>
-                    <Button x:Name="TabButProv" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,5,2"
-                                        DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" 
-                                        >Prov</Button>
-                </DockPanel>
-                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                    <Button x:Name="TabButPunt" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="8,2,5,2"
-                                        Click="TabButPunt_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        >Punteo</Button>
-                    <Button x:Name="TabButAS" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,5,2"
-                                        Command="{Binding NewAs}" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        >AS</Button>
-                    <Button x:Name="TabButAC" VerticalAlignment="Center" Height="20" HorizontalAlignment="Center" Width="55" Margin="0,2,5,2"
-                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        >AC</Button>
-                    <Button x:Name="TabButBorra" VerticalAlignment="Center" Height="20" HorizontalAlignment="Center" Width="55" Margin="0,2,5,2"
-                             Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                                        >B</Button>
-                </StackPanel>
-            </DockPanel>
-        </ControlTemplate>
-        <!--Datatemplates for tabbed expander-->
-        <DataTemplate x:Key="TabbedExpanderDiario" DataType="{x:Type local:VMTabbedExpDiario}">
-            <DataTemplate.Resources>
-                <converters:AsientoDGridHeightConverter x:Key="ASHeightconverter"/>
-            </DataTemplate.Resources>
-            <DockPanel LastChildFill="True" Margin="4,0,4,0">
-                <Border DockPanel.Dock="Bottom" BorderBrush="Gray" BorderThickness="1" 
-            			Margin="0,0,0,4" HorizontalAlignment="Stretch" Width="Auto" VerticalAlignment="Bottom">
-                    <Grid>
-                        <DockPanel LastChildFill="True">
-                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                <Button x:Name="TabButExpEjercicio" VerticalAlignment="Center" Height="35" HorizontalAlignment="Right" 
-            							Width="55" Margin="8,5,5,5" Content="Ejercicio"/>
-                                <UserControls:TBoxLabel x:Name="TabButExpCodigo" HorizontalAlignment="Stretch" Margin="5,0,1,6" 
-            							VerticalAlignment="Center" Height="Auto" TBWidth="46" Label="Código" 
-            							TBTextAlignment="Left" TBReadOnly="False"/>
-                            </StackPanel>
-                            <DockPanel DockPanel.Dock="Left" Margin="0">
-                                <Rectangle Height="Auto" VerticalAlignment="Stretch" Width="1" HorizontalAlignment="Left" 
-            							Margin="10,0,10,0" Stroke="Gray" DockPanel.Dock="Left"/>
-                                <Button x:Name="TabButExpSType" VerticalAlignment="Bottom" Height="24" HorizontalAlignment="Right" Width="35"
-            							Margin="0,4,2,5" DockPanel.Dock="Left" Content="?"/>
-                                <UserControls:TBoxLabel x:Name="TabTBExpBuscar" HorizontalAlignment="Stretch" Margin="2,0,8,6" 
-            							VerticalAlignment="Center" Height="Auto" TBWidth="NaN" Label="Buscar" 
-            							TBTextAlignment="Left" TBReadOnly="False"/>
-                            </DockPanel>
-                        </DockPanel>
-                    </Grid>
-                </Border>
-                <DataGrid x:Name="TabDGridSecondary" 
-                              Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabbedExpander:TabbedExpander}}, 
-                        Path=ActualHeight, Mode=OneWay, Converter={StaticResource ASHeightconverter}, ConverterParameter=TABBEDDIARIO,
-                        diag:PresentationTraceSources.TraceLevel=High}"
-            			VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="Auto" 
-            			Margin="0,0,0,1" BorderBrush="Gray" BorderThickness="1" 
-            			Background="{StaticResource MayorDGridBackground}"/>
-                <!--Height="{Binding DataContext.SecondaryDGridHeight, 
-                    RelativeSource={RelativeSource AncestorType={x:Type ModuloContabilidad:TabMayorUC}}}" -->
-            </DockPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="AsSimpleUC" DataType="{x:Type local:VMAsientoSimple}">
-            <local:AsientoSimple/>
-        </DataTemplate>
-        <DataTemplate x:Key="TabExpMayor1" DataType="{x:Type TabbedExpander:TabExpTabItemBaseVM}">
-            <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" Margin="0">
-                <UserControls:TBoxLabel x:Name="TabTBCuenta" HorizontalAlignment="Left" Margin="3,3,0,2"
-                                                    Height="Auto" TBWidth="80" Label="Cuenta" TBFontSize="15"
-                                                    Text="{Binding ParentVM.AccountCod, Mode=OneWay}" TBTextAlignment="Right" TBReadOnly="False"
-                                                    EnterKeyBinding="{Binding ParentVM.NextRecord}"/>
-                <Button x:Name="TabButNext" Content="->" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,17,8,0" Height="30" Width="30"
-                                                    DockPanel.Dock="Right" Command=""/>
-                <Button x:Name="TabButPrev" Content="/-" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,17,3,0" Height="30" Width="30"
-                                                    DockPanel.Dock="Right" Command=""/>
-                <UserControls:TBoxLabel x:Name="TabTBNombre" HorizontalAlignment="Stretch" Margin="5,3,9,2" 
-                                                    Height="Auto" Width="Auto" TBWidth="NaN" Label="Nombre" TBFontSize="15" Padding="0"
-                                                    Text="{Binding ParentVM.Nombre, Mode=TwoWay}" TBTextAlignment="Left" TBReadOnly="True"
-                                                        DockPanel.Dock="Left"/>
-            </DockPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="TabExpMayor2" DataType="{x:Type TabbedExpander:TabExpTabItemBaseVM}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="9"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <WrapPanel>
-                        <RadioButton Content="F" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="C" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="I" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="Id" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="Ih" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="R" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                        <RadioButton Content="F" GroupName="GROUP_SEARCH" Margin="2" Padding="4,0,4,0"/>
-                    </WrapPanel>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Rectangle StrokeThickness="1" Stroke="Gray" Width="1"/>
-                </Grid>
-                <Grid Grid.Column="2">
-                    <UserControls:TBoxLabel Label="Buscar" TBWidth="NaN" HorizontalAlignment="Stretch"/>
-                </Grid>
-            </Grid>
-        </DataTemplate>
+        
     </UserControl.Resources>
 
     <Grid x:Name="MayorRootGrid">
@@ -138,31 +25,31 @@
                           IsReadOnly="True" Margin="0,0,0,2" RowHeaderWidth="0" AutoGenerateColumns="False"
                           SelectionMode="Single" SelectionUnit="Cell" CanUserAddRows="False" ItemsSource="{Binding StatusGridSource, Mode=OneWay}"
                           HorizontalGridLinesBrush="Gray" VerticalGridLinesBrush="Gray" GridLinesVisibility="Vertical"
-                          Background="{StaticResource MayorDGridBackground}" 
+                          Background="{StaticResource MayorDGridBackground}"
                           Height="{Binding ElementName=TabDGridStatus, Path=RowHeight, Mode=OneWay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridCenterCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridCenterCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100"    
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridCenterCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridCenterCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"  
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"   
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat={}{0:C}}" Width="1*" MinWidth="55" MaxWidth="75"    
                                             CellStyle="{StaticResource CellBackgroundGray}"
-                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridHyperlinkColumn Header="Recibo" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
-                                                 ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                                 ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridHyperlinkColumn Header="Factura" Width="0.3*" CellStyle="{StaticResource CellBackgroundGray}"
-                                                 ElementStyle="{StaticResource StatusDGridRightCellStyle}"/>
+                                                 ElementStyle="{StaticResource StatusDGridRightCellStyle}" d:IsHidden="True"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--<TextBox Text="Sumas y Saldos" DockPanel.Dock="Bottom" BorderBrush="Blue" BorderThickness="0.5" Background="LightGray" FontSize="11"
@@ -176,28 +63,28 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="N.As." Binding="{Binding NAsiento}" Width="45" MinWidth="30"  
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=\{0:dd/MM/yyyy\}}" Width="75" MinWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridCenterCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridCenterCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Concepto" Binding="{Binding Concepto}" Width="6*" MinWidth="100" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridLeftCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridLeftCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Debe" Binding="{Binding Debe, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Haber" Binding="{Binding Haber, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridTextColumn Header="Saldo" Binding="{Binding Saldo, StringFormat=N2}" Width="1*" MinWidth="55" MaxWidth="75" 
                                             HeaderStyle="{StaticResource DGridHeaderStyle}"
-                                            ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                            ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridHyperlinkColumn Header="Recibo" Binding="{Binding Recibo}" Width="0.3*" 
                                                  HeaderStyle="{StaticResource DGridLeftHeaderStyle}"
-                                                 ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                                 ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                     <DataGridHyperlinkColumn Header="Factura" Binding="{Binding Factura}" Width="0.3*" 
                                                  HeaderStyle="{StaticResource DGridLeftHeaderStyle}"
-                                                 ElementStyle="{StaticResource DGridRightCellStyle}"/>
+                                                 ElementStyle="{StaticResource DGridRightCellStyle}" d:IsHidden="True"/>
                 </DataGrid.Columns>
             </DataGrid>
             <!--Height="{Binding DataGridHeight}"-->

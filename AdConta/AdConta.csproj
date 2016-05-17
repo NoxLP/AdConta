@@ -83,6 +83,7 @@
     <Compile Include="SideTool\SideTool.xaml.cs">
       <DependentUpon>SideTool.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Cdad.cs" />
     <Compile Include="TemplateSelectors.cs" />
     <Compile Include="VMMain.cs" />
     <Page Include="Resources\AbleTabControlResources.xaml">

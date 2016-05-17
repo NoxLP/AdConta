@@ -259,6 +259,71 @@ namespace TabbedExpanderCustomControl
             DependencyPropertyChangedEventArgs e = new DependencyPropertyChangedEventArgs(IsExpandedProperty, !this.IsExpanded, this.IsExpanded);
             OnIsExpandedChanged(this, e);
         }
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            if (newValue == oldValue) return;
+
+            if (newValue != null)
+            {
+                foreach (object item in newValue)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
+                    {
+                        TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
+                        var tabVM = tab.DataContext;
+                        TabExpTabItemBaseVM tabExp = item as TabExpTabItemBaseVM;
+
+                        if (tabExp == null || tabExp.Expandible)
+                        {
+                            if (!this.TabsList.Contains(tab))
+                            {
+                                tab.Tag = tabVM;
+                                this.TabsList.Add(tab);
+                            }
+
+                            ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                            if (!this.TogsList.Contains(tog))
+                            {
+                                this.TogsList.Add(tog);
+                                tog.Click += ToggleButtonClick;
+                            }
+                        }
+                        else
+                        {
+                            Border bd = tab.Template.FindName("Bd", tab) as Border;
+                            ContentControl cc = new ContentControl();
+                            cc.Name = "Content";
+                            cc.Content = tabExp.TEHeaderTemplate;
+                            cc.Template = tabExp.TEHeaderTemplate;
+                            bd.Child = cc;
+                        }
+                    }));
+                }
+            }
+
+            if (oldValue != null)
+            {
+                foreach (object item in oldValue)
+                {
+                    //If the DataContext is not saved in other place, the reference is lost BEFORE this event launches and the 
+                    //click event of the togglebutton can't ever be unsubscribed(ContainerFromItem don't work, NOTHING work, e.OldItems
+                    //have NO reference to the tabitem when it reaches this event), so all tabitems are saved in a list field 
+                    //and each datacontext saved as each tabitem's tag (OnApplyTemplate and OnItemsChanged if(e.NewItems != null) ), 
+                    //so the tag and the tabitem persist, can be found in this event, and togglebutton click can be unsubscribed
+                    TabItem tab = this.TabsList.Find(x => x.Tag == item);
+                    //If the tab is not expandible, it have no tog button and no event, so don't unsubscribe
+                    if (tab != null)
+                    {
+                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                        tog.Click -= ToggleButtonClick;
+                        this.TogsList.Remove(tog);
+                    }
+                    this.TabsList.Remove(tab);
+                }
+            }
+            
+            base.OnItemsSourceChanged(oldValue, newValue);
+        }
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems == e.OldItems) return;
@@ -268,7 +333,6 @@ namespace TabbedExpanderCustomControl
             {
                 foreach (object item in e.NewItems)
                 {
-
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);

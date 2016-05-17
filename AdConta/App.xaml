@@ -20,7 +20,7 @@
                 <ResourceDictionary Source="/Resources/PinButton.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TabbedExpanderCustomControl;component/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="/Resources/AbleTabControlResources.xaml"/>
-
+                <ResourceDictionary Source="pack://application:,,,/ModuloContabilidad;component/Resources/ContabilidadRD.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--Visuals Datagrid styles-->
