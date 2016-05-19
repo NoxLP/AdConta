@@ -242,10 +242,28 @@
         </Setter>
     </Style>
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
-    <SolidColorBrush x:Key="TabItemSelectedBackground" Color="#F9F9F9"/>
+    <SolidColorBrush x:Key="TabItemSelectedBackground" Color="{Binding local:SelectedBackground}"/>
+    <!-- "#F9F9F9"-->
     <SolidColorBrush x:Key="TabItemHotBorderBrush" Color="#3C7FB1"/>
     <SolidColorBrush x:Key="TabItemDisabledBackground" Color="#F4F4F4"/>
     <SolidColorBrush x:Key="TabItemDisabledBorderBrush" Color="#FFC9C7BA"/>
+    <SolidColorBrush x:Key="TabbedExpanderBackground" Color="#F9F9F9"/>
+    <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#F3F3F3" Offset="0"/>
+        <GradientStop Color="#EBEBEB" Offset="0.5"/>
+        <GradientStop Color="#DDDDDD" Offset="0.5"/>
+        <GradientStop Color="#CDCDCD" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TabItemHotBackground" Color="White"/>
+    <!--<LinearGradientBrush x:Key="TabItemHotBackground" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="White" Offset="0"/>
+        <GradientStop Color="#FFF3F2EE" Offset="0.75"/>
+        <GradientStop Color="#FFE6E6E1" Offset="1"/>-->      
+        <!--<GradientStop Color="#EAF6FD" Offset="0.15"/>
+        <GradientStop Color="#D9F0FC" Offset=".5"/>
+        <GradientStop Color="#BEE6FD" Offset=".5"/>
+        <GradientStop Color="#A7D9F5" Offset="1"/>-->
+    <!--</LinearGradientBrush>-->
     <Style x:Key="TabItemFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -255,18 +273,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#F3F3F3" Offset="0"/>
-        <GradientStop Color="#EBEBEB" Offset="0.5"/>
-        <GradientStop Color="#DDDDDD" Offset="0.5"/>
-        <GradientStop Color="#CDCDCD" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="TabItemHotBackground" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#EAF6FD" Offset="0.15"/>
-        <GradientStop Color="#D9F0FC" Offset=".5"/>
-        <GradientStop Color="#BEE6FD" Offset=".5"/>
-        <GradientStop Color="#A7D9F5" Offset="1"/>
-    </LinearGradientBrush>
     <ControlTemplate x:Key="TabExpTabItemTemplate" TargetType="{x:Type TabItem}">
         <Grid SnapsToDevicePixels="true">
             <!--<Border x:Name="Bd" 
@@ -454,7 +460,7 @@
         <Setter Property="Padding" Value="4,4,4,4"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
-        <Setter Property="Background" Value="#F9F9F9"/>
+        <Setter Property="Background" Value="{StaticResource TabbedExpanderBackground}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle1}"/>
@@ -462,6 +468,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TabbedExpander}">
+                    <DockPanel LastChildFill="True" Margin="{TemplateBinding Padding}">
+                        <Separator DockPanel.Dock="Top" Background="{TemplateBinding BorderBrush}" Height="{TemplateBinding BorderThickness}"
+                               HorizontalAlignment="Stretch" Width="Auto" Margin="0" Padding="0"/>
+                        <Separator DockPanel.Dock="Bottom" Background="{TemplateBinding BorderBrush}" Height="{TemplateBinding BorderThickness}"
+                               HorizontalAlignment="Stretch" Width="Auto" Margin="0" Padding="0"/>
+                        <!--<Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">-->
                     <Grid x:Name="PART_ParentGrid" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="ColumnDefinition0"/>
@@ -473,13 +485,14 @@
                         </Grid.RowDefinitions>
                         <TabPanel x:Name="HeaderPanel" Grid.Column="0" 
                                   IsItemsHost="true" 
-                                  Margin="2,2,2,0" Grid.Row="0" 
+                                  Margin="0" Grid.Row="0" 
                                   KeyboardNavigation.TabIndex="1" 
                                   Panel.ZIndex="1"
                                   Background="{TemplateBinding PanelBackground}"/>
                         <Border x:Name="ContentPanel" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Margin="2,0,2,0"
+                                BorderBrush="{TemplateBinding ContentBorderBrush}" 
+                                BorderThickness="{TemplateBinding ContentBorderThickness}" 
                                 Background="{TemplateBinding Background}" 
                                 Grid.Column="0" 
                                 KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" 
@@ -490,6 +503,8 @@
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>
+                    
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>

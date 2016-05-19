@@ -40,6 +40,7 @@
             <SolidColorBrush x:Key="BackgroundExpandersColor" Color="White"/>
             <SolidColorBrush x:Key="BackgroundSelectedExpTabColor" Color="{Binding Color, Source={StaticResource BackgroundAppColor}}"/>
             <SolidColorBrush x:Key="MayorDGridBackground" Color="{Binding Color, Source={StaticResource BackgroundAppColor}}"/>
+            <SolidColorBrush x:Key="TabExpSelectedTabBackground" Color="{Binding Color, Source={StaticResource BackgroundAppColor}}"/>
             <!--Data column header center text alignment-->
             <Style x:Key="DGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
                 <Setter Property="Template">

@@ -27,6 +27,11 @@
             <GradientStop Color="Gray" Offset="0"/>
             <GradientStop Color="{Binding Source={StaticResource BackgroundAppColor}, Path=Color}" Offset="1.0"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="TabbedExpanderBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="#FFF3F2EE" Offset="0.75"/>
+            <GradientStop Color="#FFE6E6E1" Offset="1"/>
+        </LinearGradientBrush>
 
         <ModuloContabilidad:TabbedExpTemplateSelector_ModContabilidad x:Key="TabbedExpTemplateSelector"/>
         <converters:BoolHeightToHeightMulticonverter x:Key="BoolToHeightMulticonverter"/>
@@ -45,8 +50,8 @@
                 <Style x:Name="TabControlStyle1" TargetType="{x:Type TabControl}">
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
                     <Setter Property="Padding" Value="4,4,4,4"/>
-                    <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="Background" Value="#F9F9F9"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -87,12 +92,12 @@
                                            VerticalAlignment="Top"
                                            Margin="0,0,0,2"
                                            Padding="0"
-                                           PanelBackground="{StaticResource BackgroundExpandersColor}"
-                                           SelectedBackground="{StaticResource BackgroundAppColor}"
+                                           PanelBackground="{StaticResource TabbedExpanderBackground}"
+                                           SelectedBackground="{StaticResource TabExpSelectedTabBackground}"
                                            Background="{StaticResource BackgroundAppColor}"
                                            EXPANDER_NOTEXPANDED_HEIGHT="28"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
-                                           BorderBrush="Transparent" BorderThickness="0"
+                                           BorderBrush="{StaticResource TabControlNormalBorderBrush}" BorderThickness="0.5"
                                            ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"/>
                                     </DockPanel>
                                     <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
@@ -117,12 +122,12 @@
                                            MinHeight="130"
                                            Margin="0,0,0,2"
                                            Padding="0"
-                                           PanelBackground="{StaticResource BackgroundExpandersColor}"
-                                           SelectedBackground="{StaticResource BackgroundAppColor}"
+                                           PanelBackground="{StaticResource TabbedExpanderBackground}"
+                                           SelectedBackground="{StaticResource TabExpSelectedTabBackground}"
                                            Background="{StaticResource BackgroundAppColor}"
                                            EXPANDER_NOTEXPANDED_HEIGHT="25"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
-                                           BorderBrush="Transparent" BorderThickness="0"
+                                           BorderBrush="{StaticResource TabControlNormalBorderBrush}" BorderThickness="0.5"
                                            ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}">
                                             <TabbedExpander:TabbedExpander.Height>
                                                 <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}" 
@@ -212,7 +217,7 @@
                                             Height="Auto" Width="Auto" CornerRadius="4,10,0,0"
                                             BorderBrush="{StaticResource BorderGradient}" BorderThickness="0.7"
                                             Style="{StaticResource IsSelectedBorderTrigger}">
-                                        <DockPanel Background="Transparent" Margin="4,3,3,3">
+                                        <DockPanel Background="Transparent" Margin="4,3,3,0">
                                             <TextBlock Text="{Binding Header}" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent"/>
                                             <Button x:Name="TabCloseButton" Template="{StaticResource CloseTabButtonTemplate}"
                                                     HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3,0,1,0" Padding="0" Content="x"

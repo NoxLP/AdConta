@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using Extensions;
 using System.Collections;
 using System.Collections.Specialized;
+using AdConta;
 
 namespace TabbedExpanderCustomControl
 {
@@ -52,6 +53,8 @@ namespace TabbedExpanderCustomControl
         #region fields
         private List<ToggleButton> TogsList;
         private List<TabItem> TabsList;
+        //private bool _CurrentChangingEventHandlerAdded = false;
+        private int _SelectedIndex;
         #endregion
 
         #region properties
@@ -97,6 +100,16 @@ namespace TabbedExpanderCustomControl
         {
             get { return (Brush)GetValue(SelectedBackgroundProperty); }
             set { SetValue(SelectedBackgroundProperty, value); }
+        }
+        public Brush ContentBorderBrush
+        {
+            get { return (Brush)GetValue(ContentBorderBrushProperty); }
+            set { SetValue(ContentBorderBrushProperty, value); }
+        }
+        public Thickness ContentBorderThickness
+        {
+            get { return (Thickness)GetValue(ContentBorderThicknessProperty); }
+            set { SetValue(ContentBorderThicknessProperty, value); }
         }
         #endregion
 
@@ -173,12 +186,22 @@ namespace TabbedExpanderCustomControl
                 typeof(Brush),
                 typeof(TabbedExpander),
                 new PropertyMetadata(Brushes.Gray));
-
         public static readonly DependencyProperty SelectedBackgroundProperty =
             DependencyProperty.Register("SelectedBackground",
                 typeof(Brush),
                 typeof(TabbedExpander),
                 new PropertyMetadata(Brushes.White));
+
+        public static readonly DependencyProperty ContentBorderBrushProperty =
+            DependencyProperty.Register("ContentBorderBrush", 
+                typeof(Brush), 
+                typeof(TabbedExpander), 
+                new PropertyMetadata(Brushes.Transparent));
+        public static readonly DependencyProperty ContentBorderThicknessProperty =
+            DependencyProperty.Register("ContentBorderThickness", 
+                typeof(Thickness), 
+                typeof(TabbedExpander), 
+                new PropertyMetadata(new Thickness(0)));
         #endregion
         #endregion
 
@@ -254,6 +277,7 @@ namespace TabbedExpanderCustomControl
             this.TabsList = new List<TabItem>();
             this.IsExpanded = false;
             FrameworkElement ParentGrid = this.Template.FindName("PART_ParentGrid", this) as FrameworkElement;
+
             this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() => ManageInitTogsAndTabs(ParentGrid)));
 
             DependencyPropertyChangedEventArgs e = new DependencyPropertyChangedEventArgs(IsExpandedProperty, !this.IsExpanded, this.IsExpanded);
@@ -265,7 +289,7 @@ namespace TabbedExpanderCustomControl
 
             if (newValue != null)
             {
-                foreach (object item in newValue)
+               foreach (object item in newValue)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
@@ -389,6 +413,24 @@ namespace TabbedExpanderCustomControl
             }
 
             base.OnItemsChanged(e);
+        }
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            TabExpTabItemBaseVM item = e.AddedItems[0] as TabExpTabItemBaseVM;
+            if (item != null && item.Expandible)
+            {
+                this._SelectedIndex = base.Items.IndexOf(item);
+                base.OnSelectionChanged(e);
+            }
+            else
+            {
+                base.SelectedIndex = this._SelectedIndex;
+                e.AddedItems.Clear();
+                e.RemovedItems.Clear();
+                e.Handled = true;
+
+                base.OnSelectionChanged(e);
+            }
         }
         private void ToggleButtonClick(object sender, RoutedEventArgs e)
         {
