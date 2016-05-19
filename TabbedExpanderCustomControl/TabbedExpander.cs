@@ -414,7 +414,7 @@ namespace TabbedExpanderCustomControl
 
             base.OnItemsChanged(e);
         }
-        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        /*protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             TabExpTabItemBaseVM item = e.AddedItems[0] as TabExpTabItemBaseVM;
             if (item != null && item.Expandible)
@@ -431,7 +431,7 @@ namespace TabbedExpanderCustomControl
 
                 base.OnSelectionChanged(e);
             }
-        }
+        }*/
         private void ToggleButtonClick(object sender, RoutedEventArgs e)
         {
             ToggleButton tog = sender as ToggleButton;

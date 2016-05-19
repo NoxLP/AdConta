@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using AdConta.ViewModel;
 using ModuloContabilidad;
 using Extensions;
+using TabbedExpanderCustomControl;
 
 namespace AdConta.AbleTabControl
 {
@@ -152,8 +153,11 @@ namespace AdConta.AbleTabControl
 
             control.Dispatcher.BeginInvoke((Action)(() => control.RootTabControl.SelectedIndex = newIndex));
             //control.NotifyPropChanged("SelectedIndex");
-
             //control.RootTabControl.ContentTemplateSelector.SelectTemplate(oldTab, control.RootTabControl as DependencyObject);
+
+            TabbedExpander TopTabExp = control.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "TopTabbedExpander");
+            TabbedExpander BottomTabExp = control.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
+            TabbedExpanderBindingChanger filler = new TabbedExpanderBindingChanger(newTab as aTabsWithTabExpVM, TopTabExp, BottomTabExp);
         }
         #endregion
 

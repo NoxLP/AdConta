@@ -14,20 +14,20 @@ namespace ModuloContabilidad
     /// <summary>
     /// Class for filling both tabbed expander. Used when new tabs are added or selected to AbleTabControl.
     /// </summary>
-    public class TabbedExpanderFiller_Mayor : aTabbedExpanderFillerBase
+    public class TabbedExpanderFiller_Mayor : aTabbedExpanderFillerBase<VMTabMayor>
     {
-        public TabbedExpanderFiller_Mayor(aTabsWithTabExpVM TabExpVMContainer)
-        {
-            base.TabExpContainer = TabExpVMContainer;
-            base.numberOfTabs = 3;
-            FillTopTabExp();
-            FillBottomTabExp();
-        }
+        public TabbedExpanderFiller_Mayor(
+            VMTabMayor TabExpVMContainer, 
+            TabbedExpander topTE, 
+            TabbedExpander bottomTE, 
+            bool fill) 
+            : base(TabExpVMContainer, 3, topTE, bottomTE, fill)
+        { }
 
         #region overriden methods
         protected override void FillTopTabExp()
         {
-            base.Tabs = new List<TabExpTabItemBaseVM>(3);
+            base.Tabs = new List<TabExpTabItemBaseVM>(base.numberOfTabs);
             base.Tabs.Add(new TabExpTabItemBaseVM()
             {
                 Expandible = true,
@@ -56,7 +56,7 @@ namespace ModuloContabilidad
         protected override void FillBottomTabExp()
         {
             base.Tabs.Clear();
-            base.Tabs = new List<TabExpTabItemBaseVM>(1);
+            base.Tabs = new List<TabExpTabItemBaseVM>();
             base.Tabs.Add(new VMTabbedExpDiario()
             {
                 Expandible = true,

@@ -88,43 +88,6 @@ namespace AdConta
             GlobalSettings.Properties.Settings.Default.MINCODCUENTAS = min;
             GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS = max;
         }
-        private void BindTabbedExpanders<T>(TabbedExpander TopTE, TabbedExpander BottomTE, T tab) where T : aTabsWithTabExpVM
-        {
-            TopTE.SetBinding(
-                TabbedExpander.ItemsSourceProperty,
-                new Binding()
-                {
-                    Source = tab,
-                    //Path = new PropertyPath((tab as aTabsWithTabExpVM).TopTabbedExpanderItemsSource),
-                    Path = new PropertyPath("TopTabbedExpanderItemsSource"),
-                    Mode = BindingMode.OneWay
-                });
-            TopTE.SetBinding(
-                TabbedExpander.SelectedIndexProperty,
-                new Binding()
-                {
-                    Source = tab,
-                    Path = new PropertyPath("TopTabbedExpanderSelectedIndex"),
-                    Mode = BindingMode.TwoWay
-                });
-
-            BottomTE.SetBinding(
-                TabbedExpander.ItemsSourceProperty,
-                new Binding()
-                {
-                    Source = tab,
-                    Path = new PropertyPath("BottomTabbedExpanderItemsSource"),
-                    Mode = BindingMode.TwoWay
-                });
-            BottomTE.SetBinding(
-                TabbedExpander.SelectedIndexProperty,
-                new Binding()
-                {
-                    Source = tab,
-                    Path = new PropertyPath("BottomTabbedExpanderSelectedIndex"),
-                    Mode = BindingMode.TwoWay
-                });
-        }
         #endregion
 
         #region public methods
@@ -145,14 +108,20 @@ namespace AdConta
                 case TabType.Mayor:
                     tab = new VMTabMayor();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabbedExpanderFiller_Mayor TabExpFillerM = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
-                    BindTabbedExpanders<VMTabMayor>(TopTabExp, BottomTabExp, tab as VMTabMayor);
+                    TabbedExpanderFiller_Mayor TabExpFillerM = new TabbedExpanderFiller_Mayor(
+                        tab as VMTabMayor,
+                        TopTabExp,
+                        BottomTabExp,
+                        true);
                     break;
                 case TabType.Diario:
                     tab = new VMTabDiario();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabbedExpanderFiller_Diario TabExpFillerD = new TabbedExpanderFiller_Diario(tab as aTabsWithTabExpVM);
-                    BindTabbedExpanders<VMTabDiario>(TopTabExp, BottomTabExp, tab as VMTabDiario);
+                    TabbedExpanderFiller_Diario TabExpFillerD = new TabbedExpanderFiller_Diario(
+                        tab as VMTabDiario,
+                        TopTabExp,
+                        BottomTabExp,
+                        true);
                     break;
                 case TabType.Props:
                     tab = new VMTabProps();
@@ -165,8 +134,11 @@ namespace AdConta
                 default:
                     tab = new VMTabMayor();
                     tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabExpFillerM = new TabbedExpanderFiller_Mayor(tab as aTabsWithTabExpVM);
-                    BindTabbedExpanders<VMTabMayor>(TopTabExp, BottomTabExp, tab as VMTabMayor);
+                    TabExpFillerM = new TabbedExpanderFiller_Mayor(
+                        tab as VMTabMayor,
+                        TopTabExp,
+                        BottomTabExp,
+                        true);
                     break;
             }
             this.Tabs.Add(tab);
