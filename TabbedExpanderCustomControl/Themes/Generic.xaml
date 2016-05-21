@@ -465,6 +465,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle1}"/>
         <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Self}, Path=EXPANDER_NOTEXPANDED_HEIGHT,
+            diag:PresentationTraceSources.TraceLevel=High}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:TabbedExpander}">
@@ -492,6 +494,8 @@
                                   MinHeight="{TemplateBinding EXPANDER_NOTEXPANDED_HEIGHT}"/>
                         <Border x:Name="ContentPanel" 
                                 Margin="3"
+                                VerticalAlignment="Stretch"
+                                Height="Auto"
                                 BorderBrush="{TemplateBinding ContentBorderBrush}" 
                                 BorderThickness="{TemplateBinding ContentBorderThickness}" 
                                 Background="{TemplateBinding Background}" 
@@ -499,6 +503,8 @@
                                 KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" 
                                 KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
+                                              VerticalAlignment="Stretch"
+                                              Height="Auto"
                                               ContentSource="SelectedContent" 
                                               Margin="{TemplateBinding Padding}" 
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -538,6 +544,10 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Self}, Path=EXPANDER_NOTEXPANDED_HEIGHT,
+                                diag:PresentationTraceSources.TraceLevel=High}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

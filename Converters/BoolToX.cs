@@ -53,9 +53,20 @@ namespace Converters
             if (values == null || targetType == null)
                 return null;
             else if (parameter == null)
-                return values;
+                return null;
 
-            bool bValue = (bool)values[0];
+            bool IsExpanded = (bool)values[0];
+            GridLength dProperty = (GridLength)values[1];
+            double notExpandedHeight = (double)values[2];
+            switch(param)
+            {
+                case "GRID":
+                    return (IsExpanded ? dProperty : new GridLength(notExpandedHeight));
+                default:
+                    return null;
+            }
+
+            /*bool bValue = (bool)values[0];
             double gridValue = (double)values[1];
             double TEValue = (double)values[2];
             switch (param)
@@ -70,7 +81,7 @@ namespace Converters
                         new GridLength(TEValue + 5, GridUnitType.Pixel);
                 default:
                     return null;
-            }
+            }*/
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

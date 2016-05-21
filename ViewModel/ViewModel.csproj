@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{1d039e54-9b3d-4ae3-af95-cd26d759497a}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeneralHelpers\GeneralHelpers.csproj">
       <Project>{419b406e-5a8b-4ebc-ac38-bcf9e5fee940}</Project>
       <Name>GeneralHelpers</Name>

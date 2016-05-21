@@ -17,11 +17,12 @@ namespace ModuloContabilidad
     public class TabbedExpanderFiller_Diario : aTabbedExpanderFillerBase<VMTabDiario>
     {
         public TabbedExpanderFiller_Diario(
-            VMTabDiario TabExpVMContainer, 
-            TabbedExpander topTE, 
-            TabbedExpander bottomTE,
+            VMTabDiario TabExpVMContainer,
+            ref TabbedExpander topTE,
+            ref TabbedExpander bottomTE,
+            ref RowDefinition rowDef,
             bool fill) 
-            : base(TabExpVMContainer, 3, topTE, bottomTE, fill)
+            : base(TabExpVMContainer, 3, ref topTE, ref bottomTE, ref rowDef, fill)
         { }
 
         #region overriden methods

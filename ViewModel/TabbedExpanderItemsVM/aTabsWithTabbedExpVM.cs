@@ -11,14 +11,70 @@ namespace AdConta.ViewModel
 {
     public abstract class aTabsWithTabExpVM : VMTabBase
     {
+        #region fields
+        private bool _BTEExpanded;
+        private GridLength _BTEGridHeight;
+        private GridLength _LastBTEGridHeight = new GridLength(60);
+        #endregion
+
         #region properties
         public abstract ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
         public abstract ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
         public abstract int TopTabbedExpanderSelectedIndex { get; set; }
         public abstract int BottomTabbedExpanderSelectedIndex { get; set; }
+        public bool BTEExpanded
+        {
+            get { return this._BTEExpanded; }
+            set
+            {
+                if (this._BTEExpanded != value)
+                {
+                    this._BTEExpanded = value;
+
+                    //if (!value) UpdateBTEHeightToLastHeight();
+                }
+            }
+        }
+        public GridLength BTEGridHeight
+        {
+            get { return this._BTEGridHeight; }
+            set
+            {
+                if(this._BTEGridHeight != value)
+                {
+                    this._BTEGridHeight = value;
+                    NotifyPropChanged("ExpandedHeight");
+
+                    if (this.BTEExpanded && value != GridLength.Auto) this.LastBTEGridHeight = value;
+                }
+            }
+        }
+        public double ExpandedHeight
+        {
+            get
+            {
+                if (this.BTEExpanded)
+                    return this.BTEGridHeight.Value;
+                else return this.LastBTEGridHeight.Value;
+            }
+        }
+        public GridLength LastBTEGridHeight
+        {
+            get { return this._LastBTEGridHeight; }
+            set
+            {
+                if (this._LastBTEGridHeight != value)
+                    this._LastBTEGridHeight = value;
+            }
+        }
         #endregion
 
         #region helpers
+        private void UpdateBTEHeightToLastHeight()
+        {
+            this.BTEGridHeight = this.LastBTEGridHeight;
+            MessageBox.Show("height= "+this.BTEGridHeight.ToString()+" ; Last height= " + this.LastBTEGridHeight.ToString());
+        }
         /// <summary>
         /// Add tabVM to tabbed expander of type WhichTabExp(top or bottom) through ItemsSource. 
         /// Used when new tabs are added or selected in AbleTabControl.

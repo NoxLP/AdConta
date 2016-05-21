@@ -33,6 +33,14 @@ namespace AdConta.AbleTabControl
             
             ItemsSourceProperty = new ObservableCollection<VMTabBase>();
             this._NavigateSelectedTab = new Command_NavigateSelectedTab(this);
+
+            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)(() =>
+            { 
+                Grid BTEGrid = this.RootTabControl.FindVisualChild<Grid>(x => (x as Grid).Name == "TabControlGrid");
+                RowDefinition rowDef = BTEGrid.RowDefinitions[3];
+                TabbedExpander BTE = this.RootTabControl.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
+                rowDef.Height = new GridLength(BTE.EXPANDER_NOTEXPANDED_HEIGHT);
+            }));
         }
 
         #region fields
@@ -72,13 +80,11 @@ namespace AdConta.AbleTabControl
         public static readonly DependencyProperty ItemsSourcePropertyProperty = DependencyProperty.Register("ItemsSourceProperty",
             typeof(ObservableCollection<VMTabBase>), typeof(AbleTabControl),
             new PropertyMetadata(OnItemsPropertyChanged));
-
         public ObservableCollection<VMTabBase> ItemsSourceProperty
         {
             get { return (ObservableCollection<VMTabBase>)GetValue(ItemsSourcePropertyProperty); }
             set { SetValue(ItemsSourcePropertyProperty, value); }
         }
-
         private static void OnItemsPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             AbleTabControl control = source as AbleTabControl;
@@ -99,7 +105,6 @@ namespace AdConta.AbleTabControl
                 n.CollectionChanged += control.ItemsSource_CollectionChanged;
             }
         }
-
         private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset) this.ItemsSourceProperty.Clear();
@@ -125,13 +130,11 @@ namespace AdConta.AbleTabControl
         public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register("SelectedIndexProperty",
             typeof(int), typeof(AbleTabControl),
             new PropertyMetadata(0, OnSelectedIndexPropertyChanged));
-
         public int SelectedIndex
         {
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
         }
-
         private static void OnSelectedIndexPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             AbleTabControl control = source as AbleTabControl;
@@ -146,7 +149,6 @@ namespace AdConta.AbleTabControl
             oldTab.IsSelected = false;
             oldTab.PublicNotifyPropChanged("IsSelected");
 
-
             newTab.IsSelected = true;
             newTab.PublicNotifyPropChanged("IsSelected");
             //control.SelectedIndex = newIndex;            
@@ -155,10 +157,50 @@ namespace AdConta.AbleTabControl
             //control.NotifyPropChanged("SelectedIndex");
             //control.RootTabControl.ContentTemplateSelector.SelectTemplate(oldTab, control.RootTabControl as DependencyObject);
 
-            TabbedExpander TopTabExp = control.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "TopTabbedExpander");
-            TabbedExpander BottomTabExp = control.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
-            TabbedExpanderBindingChanger filler = new TabbedExpanderBindingChanger(newTab as aTabsWithTabExpVM, TopTabExp, BottomTabExp);
+            TabbedExpander TopTabExp = control.RootTabControl.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "TopTabbedExpander");
+            TabbedExpander BottomTabExp = control.RootTabControl.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
+            Grid BTEGrid = control.RootTabControl.FindVisualChild<Grid>(x => (x as Grid).Name == "TabControlGrid");
+            RowDefinition rowDef = BTEGrid.RowDefinitions[3];
+            TabbedExpanderBindingChanger filler = new TabbedExpanderBindingChanger(newTab as aTabsWithTabExpVM, ref TopTabExp, ref BottomTabExp, ref rowDef);
         }
+
+
+
+        public double TEHeight
+        {
+            get { return (double)GetValue(TEHeightProperty); }
+            set { SetValue(TEHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TEHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TEHeightProperty =
+            DependencyProperty.Register("TEHeight", typeof(double), typeof(AbleTabControl), new PropertyMetadata(0d));
+
+
+        public GridLength GridTEHeight
+        {
+            get { return (GridLength)GetValue(GridTEHeightProperty); }
+            set { SetValue(GridTEHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for GridTEHeight.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GridTEHeightProperty =
+            DependencyProperty.Register("GridTEHeight", typeof(GridLength), typeof(AbleTabControl), 
+                new PropertyMetadata(new GridLength(60), OnGridTEHeightChanged));
+        private static void OnGridTEHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            AbleTabControl control = d as AbleTabControl;
+
+            GridLength gh = (GridLength)e.NewValue;
+            if(control.TEHeight != gh.Value)
+            {
+                control.TEHeight = gh.Value;
+                control.NotifyPropChanged("TEHeight");
+            }
+        }
+
+
+
         #endregion
 
         #region helpers

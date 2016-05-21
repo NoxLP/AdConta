@@ -17,11 +17,12 @@ namespace ModuloContabilidad
     public class TabbedExpanderFiller_Mayor : aTabbedExpanderFillerBase<VMTabMayor>
     {
         public TabbedExpanderFiller_Mayor(
-            VMTabMayor TabExpVMContainer, 
-            TabbedExpander topTE, 
-            TabbedExpander bottomTE, 
+            VMTabMayor TabExpVMContainer,
+            ref TabbedExpander topTE,
+            ref TabbedExpander bottomTE,
+            ref RowDefinition rowDef,
             bool fill) 
-            : base(TabExpVMContainer, 3, topTE, bottomTE, fill)
+            : base(TabExpVMContainer, 3, ref topTE, ref bottomTE, ref rowDef, fill)
         { }
 
         #region overriden methods

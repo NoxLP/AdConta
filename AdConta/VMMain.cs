@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using ModuloContabilidad;
 using ModuloGestion;
@@ -100,49 +101,58 @@ namespace AdConta
             VMTabBase tab;
             TabHeader TabHeaders = new TabHeader();
             AbleTabControl.AbleTabControl ATC = (App.Current.MainWindow as MainWindow).AbleTabControl;
-            TabbedExpander TopTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "TopTabbedExpander");
-            TabbedExpander BottomTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as FrameworkElement).Name == "BottomTabbedExpander");
+            TabbedExpander TopTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as TabbedExpander).Name == "TopTabbedExpander");
+            TabbedExpander BottomTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as TabbedExpander).Name == "BottomTabbedExpander");
 
-            switch (type)
+            ATC.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)(() =>
             {
-                case TabType.Mayor:
-                    tab = new VMTabMayor();
-                    tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabbedExpanderFiller_Mayor TabExpFillerM = new TabbedExpanderFiller_Mayor(
-                        tab as VMTabMayor,
-                        TopTabExp,
-                        BottomTabExp,
-                        true);
-                    break;
-                case TabType.Diario:
-                    tab = new VMTabDiario();
-                    tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabbedExpanderFiller_Diario TabExpFillerD = new TabbedExpanderFiller_Diario(
-                        tab as VMTabDiario,
-                        TopTabExp,
-                        BottomTabExp,
-                        true);
-                    break;
-                case TabType.Props:
-                    tab = new VMTabProps();
-                    tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    break;
-                case TabType.Cdad:
-                    tab = new VMTabCdad();
-                    tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    break;
-                default:
-                    tab = new VMTabMayor();
-                    tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
-                    TabExpFillerM = new TabbedExpanderFiller_Mayor(
-                        tab as VMTabMayor,
-                        TopTabExp,
-                        BottomTabExp,
-                        true);
-                    break;
-            }
-            this.Tabs.Add(tab);
-            NotifyPropChanged("Tabs");
+                Grid BTEGrid = ATC.FindVisualChild<Grid>(x => (x as Grid).Name == "TabControlGrid");
+                RowDefinition rowDef = BTEGrid.RowDefinitions[3];
+
+                switch (type)
+                {
+                    case TabType.Mayor:
+                        tab = new VMTabMayor();
+                        tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        TabbedExpanderFiller_Mayor TabExpFillerM = new TabbedExpanderFiller_Mayor(
+                            tab as VMTabMayor,
+                            ref TopTabExp,
+                            ref BottomTabExp,
+                            ref rowDef,
+                            true);
+                        break;
+                    case TabType.Diario:
+                        tab = new VMTabDiario();
+                        tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        TabbedExpanderFiller_Diario TabExpFillerD = new TabbedExpanderFiller_Diario(
+                            tab as VMTabDiario,
+                            ref TopTabExp,
+                            ref BottomTabExp,
+                            ref rowDef,
+                            true);
+                        break;
+                    case TabType.Props:
+                        tab = new VMTabProps();
+                        tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        break;
+                    case TabType.Cdad:
+                        tab = new VMTabCdad();
+                        tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        break;
+                    default:
+                        tab = new VMTabMayor();
+                        tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        TabExpFillerM = new TabbedExpanderFiller_Mayor(
+                            tab as VMTabMayor,
+                            ref TopTabExp,
+                            ref BottomTabExp,
+                            ref rowDef,
+                            true);
+                        break;
+                }
+                this.Tabs.Add(tab);
+                NotifyPropChanged("Tabs");
+            }));
         }
         #endregion
     }

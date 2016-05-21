@@ -18,7 +18,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <main:TabItemTemplateSelector x:Key="TabTemplSelector"/>
-        
+
         <LinearGradientBrush x:Key="BorderGradient" StartPoint="1,0" EndPoint="1,1">
             <GradientStop Color="DimGray" Offset="0.96"/>
             <GradientStop Color="Transparent" Offset="1"/>
@@ -38,12 +38,16 @@
         <converters:BoolToHeightConverter x:Key="BoolToHeightConverter"/>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:HeightToGridLengthConverter x:Key="HeightToGridConverter"/>
-
     </UserControl.Resources>
     <Grid Background="{StaticResource BackgroundAppColor}" Margin="0">
-        <TabControl x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="277*"/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Text="{Binding ElementName=Root, Path=TEHeight, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Stretch" Width="Auto" Height="50" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TabControl Grid.Row="1" x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"
                     SelectedIndex="{Binding ElementName=Root, Path=SelectedIndex}" ItemsSource="{Binding ElementName=Root, Path=ItemsSourceProperty}" 
-                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0">
+                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0" Grid.RowSpan="2">
             <!--="{StaticResource TabControlStyle1}">-->
             <!-- ItemContainerStyle="{StaticResource draggable}" SelectionChanged="RootTabControl_SelectionChanged">-->
             <TabControl.Style>
@@ -58,7 +62,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabControl}">
-                                <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                                <Grid x:Name="TabControlGrid" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition x:Name="ColumnDefinition0"/>
                                         <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
@@ -66,21 +70,31 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
                                         <RowDefinition x:Name="RowDefinition1" Height="*"/>
-                                        <!--Splitter row-->
                                         <RowDefinition Height="Auto"/>
+                                        <!--Splitter row-->
                                         <RowDefinition x:Name="BottomTERow"
                                                MaxHeight="{Binding ElementName=BottomTabbedExpander, Path=MaxHeight, Mode=OneWay}"
                                                MinHeight="{Binding ElementName=BottomTabbedExpander, Path=MinHeight, Mode=OneWay}">
-                                            <RowDefinition.Height>
+                                            <!--<RowDefinition.Height>
+                                                <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
+                                                      ConverterParameter="GRID"
+                                                      Mode="TwoWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
+                                                    <Binding ElementName="Root" Path="GridTEHeight"/>
+                                                    <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
+                                                </MultiBinding>
+                                            </RowDefinition.Height>-->
+                                            <!--<RowDefinition.Height>
                                                 <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
                                                       ConverterParameter="TEToRow"
                                                       Mode="TwoWay"
                                                       UpdateSourceTrigger="PropertyChanged">
                                                     <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
                                                     <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
-                                                    <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_EXPANDED_HEIGHT"/>
+                                                    <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
                                                 </MultiBinding>
-                                            </RowDefinition.Height>
+                                            </RowDefinition.Height>-->
                                         </RowDefinition>
                                     </Grid.RowDefinitions>
                                     <DockPanel Grid.Column="0">
@@ -125,11 +139,13 @@
                                            PanelBackground="{StaticResource TabbedExpanderBackground}"
                                            SelectedBackground="{StaticResource TabExpSelectedTabBackground}"
                                            Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="25"
-                                           EXPANDER_EXPANDED_HEIGHT="60"
+                                           EXPANDER_NOTEXPANDED_HEIGHT="28"
+                                           EXPANDER_EXPANDED_HEIGHT="NaN"
                                            BorderBrush="{StaticResource TabControlNormalBorderBrush}" BorderThickness="0.5"
-                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}">
-                                            <TabbedExpander:TabbedExpander.Height>
+                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"
+                                           Height="{Binding ElementName=Root, Path=TEHeight, Mode=OneWay}"
+                                                                       IsExpanded="{Binding }">
+                                            <!--<TabbedExpander:TabbedExpander.Height>
                                                 <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}" 
                                                       ConverterParameter="RowToTE"
                                                       Mode="OneWay"
@@ -138,7 +154,7 @@
                                                     <Binding ElementName="BottomTERow" Path="ActualHeight"/>
                                                     <Binding RelativeSource="{RelativeSource Self}" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
                                                 </MultiBinding>
-                                            </TabbedExpander:TabbedExpander.Height>
+                                            </TabbedExpander:TabbedExpander.Height>-->
                                         </TabbedExpander:TabbedExpander>
                                     </Grid>
                                 </Grid>
@@ -241,5 +257,7 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
+
+
     </Grid>
 </UserControl>

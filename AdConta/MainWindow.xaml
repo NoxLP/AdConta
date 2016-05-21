@@ -15,6 +15,7 @@
     </Window.InputBindings>
     <Grid x:Name="MainGrid" Background="{StaticResource BackgroundAppColor}">
             <DockPanel LastChildFill="True">
+                <!--<Button DockPanel.Dock="Top" Click="prueba_Click"/>-->
                 <SideTool:SideTool x:Name="SideTool" DockPanel.Dock="Right" 
                                    Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Margin="0" 
                                    Background="{StaticResource BackgroundExpandersColor}"/>

@@ -79,6 +79,9 @@
       <DependentUpon>TabCdadUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppUserControls\VMTabCdad.cs" />
+    <Compile Include="DBTest.xaml.cs">
+      <DependentUpon>DBTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\SideModel.cs" />
     <Compile Include="SideTool\SideTool.xaml.cs">
       <DependentUpon>SideTool.xaml</DependentUpon>
@@ -86,6 +89,10 @@
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Cdad.cs" />
     <Compile Include="TemplateSelectors.cs" />
     <Compile Include="VMMain.cs" />
+    <Page Include="DBTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\AbleTabControlResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

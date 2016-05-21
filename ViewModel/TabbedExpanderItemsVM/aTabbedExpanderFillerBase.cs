@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using TabbedExpanderCustomControl;
 using System.Windows;
 using System.Windows.Data;
+using Converters;
 
 namespace AdConta.ViewModel
 {
@@ -17,8 +19,9 @@ namespace AdConta.ViewModel
         public aTabbedExpanderFillerBase(
             T container, 
             int numberTabs, 
-            TabbedExpander topTE, 
-            TabbedExpander bottomTE, 
+            ref TabbedExpander topTE, 
+            ref TabbedExpander bottomTE, 
+            ref RowDefinition rowDef,
             bool fill)
         {
             this._TabExpContainer = container;
@@ -29,7 +32,7 @@ namespace AdConta.ViewModel
                 FillTopTabExp();
                 FillBottomTabExp();
             }
-            BindTabbedExpanders(topTE, bottomTE, container);
+            BindTabbedExpanders(ref topTE, ref bottomTE, ref container, ref rowDef);
         }
 
         #region fields
@@ -60,7 +63,7 @@ namespace AdConta.ViewModel
         protected abstract void FillTopTabExp();
         protected abstract void FillBottomTabExp();
 
-        protected void BindTabbedExpanders(TabbedExpander TopTE, TabbedExpander BottomTE, T tab)
+        protected void BindTabbedExpanders(ref TabbedExpander TopTE, ref TabbedExpander BottomTE, ref T tab, ref RowDefinition rowDef)
         {
             TopTE.SetBinding(
                 TabbedExpander.ItemsSourceProperty,
@@ -96,6 +99,40 @@ namespace AdConta.ViewModel
                     Path = new PropertyPath("BottomTabbedExpanderSelectedIndex"),
                     Mode = BindingMode.TwoWay
                 });
+            BottomTE.SetBinding(
+                TabbedExpander.IsExpandedProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("BTEExpanded"),
+                    Mode = BindingMode.OneWayToSource
+                });
+            BottomTE.SetBinding(
+                TabbedExpander.EXPANDER_EXPANDED_HEIGHTProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("ExpandedHeight"),
+                    Mode = BindingMode.OneWay
+                });
+
+            rowDef.SetBinding(
+                RowDefinition.HeightProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path = new PropertyPath("BTEGridHeight"),
+                    Mode = BindingMode.OneWayToSource
+                });
+            /*MultiBinding MBind = new MultiBinding();
+            MBind.Bindings.Add(new Binding() { Source = BottomTE, Path = new PropertyPath("IsExpanded"), Mode = BindingMode.OneWay });
+            MBind.Bindings.Add(new Binding() { Source = tab, Path = new PropertyPath("BTEGridHeight"), Mode = BindingMode.TwoWay });
+            MBind.Bindings.Add(new Binding() { Source = BottomTE, Path = new PropertyPath("EXPANDER_NOTEXPANDED_HEIGHT"), Mode = BindingMode.OneWay });
+            MBind.Converter = new BoolHeightToHeightMulticonverter();
+            MBind.ConverterParameter = "GRID";
+            MBind.Mode = BindingMode.TwoWay;
+            MBind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            rowDef.SetBinding(RowDefinition.HeightProperty, MBind);*/
         }
         #endregion
     }
@@ -104,9 +141,10 @@ namespace AdConta.ViewModel
     {
         public TabbedExpanderBindingChanger(
             aTabsWithTabExpVM TabExpVMContainer,
-            TabbedExpander topTE,
-            TabbedExpander bottomTE) 
-            : base(TabExpVMContainer, 3, topTE, bottomTE, false)
+            ref TabbedExpander topTE,
+            ref TabbedExpander bottomTE,
+            ref RowDefinition rowDef) 
+            : base(TabExpVMContainer, 3, ref topTE, ref bottomTE, ref rowDef, false)
         { }
 
         #region overriden methods

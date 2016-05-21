@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -129,6 +130,14 @@ namespace TabbedExpanderCustomControl
                 control.MinHeight = control._MinHeight;
                 control.VerticalAlignment = VerticalAlignment.Stretch;
                 control.Height = control.EXPANDER_EXPANDED_HEIGHT;
+                /*control.SetBinding(
+                    TabbedExpander.HeightProperty,
+                    new Binding()
+                    {
+                        Source = control,
+                        Path = new PropertyPath("EXPANDER_EXPANDED_HEIGHT"),
+                        Mode = BindingMode.OneWay
+                    });*/
             }
             else
             {
@@ -136,6 +145,7 @@ namespace TabbedExpanderCustomControl
                 control.VerticalAlignment = control._VerticalAlignment;
                 control.Height = control.EXPANDER_NOTEXPANDED_HEIGHT;// - control.EXPANDER_OFFSET;
             }
+            control.NotifyPropChanged("IsExpanded");
         }
 
         [TypeConverter(typeof(double))]
@@ -177,7 +187,7 @@ namespace TabbedExpanderCustomControl
             if (e.NewValue == null || e.OldValue == null) return;
             TabbedExpander control = d as TabbedExpander;
 
-            if (!control.IsExpanded)
+            if (control.IsExpanded)
                 control.Height = (double)e.NewValue;
         }
 
@@ -291,9 +301,10 @@ namespace TabbedExpanderCustomControl
             {
                foreach (object item in newValue)
                 {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
+                    TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
+                    tab.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
-                        TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
+                        
                         var tabVM = tab.DataContext;
                         TabExpTabItemBaseVM tabExp = item as TabExpTabItemBaseVM;
 

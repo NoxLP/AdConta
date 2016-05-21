@@ -12,10 +12,11 @@ namespace AdConta.TabbedExpanderTabs
     {
         public TabbedExpanderFiller_Cdad(
             VMTabCdad TabExpVMContainer,
-            TabbedExpander topTE,
-            TabbedExpander bottomTE,
+            ref TabbedExpander topTE,
+            ref TabbedExpander bottomTE,
+            ref System.Windows.Controls.RowDefinition rowDef,
             bool fill) 
-            : base(TabExpVMContainer, 3/*<------------OJO*/, topTE, bottomTE, fill)
+            : base(TabExpVMContainer, 3/*<------------OJO*/, ref topTE, ref bottomTE, ref rowDef, fill)
         { }
 
         #region overriden methods
