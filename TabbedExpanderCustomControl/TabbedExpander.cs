@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,6 +11,7 @@ using System.Windows.Threading;
 using Extensions;
 using System.Collections;
 using System.Collections.Specialized;
+using AdConta;
 
 namespace TabbedExpanderCustomControl
 {
@@ -52,6 +54,8 @@ namespace TabbedExpanderCustomControl
         #region fields
         private List<ToggleButton> TogsList;
         private List<TabItem> TabsList;
+        //private bool _CurrentChangingEventHandlerAdded = false;
+        private int _SelectedIndex;
         #endregion
 
         #region properties
@@ -98,6 +102,16 @@ namespace TabbedExpanderCustomControl
             get { return (Brush)GetValue(SelectedBackgroundProperty); }
             set { SetValue(SelectedBackgroundProperty, value); }
         }
+        public Brush ContentBorderBrush
+        {
+            get { return (Brush)GetValue(ContentBorderBrushProperty); }
+            set { SetValue(ContentBorderBrushProperty, value); }
+        }
+        public Thickness ContentBorderThickness
+        {
+            get { return (Thickness)GetValue(ContentBorderThicknessProperty); }
+            set { SetValue(ContentBorderThicknessProperty, value); }
+        }
         #endregion
 
         #region static
@@ -116,13 +130,37 @@ namespace TabbedExpanderCustomControl
                 control.MinHeight = control._MinHeight;
                 control.VerticalAlignment = VerticalAlignment.Stretch;
                 control.Height = control.EXPANDER_EXPANDED_HEIGHT;
+                /*control.SetBinding(
+                    TabbedExpander.HeightProperty,
+                    new Binding()
+                    {
+                        Source = control,
+                        Path = new PropertyPath("EXPANDER_EXPANDED_HEIGHT"),
+                        Mode = BindingMode.OneWay
+                    });*/
             }
             else
             {
                 control.MinHeight = control.EXPANDER_NOTEXPANDED_HEIGHT;
                 control.VerticalAlignment = control._VerticalAlignment;
                 control.Height = control.EXPANDER_NOTEXPANDED_HEIGHT;// - control.EXPANDER_OFFSET;
+                /*switch(control.TabStripPlacement)
+                {
+                    case Dock.Bottom:
+                        control.VerticalAlignment = VerticalAlignment.Bottom;
+                        break;
+                    case Dock.Left:
+                        control.HorizontalAlignment = HorizontalAlignment.Left;
+                        break;
+                    case Dock.Right:
+                        control.HorizontalAlignment = HorizontalAlignment.Right;
+                        break;
+                    case Dock.Top:
+                        control.VerticalAlignment = VerticalAlignment.Top;
+                        break;
+                }*/
             }
+            control.NotifyPropChanged("IsExpanded");
         }
 
         [TypeConverter(typeof(double))]
@@ -144,7 +182,7 @@ namespace TabbedExpanderCustomControl
             DependencyProperty.Register("EXPANDER_NOTEXPANDED_HEIGHT",
                 typeof(double),
                 typeof(TabbedExpander),
-                new PropertyMetadata(26.0, OnNotExpandedHeightChanged));
+                new PropertyMetadata(31.0, OnNotExpandedHeightChanged));
         private static void OnNotExpandedHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null || e.OldValue == null) return;
@@ -152,6 +190,8 @@ namespace TabbedExpanderCustomControl
 
             if (!control.IsExpanded)
                 control.Height = (double)e.NewValue;// - control.EXPANDER_OFFSET;
+            
+            control.NotifyPropChanged("EXPANDER_NOTEXPANDED_HEIGHT");
         }
         [TypeConverter(typeof(double))]
         public static readonly DependencyProperty EXPANDER_EXPANDED_HEIGHTProperty =
@@ -164,8 +204,11 @@ namespace TabbedExpanderCustomControl
             if (e.NewValue == null || e.OldValue == null) return;
             TabbedExpander control = d as TabbedExpander;
 
-            if (!control.IsExpanded)
+            if (control.IsExpanded)
                 control.Height = (double)e.NewValue;
+
+            control.NotifyPropChanged("EXPANDER_EXPANDED_HEIGHT");
+            //control.EXPANDER_EXPANDED_HEIGHT = (double)e.NewValue;
         }
 
         public static readonly DependencyProperty PanelBackgroundProperty =
@@ -173,12 +216,22 @@ namespace TabbedExpanderCustomControl
                 typeof(Brush),
                 typeof(TabbedExpander),
                 new PropertyMetadata(Brushes.Gray));
-
         public static readonly DependencyProperty SelectedBackgroundProperty =
             DependencyProperty.Register("SelectedBackground",
                 typeof(Brush),
                 typeof(TabbedExpander),
                 new PropertyMetadata(Brushes.White));
+
+        public static readonly DependencyProperty ContentBorderBrushProperty =
+            DependencyProperty.Register("ContentBorderBrush", 
+                typeof(Brush), 
+                typeof(TabbedExpander), 
+                new PropertyMetadata(Brushes.Transparent));
+        public static readonly DependencyProperty ContentBorderThicknessProperty =
+            DependencyProperty.Register("ContentBorderThickness", 
+                typeof(Thickness), 
+                typeof(TabbedExpander), 
+                new PropertyMetadata(new Thickness(0)));
         #endregion
         #endregion
 
@@ -212,6 +265,17 @@ namespace TabbedExpanderCustomControl
             {
                 tab.Tag = tab.DataContext;
                 this.TabsList.Add(tab);
+
+                TabExpTabItemBaseVM tabExp = tab.DataContext as TabExpTabItemBaseVM;
+                if (tabExp != null && tabExp.Expandible == false)
+                {
+                    Border bd = tab.Template.FindName("Bd", tab) as Border;
+                    ContentControl cc = new ContentControl();
+                    cc.Name = "Content";
+                    cc.Content = tabExp.TEHeaderTemplate;
+                    cc.Template = tabExp.TEHeaderTemplate;
+                    bd.Child = cc;
+                }
             }
 
             children = ParentGrid.FindVisualChildren<ToggleButton>();
@@ -243,10 +307,78 @@ namespace TabbedExpanderCustomControl
             this.TabsList = new List<TabItem>();
             this.IsExpanded = false;
             FrameworkElement ParentGrid = this.Template.FindName("PART_ParentGrid", this) as FrameworkElement;
+
             this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() => ManageInitTogsAndTabs(ParentGrid)));
 
             DependencyPropertyChangedEventArgs e = new DependencyPropertyChangedEventArgs(IsExpandedProperty, !this.IsExpanded, this.IsExpanded);
             OnIsExpandedChanged(this, e);
+        }
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            if (newValue == oldValue) return;
+
+            if (newValue != null)
+            {
+               foreach (object item in newValue)
+                {
+                    TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
+                    tab.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
+                    {
+                        
+                        var tabVM = tab.DataContext;
+                        TabExpTabItemBaseVM tabExp = item as TabExpTabItemBaseVM;
+
+                        if (tabExp == null || tabExp.Expandible)
+                        {
+                            if (!this.TabsList.Contains(tab))
+                            {
+                                tab.Tag = tabVM;
+                                this.TabsList.Add(tab);
+                            }
+
+                            ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                            if (!this.TogsList.Contains(tog) && tog != null)
+                            {
+                                this.TogsList.Add(tog);
+                                tog.Click += ToggleButtonClick;
+                            }
+                        }
+                        else
+                        {
+                            Border bd = tab.Template.FindName("Bd", tab) as Border;
+                            if (bd == null) return;
+                            ContentControl cc = new ContentControl();
+                            cc.Name = "Content";
+                            cc.Content = tabExp.TEHeaderTemplate;
+                            cc.Template = tabExp.TEHeaderTemplate;
+                            bd.Child = cc;
+                        }
+                    }));
+                }
+            }
+
+            if (oldValue != null)
+            {
+                foreach (object item in oldValue)
+                {
+                    //If the DataContext is not saved in other place, the reference is lost BEFORE this event launches and the 
+                    //click event of the togglebutton can't ever be unsubscribed(ContainerFromItem don't work, NOTHING work, e.OldItems
+                    //have NO reference to the tabitem when it reaches this event), so all tabitems are saved in a list field 
+                    //and each datacontext saved as each tabitem's tag (OnApplyTemplate and OnItemsChanged if(e.NewItems != null) ), 
+                    //so the tag and the tabitem persist, can be found in this event, and togglebutton click can be unsubscribed
+                    TabItem tab = this.TabsList.Find(x => x.Tag == item);
+                    //If the tab is not expandible, it have no tog button and no event, so don't unsubscribe
+                    if (tab != null)
+                    {
+                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                        tog.Click -= ToggleButtonClick;
+                        this.TogsList.Remove(tog);
+                    }
+                    this.TabsList.Remove(tab);
+                }
+            }
+            
+            base.OnItemsSourceChanged(oldValue, newValue);
         }
         protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
         {
@@ -260,17 +392,32 @@ namespace TabbedExpanderCustomControl
                     Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)(() =>
                     {
                         TabItem tab = (this.ItemContainerGenerator.ContainerFromItem(item) as TabItem);
-                        if (!this.TabsList.Contains(tab))
-                        {
-                            tab.Tag = tab.DataContext;
-                            this.TabsList.Add(tab);
-                        }
+                        var tabVM = tab.DataContext;
+                        TabExpTabItemBaseVM tabExp = item as TabExpTabItemBaseVM;
 
-                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
-                        if (!this.TogsList.Contains(tog))
+                        if (tabExp == null || tabExp.Expandible)
                         {
-                            this.TogsList.Add(tog);
-                            tog.Click += ToggleButtonClick;
+                            if (!this.TabsList.Contains(tab))
+                            {
+                                tab.Tag = tabVM;
+                                this.TabsList.Add(tab);
+                            }
+
+                            ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                            if (!this.TogsList.Contains(tog))
+                            {
+                                this.TogsList.Add(tog);
+                                tog.Click += ToggleButtonClick;
+                            }
+                        }
+                        else
+                        {
+                            Border bd = tab.Template.FindName("Bd", tab) as Border;
+                            ContentControl cc = new ContentControl();
+                            cc.Name = "Content";
+                            cc.Content = tabExp.TEHeaderTemplate;
+                            cc.Template = tabExp.TEHeaderTemplate;
+                            bd.Child = cc;
                         }
                     }));
                 }
@@ -286,15 +433,37 @@ namespace TabbedExpanderCustomControl
                     //and each datacontext saved as each tabitem's tag (OnApplyTemplate and OnItemsChanged if(e.NewItems != null) ), 
                     //so the tag and the tabitem persist, can be found in this event, and togglebutton click can be unsubscribed
                     TabItem tab = this.TabsList.Find(x => x.Tag == item);
-                    ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
-                    tog.Click -= ToggleButtonClick;
-                    this.TogsList.Remove(tog);
+                    //If the tab is not expandible, it have no tog button and no event, so don't unsubscribe
+                    if (tab != null)
+                    {
+                        ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
+                        tog.Click -= ToggleButtonClick;
+                        this.TogsList.Remove(tog);
+                    }
                     this.TabsList.Remove(tab);
                 }
             }
 
             base.OnItemsChanged(e);
         }
+        /*protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+        {
+            TabExpTabItemBaseVM item = e.AddedItems[0] as TabExpTabItemBaseVM;
+            if (item != null && item.Expandible)
+            {
+                this._SelectedIndex = base.Items.IndexOf(item);
+                base.OnSelectionChanged(e);
+            }
+            else
+            {
+                base.SelectedIndex = this._SelectedIndex;
+                e.AddedItems.Clear();
+                e.RemovedItems.Clear();
+                e.Handled = true;
+
+                base.OnSelectionChanged(e);
+            }
+        }*/
         private void ToggleButtonClick(object sender, RoutedEventArgs e)
         {
             ToggleButton tog = sender as ToggleButton;

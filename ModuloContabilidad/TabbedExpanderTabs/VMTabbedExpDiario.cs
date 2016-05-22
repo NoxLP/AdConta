@@ -5,19 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using AdConta.ViewModel;
 using AdConta;
+using TabbedExpanderCustomControl;
 
 namespace ModuloContabilidad
 {
-    public class VMTabbedExpDiario : ViewModelBase, iTabbedExpanderItemVM, IPublicNotify
+    public class VMTabbedExpDiario : TabExpTabItemBaseVM, IPublicNotify
     {
         #region fields
         private bool _IsSelected;
+        private bool _Expandible = true;
         #endregion
 
         #region properties
-        public ExpanderTabType Type { get { return ExpanderTabType.Diario; } }
+        public override TabExpTabType TabExpType { get { return TabExpTabType.Diario; } }
         public string Header { get { return "Vista diario"; } }
         public double DGridHeight { get; }
+
         public bool IsSelected
         {
             get { return _IsSelected; }

@@ -21,7 +21,7 @@ namespace ModuloContabilidad
         {
             base.IsWindowed = GlobalSettings.Properties.Settings.Default.ASIENTOSIMPLE_WINDOWED;
             base.Fecha = DateTime.Today;
-            base.Type = ExpanderTabType.Simple;
+            base.TabExpType = TabExpTabType.Simple;
             this._model = new AsientoSimpleModel(base.TabComCod, true);
             this._MoveAsientoToWindow = new Command_MoveAsientoToWindow(this);
         }
@@ -31,7 +31,6 @@ namespace ModuloContabilidad
         #endregion
 
         #region properties
-        public override string Header { get { return "Asiento simple"; } }
         public Visibility PinButtonVisibility { get; set; }
         public ObservableCollection<Apunte> VMApuntes { get { return this._model.Asiento.Apuntes; } }
         #endregion
@@ -75,7 +74,7 @@ namespace ModuloContabilidad
                 this._tab.PinButtonVisibility = Visibility.Collapsed;
                 this._tab.IsWindowed = true;
 
-                (this._tab.BaseTab as aTabsWithTabbedExpVM).TabbedExpanderItemsSource.Remove(this._tab);
+                (this._tab.ParentVM as aTabsWithTabExpVM).BottomTabbedExpanderItemsSource.Remove(this._tab);
 
                 AsientosWindow w = new AsientosWindow();
                 w.Name = "testWindow";

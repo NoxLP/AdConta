@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using AdConta;
-using AdConta.ViewModel;
+using TabbedExpanderCustomControl;
+using Extensions;
 
 namespace ModuloContabilidad
 {
@@ -17,18 +18,33 @@ namespace ModuloContabilidad
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (!(item is ViewModelBase)) return null;
+            TabExpTabItemBaseVM TabItem = item as TabExpTabItemBaseVM;
+            if (TabItem==null) return null;
 
-            ExpanderTabType type = (item is VMAsientoBase ? (item as VMAsientoBase).Type : (item as VMTabbedExpDiario).Type);
+            TabExpTabType type = (item as TabExpTabItemBaseVM).TabExpType;
 
             switch (type)
             {
-                case ExpanderTabType.Diario:
-                    return (DataTemplate)Application.Current.Resources["TabbedExpanderDiario"];
-                case ExpanderTabType.Simple:
-                    return (DataTemplate)Application.Current.Resources["AsSimpleUC"];
-                case ExpanderTabType.Complejo:
-                    return (DataTemplate)Application.Current.Resources[""];
+                case TabExpTabType.Diario:
+                    TabItem.Header = "Vista Diario";
+                    DataTemplate dtemp = (DataTemplate)Application.Current.Resources["TabExpTabDiario"];
+                    return dtemp;
+                case TabExpTabType.Simple:
+                    TabItem.Header = "Asiento simple";
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabAsSimple"];
+                    return dtemp;
+                case TabExpTabType.Complejo:
+                    TabItem.Header = "Asiento complejo";
+                    dtemp = (DataTemplate)Application.Current.Resources[""];
+                    return dtemp;
+                case TabExpTabType.Mayor1_Cuenta:
+                    TabItem.Header = "Cuenta";
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabCuenta"];
+                    return dtemp;
+                case TabExpTabType.Mayor3_Buscar:
+                    TabItem.Header = "Buscar";
+                    dtemp = (DataTemplate)Application.Current.Resources["TabExpTabBuscar"];
+                    return dtemp;
                 default: return null;
             }
         }

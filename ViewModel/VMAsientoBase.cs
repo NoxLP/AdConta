@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using TabbedExpanderCustomControl;
 
 namespace AdConta.ViewModel
 {
-    public class VMAsientoBase : ViewModelBase, iTabbedExpanderItemVM, IPublicNotify
+    public class VMAsientoBase : TabExpTabItemBaseVM, IPublicNotify
     {
-
         #region fields
-        private ExpanderTabType _Type;
+        private TabExpTabType _Type;
         private int _TabComCod = 0;
-        private aTabsWithTabbedExpVM _BaseTab = null;
+        private bool _Expandible = true;
 
         private bool _IsSelected;
         private bool _IsWindowed;
@@ -27,7 +27,7 @@ namespace AdConta.ViewModel
         #endregion
 
         #region properties
-        public ExpanderTabType Type
+        public override TabExpTabType TabExpType
         {
             get { return this._Type; }
             set { this._Type = value; }
@@ -37,14 +37,8 @@ namespace AdConta.ViewModel
             get { return this._TabComCod; }
             set { this._TabComCod = value; }
         }
-        public aTabsWithTabbedExpVM BaseTab
-        {
-            get { return this._BaseTab; }
-            set { this._BaseTab = value; }
-        }
         public virtual double DGridHeight { get; }
 
-        public virtual string Header { get; }
         public bool IsSelected
         {
             get { return _IsSelected; }

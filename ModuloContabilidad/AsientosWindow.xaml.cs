@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ModuloContabilidad;
+using AdConta.ViewModel;
 
 namespace ModuloContabilidad
 {
@@ -64,7 +65,7 @@ namespace ModuloContabilidad
 
             //TODO else to manage AbleTabControl.VMTabDiario*/
 
-            VM.BaseTab.AddAndSelectTabInTabbedExpander(VM);
+            (VM.ParentVM as aTabsWithTabExpVM).AddAndSelectTabInTabbedExpander(VM, AdConta.TabExpWhich.Bottom);
             this.Close();
         }
     }

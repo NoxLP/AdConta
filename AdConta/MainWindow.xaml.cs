@@ -28,6 +28,9 @@ namespace AdConta
             InitializeComponent();
 
             this.WindowState = WindowState.Maximized;
+            /*this.Dispatcher.BeginInvoke(
+                System.Windows.Threading.DispatcherPriority.Loaded, 
+                (Action)(() => this.AbleTabControl.DataContext = this.DataContext));*/
         }
 
         #region helpers
@@ -74,8 +77,8 @@ namespace AdConta
                 MessageBox.Show("OK");*/
             //this.SideTool.ExIsExpanded = !this.SideTool.ExIsExpanded;
             //MessageBox.Show("ok");
-            //AdConta.Models.DBTest test = new AdConta.Models.DBTest();
-            //test.Show();
+            AdConta.Models.DBTest test = new AdConta.Models.DBTest();
+            test.Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -85,7 +88,7 @@ namespace AdConta
 
         private void DEBUGDELETEME_FillDatabase()
         {
-            AdConta.Models.DatabaseConnection db = new AdConta.Models.DatabaseConnection();
+            /*AdConta.Models.DatabaseConnection db = new AdConta.Models.DatabaseConnection();
 
             db.ExecuteQuery(string.Format("INSERT INTO Cdades(Codigo,Baja,CIF,Nombre,Cuenta,Direccion,Presidente,FechaPunteo) VALUES ({0})",
                 "0,0,'H54486654','C.P. EDIF. LUJANA, 2','ES0201820761230201625910','CALLE LUJANA, 2','PEPITO LORENZO','10/03/2016'"));
@@ -104,12 +107,12 @@ namespace AdConta
                 DateTime d = new DateTime(2016, 3, 26);
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(
 "INSERT INTO C0Cuen5720001(NAsiento,Fecha,FechaValor,Concepto,Debe,Haber,Saldo_1) VALUES (1,@date,@time,'ESTO ES UNA PRUEBA',1000,0,0)",
-con);
+                    con);
                 cmd.Parameters.AddWithValue("@date", d);
                 cmd.Parameters.AddWithValue("@time", DateTime.Today);
                 cmd.ExecuteNonQuery();
                 con.Close();
-            }
+            }*/
 
             /*db.ExecuteQuery(string.Format(
                 "INSERT INTO C0Cuen5720001(NAsiento,Fecha,FechaValor,Concepto,Debe,Haber,Saldo_1) VALUES (

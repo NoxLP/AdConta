@@ -31,26 +31,33 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandsInCommon.cs" />
     <Compile Include="DataTableHelperVMBase.cs" />
-    <Compile Include="iTabbedExpanderItemVM.cs" />
-    <Compile Include="aTabsWithTabbedExpVM.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabbedExpanderFillerBase.cs" />
     <Compile Include="VMAsientoBase.cs" />
     <Compile Include="VMTabBase.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Converters\Converters.csproj">
+      <Project>{1d039e54-9b3d-4ae3-af95-cd26d759497a}</Project>
+      <Name>Converters</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeneralHelpers\GeneralHelpers.csproj">
       <Project>{419b406e-5a8b-4ebc-ac38-bcf9e5fee940}</Project>
       <Name>GeneralHelpers</Name>
@@ -58,6 +65,10 @@
     <ProjectReference Include="..\GlobalSettings\GlobalSettings.csproj">
       <Project>{697dc7b8-7608-4b68-970b-1e67be52979b}</Project>
       <Name>GlobalSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TabbedExpanderCustomControl\TabbedExpanderCustomControl.csproj">
+      <Project>{e11c702f-ebbc-4d3a-beb7-7fb951db254d}</Project>
+      <Name>TabbedExpanderCustomControl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

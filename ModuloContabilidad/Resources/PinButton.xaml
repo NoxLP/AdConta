@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ContaWPF2.Resources">
+                    xmlns:local="clr-namespace:ModuloContabilidad">
     
     <ControlTemplate x:Key="PinButtonTemplate" TargetType="{x:Type Button}">
         <ControlTemplate.Resources>
