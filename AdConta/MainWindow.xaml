@@ -1,9 +1,9 @@
-﻿<Window
+﻿<Window x:Class="AdConta.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:AbleTabControl="clr-namespace:AdConta.AbleTabControl"
         xmlns:local="clr-namespace:AdConta"
-        xmlns:SideTool="clr-namespace:AdConta.SideTool" x:Class="AdConta.MainWindow"
+        xmlns:SideTool="clr-namespace:AdConta.SideTool" 
         Title="MainWindow" Height="500" Width="550" Loaded="Window_Loaded">
     <Window.DataContext>
         <local:VMMain/>
@@ -20,7 +20,7 @@
                                    Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="Auto" Margin="0" 
                                    Background="{StaticResource BackgroundExpandersColor}"/>
                 <AbleTabControl:AbleTabControl x:Name="AbleTabControl" Panel.ZIndex="{Binding ZIndex}"
-                                       HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Height="Auto" Width="Auto"
+                                       HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Height="Auto" Width="Auto"
                                        ItemsSourceProperty="{Binding Tabs}"/>
             </DockPanel>
     </Grid>

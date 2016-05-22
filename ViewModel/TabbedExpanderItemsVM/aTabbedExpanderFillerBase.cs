@@ -116,13 +116,24 @@ namespace AdConta.ViewModel
                     Mode = BindingMode.OneWay
                 });
 
+            double height = BottomTE.EXPANDER_NOTEXPANDED_HEIGHT;
+            BottomTE.SetBinding(
+                TabbedExpander.EXPANDER_NOTEXPANDED_HEIGHTProperty,
+                new Binding()
+                {
+                    Source = tab,
+                    Path=new PropertyPath("NotExpandedHeight"),
+                    Mode=BindingMode.OneWayToSource
+                });
+            BottomTE.EXPANDER_NOTEXPANDED_HEIGHT = height;
+
             rowDef.SetBinding(
                 RowDefinition.HeightProperty,
                 new Binding()
                 {
                     Source = tab,
                     Path = new PropertyPath("BTEGridHeight"),
-                    Mode = BindingMode.OneWayToSource
+                    Mode = BindingMode.TwoWay
                 });
             /*MultiBinding MBind = new MultiBinding();
             MBind.Bindings.Add(new Binding() { Source = BottomTE, Path = new PropertyPath("IsExpanded"), Mode = BindingMode.OneWay });

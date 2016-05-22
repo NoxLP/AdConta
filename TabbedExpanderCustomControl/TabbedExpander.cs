@@ -144,6 +144,21 @@ namespace TabbedExpanderCustomControl
                 control.MinHeight = control.EXPANDER_NOTEXPANDED_HEIGHT;
                 control.VerticalAlignment = control._VerticalAlignment;
                 control.Height = control.EXPANDER_NOTEXPANDED_HEIGHT;// - control.EXPANDER_OFFSET;
+                /*switch(control.TabStripPlacement)
+                {
+                    case Dock.Bottom:
+                        control.VerticalAlignment = VerticalAlignment.Bottom;
+                        break;
+                    case Dock.Left:
+                        control.HorizontalAlignment = HorizontalAlignment.Left;
+                        break;
+                    case Dock.Right:
+                        control.HorizontalAlignment = HorizontalAlignment.Right;
+                        break;
+                    case Dock.Top:
+                        control.VerticalAlignment = VerticalAlignment.Top;
+                        break;
+                }*/
             }
             control.NotifyPropChanged("IsExpanded");
         }
@@ -167,7 +182,7 @@ namespace TabbedExpanderCustomControl
             DependencyProperty.Register("EXPANDER_NOTEXPANDED_HEIGHT",
                 typeof(double),
                 typeof(TabbedExpander),
-                new PropertyMetadata(26.0, OnNotExpandedHeightChanged));
+                new PropertyMetadata(31.0, OnNotExpandedHeightChanged));
         private static void OnNotExpandedHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null || e.OldValue == null) return;
@@ -175,6 +190,8 @@ namespace TabbedExpanderCustomControl
 
             if (!control.IsExpanded)
                 control.Height = (double)e.NewValue;// - control.EXPANDER_OFFSET;
+            
+            control.NotifyPropChanged("EXPANDER_NOTEXPANDED_HEIGHT");
         }
         [TypeConverter(typeof(double))]
         public static readonly DependencyProperty EXPANDER_EXPANDED_HEIGHTProperty =
@@ -189,6 +206,9 @@ namespace TabbedExpanderCustomControl
 
             if (control.IsExpanded)
                 control.Height = (double)e.NewValue;
+
+            control.NotifyPropChanged("EXPANDER_EXPANDED_HEIGHT");
+            //control.EXPANDER_EXPANDED_HEIGHT = (double)e.NewValue;
         }
 
         public static readonly DependencyProperty PanelBackgroundProperty =
@@ -317,7 +337,7 @@ namespace TabbedExpanderCustomControl
                             }
 
                             ToggleButton tog = tab.FindFirstVisualChildOfType<ToggleButton>();
-                            if (!this.TogsList.Contains(tog))
+                            if (!this.TogsList.Contains(tog) && tog != null)
                             {
                                 this.TogsList.Add(tog);
                                 tog.Click += ToggleButtonClick;
@@ -326,6 +346,7 @@ namespace TabbedExpanderCustomControl
                         else
                         {
                             Border bd = tab.Template.FindName("Bd", tab) as Border;
+                            if (bd == null) return;
                             ContentControl cc = new ContentControl();
                             cc.Name = "Content";
                             cc.Content = tabExp.TEHeaderTemplate;

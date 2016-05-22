@@ -163,44 +163,6 @@ namespace AdConta.AbleTabControl
             RowDefinition rowDef = BTEGrid.RowDefinitions[3];
             TabbedExpanderBindingChanger filler = new TabbedExpanderBindingChanger(newTab as aTabsWithTabExpVM, ref TopTabExp, ref BottomTabExp, ref rowDef);
         }
-
-
-
-        public double TEHeight
-        {
-            get { return (double)GetValue(TEHeightProperty); }
-            set { SetValue(TEHeightProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for TEHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TEHeightProperty =
-            DependencyProperty.Register("TEHeight", typeof(double), typeof(AbleTabControl), new PropertyMetadata(0d));
-
-
-        public GridLength GridTEHeight
-        {
-            get { return (GridLength)GetValue(GridTEHeightProperty); }
-            set { SetValue(GridTEHeightProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for GridTEHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty GridTEHeightProperty =
-            DependencyProperty.Register("GridTEHeight", typeof(GridLength), typeof(AbleTabControl), 
-                new PropertyMetadata(new GridLength(60), OnGridTEHeightChanged));
-        private static void OnGridTEHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            AbleTabControl control = d as AbleTabControl;
-
-            GridLength gh = (GridLength)e.NewValue;
-            if(control.TEHeight != gh.Value)
-            {
-                control.TEHeight = gh.Value;
-                control.NotifyPropChanged("TEHeight");
-            }
-        }
-
-
-
         #endregion
 
         #region helpers

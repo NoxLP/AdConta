@@ -56,12 +56,12 @@ namespace Converters
                 return null;
 
             bool IsExpanded = (bool)values[0];
-            GridLength dProperty = (GridLength)values[1];
+            double dProperty = (double)values[1];
             double notExpandedHeight = (double)values[2];
             switch(param)
             {
                 case "GRID":
-                    return (IsExpanded ? dProperty : new GridLength(notExpandedHeight));
+                    return (IsExpanded ? new GridLength(dProperty) : new GridLength(notExpandedHeight));
                 default:
                     return null;
             }

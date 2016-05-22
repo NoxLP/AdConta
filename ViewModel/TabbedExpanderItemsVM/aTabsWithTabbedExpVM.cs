@@ -22,6 +22,7 @@ namespace AdConta.ViewModel
         public abstract ObservableCollection<TabExpTabItemBaseVM> BottomTabbedExpanderItemsSource { get; set; }
         public abstract int TopTabbedExpanderSelectedIndex { get; set; }
         public abstract int BottomTabbedExpanderSelectedIndex { get; set; }
+        public double NotExpandedHeight { get; set; }
         public bool BTEExpanded
         {
             get { return this._BTEExpanded; }
@@ -31,7 +32,8 @@ namespace AdConta.ViewModel
                 {
                     this._BTEExpanded = value;
 
-                    //if (!value) UpdateBTEHeightToLastHeight();
+                    if (!value) this.BTEGridHeight = new GridLength(this.NotExpandedHeight+8d);
+                    else this.BTEGridHeight = this.LastBTEGridHeight;
                 }
             }
         }
@@ -43,9 +45,10 @@ namespace AdConta.ViewModel
                 if(this._BTEGridHeight != value)
                 {
                     this._BTEGridHeight = value;
-                    NotifyPropChanged("ExpandedHeight");
-
+                    
                     if (this.BTEExpanded && value != GridLength.Auto) this.LastBTEGridHeight = value;
+                    NotifyPropChanged("BTEGridHeight");
+                    NotifyPropChanged("ExpandedHeight");
                 }
             }
         }
@@ -70,11 +73,6 @@ namespace AdConta.ViewModel
         #endregion
 
         #region helpers
-        private void UpdateBTEHeightToLastHeight()
-        {
-            this.BTEGridHeight = this.LastBTEGridHeight;
-            MessageBox.Show("height= "+this.BTEGridHeight.ToString()+" ; Last height= " + this.LastBTEGridHeight.ToString());
-        }
         /// <summary>
         /// Add tabVM to tabbed expander of type WhichTabExp(top or bottom) through ItemsSource. 
         /// Used when new tabs are added or selected in AbleTabControl.

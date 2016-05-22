@@ -10,6 +10,7 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:userc="clr-namespace:AdConta.UserControls"
              xmlns:main="clr-namespace:AdConta"
+             xmlns:TriggerDebugger="clr-namespace:AdConta.TriggerDebugger;assembly=GeneralHelpers"
              xmlns:ModuloContabilidad="clr-namespace:ModuloContabilidad;assembly=ModuloContabilidad"
              xmlns:TabbedExpander="clr-namespace:TabbedExpanderCustomControl;assembly=TabbedExpanderCustomControl"
              xmlns:converters="clr-namespace:Converters;assembly=Converters"
@@ -32,6 +33,11 @@
             <GradientStop Color="#FFF3F2EE" Offset="0.75"/>
             <GradientStop Color="#FFE6E6E1" Offset="1"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BottomTabbedExpanderBackground" EndPoint="0,0" StartPoint="0,1">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="#FFF3F2EE" Offset="0.75"/>
+            <GradientStop Color="#FFE6E6E1" Offset="1"/>
+        </LinearGradientBrush>
 
         <ModuloContabilidad:TabbedExpTemplateSelector_ModContabilidad x:Key="TabbedExpTemplateSelector"/>
         <converters:BoolHeightToHeightMulticonverter x:Key="BoolToHeightMulticonverter"/>
@@ -39,15 +45,10 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <converters:HeightToGridLengthConverter x:Key="HeightToGridConverter"/>
     </UserControl.Resources>
-    <Grid Background="{StaticResource BackgroundAppColor}" Margin="0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="23*"/>
-            <RowDefinition Height="277*"/>
-        </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Text="{Binding ElementName=Root, Path=TEHeight, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Stretch" Width="Auto" Height="50" VerticalAlignment="Top" Grid.RowSpan="2"/>
-        <TabControl Grid.Row="1" x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="auto"
+    <Grid Background="{StaticResource BackgroundAppColor}" Margin="0">        
+        <TabControl x:Name="RootTabControl" HorizontalAlignment="Stretch" Height="auto" Margin="0,0,0,1" VerticalAlignment="Stretch" Width="auto"
                     SelectedIndex="{Binding ElementName=Root, Path=SelectedIndex}" ItemsSource="{Binding ElementName=Root, Path=ItemsSourceProperty}" 
-                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0" Grid.RowSpan="2">
+                    ContentTemplateSelector="{StaticResource TabTemplSelector}" Background="{StaticResource BackgroundAppColor}" Padding="0">
             <!--="{StaticResource TabControlStyle1}">-->
             <!-- ItemContainerStyle="{StaticResource draggable}" SelectionChanged="RootTabControl_SelectionChanged">-->
             <TabControl.Style>
@@ -74,28 +75,29 @@
                                         <!--Splitter row-->
                                         <RowDefinition x:Name="BottomTERow"
                                                MaxHeight="{Binding ElementName=BottomTabbedExpander, Path=MaxHeight, Mode=OneWay}"
-                                               MinHeight="{Binding ElementName=BottomTabbedExpander, Path=MinHeight, Mode=OneWay}">
+                                               MinHeight="{Binding ElementName=BottomTabbedExpander, Path=MinHeight, Mode=OneWay}"/>
+                                        <!--<RowDefinition.Height>
+                                            <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
+                                                      ConverterParameter="GRID"
+                                                      Mode="TwoWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                                <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
+                                                <Binding ElementName="Root" Path="GridTEHeight"/>
+                                                <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
+                                            </MultiBinding>
+                                        </RowDefinition.Height>-->
                                             <!--<RowDefinition.Height>
                                                 <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
                                                       ConverterParameter="GRID"
                                                       Mode="TwoWay"
                                                       UpdateSourceTrigger="PropertyChanged">
                                                     <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
-                                                    <Binding ElementName="Root" Path="GridTEHeight"/>
-                                                    <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
-                                                </MultiBinding>
-                                            </RowDefinition.Height>-->
-                                            <!--<RowDefinition.Height>
-                                                <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}"
-                                                      ConverterParameter="TEToRow"
-                                                      Mode="TwoWay"
-                                                      UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding ElementName="BottomTabbedExpander" Path="IsExpanded"/>
                                                     <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight"/>
                                                     <Binding ElementName="BottomTabbedExpander" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
                                                 </MultiBinding>
-                                            </RowDefinition.Height>-->
-                                        </RowDefinition>
+                                            </RowDefinition.Height>
+                                        </RowDefinition>-->
+
                                     </Grid.RowDefinitions>
                                     <DockPanel Grid.Column="0">
                                         <TabPanel x:Name="HeaderPanel" DockPanel.Dock="Top"
@@ -109,7 +111,7 @@
                                            PanelBackground="{StaticResource TabbedExpanderBackground}"
                                            SelectedBackground="{StaticResource TabExpSelectedTabBackground}"
                                            Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="28"
+                                           EXPANDER_NOTEXPANDED_HEIGHT="31"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
                                            BorderBrush="{StaticResource TabControlNormalBorderBrush}" BorderThickness="0.5"
                                            ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"/>
@@ -136,26 +138,13 @@
                                            MinHeight="130"
                                            Margin="0,2,0,0"
                                            Padding="0"
-                                           PanelBackground="{StaticResource TabbedExpanderBackground}"
+                                           PanelBackground="{StaticResource BottomTabbedExpanderBackground}"
                                            SelectedBackground="{StaticResource TabExpSelectedTabBackground}"
                                            Background="{StaticResource BackgroundAppColor}"
-                                           EXPANDER_NOTEXPANDED_HEIGHT="28"
+                                           EXPANDER_NOTEXPANDED_HEIGHT="30"
                                            EXPANDER_EXPANDED_HEIGHT="NaN"
                                            BorderBrush="{StaticResource TabControlNormalBorderBrush}" BorderThickness="0.5"
-                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"
-                                           Height="{Binding ElementName=Root, Path=TEHeight, Mode=OneWay}"
-                                                                       IsExpanded="{Binding }">
-                                            <!--<TabbedExpander:TabbedExpander.Height>
-                                                <MultiBinding Converter="{StaticResource BoolToHeightMulticonverter}" 
-                                                      ConverterParameter="RowToTE"
-                                                      Mode="OneWay"
-                                                      UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding RelativeSource="{RelativeSource Self}" Path="IsExpanded"/>
-                                                    <Binding ElementName="BottomTERow" Path="ActualHeight"/>
-                                                    <Binding RelativeSource="{RelativeSource Self}" Path="EXPANDER_NOTEXPANDED_HEIGHT"/>
-                                                </MultiBinding>
-                                            </TabbedExpander:TabbedExpander.Height>-->
-                                        </TabbedExpander:TabbedExpander>
+                                           ContentTemplateSelector="{StaticResource TabbedExpTemplateSelector}"/>
                                     </Grid>
                                 </Grid>
                                 <ControlTemplate.Triggers>
@@ -191,6 +180,13 @@
                                     <Trigger Property="IsEnabled" Value="false">
                                         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                     </Trigger>
+                                    <!--<DataTrigger TriggerDebugger:TriggerTracing.TraceEnabled="True"
+                                                 TriggerDebugger:TriggerTracing.TriggerName="ExpandedFalseToRowDefinitionHeight"
+                                            Binding="{Binding ElementName=BottomTabbedExpander, Path=IsExpanded, Mode=OneWay,
+                                            diag:PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter TargetName="BottomTERow" Property="Height" Value="{Binding ElementName=BottomTabbedExpander, Mode=OneWay,
+                                            Path=EXPANDER_NOTEXPANDED_HEIGHT, diag:PresentationTraceSources.TraceLevel=High}"/>
+                                    </DataTrigger>-->
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
@@ -257,7 +253,5 @@
                 </Style>
             </TabControl.ItemContainerStyle>
         </TabControl>
-
-
     </Grid>
 </UserControl>
