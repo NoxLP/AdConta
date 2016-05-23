@@ -26,8 +26,8 @@ namespace AdConta
                     return (DataTemplate)Application.Resources["TabMayor"];
                 case TabType.Diario:
                     return (DataTemplate)Application.Resources["TabDiario"];
-                case TabType.Props:
-                    return (DataTemplate)Application.Resources["TabProps"];
+                case TabType.FichaFinca:
+                    return (DataTemplate)Application.Resources["TabFichaFinca"];
                 case TabType.Cdad:
                     return (DataTemplate)Application.Resources["TabCdad"];
                 default: return null;

@@ -18,9 +18,9 @@ namespace ModuloGestion
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class TabPropsUC : UserControl
+    public partial class TabFichaFincaUC : UserControl
     {
-        public TabPropsUC()
+        public TabFichaFincaUC()
         {
             InitializeComponent();
         }

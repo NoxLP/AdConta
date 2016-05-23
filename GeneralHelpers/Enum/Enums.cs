@@ -10,7 +10,7 @@ namespace AdConta
     /// <summary>
     /// Enum for types of tabs that can be displayed in abletabcontrol.
     /// </summary>
-    public enum TabType : int { None = 0, Mayor, Diario, Props, Cdad }
+    public enum TabType : int { None = 0, Mayor, Diario, FichaFinca, Cdad }
     /// <summary>
     /// Enum for different parts of bank accounts.
     /// TODO?: añadir internacional?
@@ -22,11 +22,12 @@ namespace AdConta
     public enum TabExpTabType : int
     {
         NotExpandible = 0,
-        Diario,
-        Simple,
-        Complejo,
+        Diario, //Estas 3 son necesarias?
+        Simple, //Estas 3 son necesarias?
+        Complejo, //Estas 3 son necesarias?
         Mayor1_Cuenta,
-        Mayor3_Buscar
+        Mayor3_Buscar,
+        FichaFinca2_Buscar
     }
     /// <summary>
     /// Enum for specify top or bottom TabbedExpander

@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ModuloGestion;assembly=ModuloGestion">
-    <ControlTemplate x:Key="FichaPropietariosTabExpTabBotones" TargetType="{x:Type ContentControl}">
+                    xmlns:local="clr-namespace:ModuloGestion;assembly=ModuloGestion"
+                    xmlns:localTabExp="clr-namespace:ModuloGestion.TabbedExpanderTabs"
+                    xmlns:TabbedExpander="clr-namespace:TabbedExpanderCustomControl;assembly=TabbedExpanderCustomControl">
+    <ControlTemplate x:Key="FichaFincaTabExpTabBotones" TargetType="{x:Type ContentControl}">
         <WrapPanel Orientation="Horizontal">
             <Button x:Name="BNueva" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="55" Margin="0,2,5,2"
                     DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Content="Nueva"/>
@@ -13,7 +15,7 @@
                     DockPanel.Dock="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Content="Cuenta"/>
         </WrapPanel>
     </ControlTemplate>
-    <ControlTemplate x:Key="FichaPropietariosTabExpTabNavegacion" TargetType="{x:Type ContentControl}">
+    <ControlTemplate x:Key="FichaFincaTabExpTabNavegacion" TargetType="{x:Type ContentControl}">
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="TabButNext" Content="->" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,8,8" Height="30" Width="30"
                                 DockPanel.Dock="Right" Command="{Binding NextRecord}"/>
@@ -27,4 +29,10 @@
                                 DockPanel.Dock="Right" Command="{Binding SaveCommand}"/>
         </WrapPanel>
     </ControlTemplate>
+    <DataTemplate x:Key="FichaFincaTabExpTabBuscar" DataType="{x:Type TabbedExpander:TabExpTabItemBaseVM}">
+        <localTabExp:TabExpTabBuscarFincaUC/>
+    </DataTemplate>
+    <DataTemplate x:Key="FichaFincaTabExpTabListaFincas" DataType="{x:Type TabbedExpander:TabExpTabItemBaseVM}">
+        <localTabExp:TabExpTabListaFincasUC/>
+    </DataTemplate>
 </ResourceDictionary>

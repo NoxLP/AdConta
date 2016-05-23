@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AdConta.ViewModel;
 using TabbedExpanderCustomControl;
 
-namespace ModuloGestion.TabbedExpanderTabs
+namespace ModuloGestion
 {
     public class VMTabExpListaFincas : TabExpTabItemBaseVM
     {

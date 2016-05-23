@@ -131,9 +131,15 @@ namespace AdConta
                             ref rowDef,
                             true);
                         break;
-                    case TabType.Props:
-                        tab = new VMTabProps();
+                    case TabType.FichaFinca:
+                        tab = new VMTabFichaFinca();
                         tab.Header = string.Format("{0} - {1}", this.LastComCod.ToString(), TabHeaders[type]);
+                        TabbedExpanderFiller_FichaFinca TabExpFillerF = new TabbedExpanderFiller_FichaFinca(
+                            tab as VMTabFichaFinca,
+                            ref TopTabExp,
+                            ref BottomTabExp,
+                            ref rowDef,
+                            true);
                         break;
                     case TabType.Cdad:
                         tab = new VMTabCdad();

@@ -20,7 +20,10 @@
                 <ResourceDictionary Source="/Resources/PinButton.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TabbedExpanderCustomControl;component/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="/Resources/AbleTabControlResources.xaml"/>
+                <!--MODULO CONTABILIDAD: DEBE SER CONDICIONADO A TENER EL MODULO INSTALADO => ¿VARIABLE EN ARCHIVO DE CONFIG, DIRECTRIZ DE COMPILACION?-->
                 <ResourceDictionary Source="pack://application:,,,/ModuloContabilidad;component/Resources/ContabilidadRD.xaml"/>
+                <!--MODULO GESTION: DEBE SER CONDICIONADO A TENER EL MODULO INSTALADO => ¿VARIABLE EN ARCHIVO DE CONFIG, DIRECTRIZ DE COMPILACION?-->
+                <ResourceDictionary Source="pack://application:,,,/ModuloGestion;component/Resources/GestionRD.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--Visuals Datagrid styles-->
@@ -108,8 +111,8 @@
             <DataTemplate x:Key="TabDiario" DataType="{x:Type ModuloContabilidad:VMTabDiario}">
                 <ModuloContabilidad:TabDiarioUC/>
             </DataTemplate>
-            <DataTemplate x:Key="TabProps" DataType="{x:Type ModuloGestion:VMTabProps}">
-                <ModuloGestion:TabPropsUC/>
+            <DataTemplate x:Key="TabFichaFinca" DataType="{x:Type ModuloGestion:VMTabFichaFinca}">
+                <ModuloGestion:TabFichaFincaUC/>
             </DataTemplate>
             <DataTemplate x:Key="TabCdad" DataType="{x:Type main:VMTabCdad}">
                 <main:TabCdadUC/>

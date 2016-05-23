@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_FichaFinca.cs" />
     <Compile Include="TabbedExpanderTabs\TabExpTabBuscarFincaUC.xaml.cs">
       <DependentUpon>TabExpTabBuscarFincaUC.xaml</DependentUpon>
     </Compile>
@@ -55,7 +56,7 @@
       <DependentUpon>TabExpTabListaFincasUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="TabbedExpanderTabs\VMTabExpListaFincas.cs" />
-    <Compile Include="ViewModel\VMTabProps.cs" />
+    <Compile Include="ViewModel\VMTabFichaFinca.cs" />
     <Page Include="Resources\GestionRD.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -68,12 +69,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TabPropsUC.xaml">
+    <Page Include="TabFichaFincaUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="TabPropsUC.xaml.cs">
-      <DependentUpon>TabPropsUC.xaml</DependentUpon>
+    <Compile Include="TabFichaFincaUC.xaml.cs">
+      <DependentUpon>TabFichaFincaUC.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

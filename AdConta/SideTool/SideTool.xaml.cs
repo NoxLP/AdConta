@@ -323,7 +323,7 @@ namespace AdConta.SideTool
             item.ItemHeader = "Propietarios";
             //item.Style = parent.Resources["triggerProps"] as Style;
             item.ComCod = this.ComCod;
-            item.tabType = TabType.Props;
+            item.tabType = TabType.FichaFinca;
             this.Hierarchy.Add(item);
 
             item = new CommItem(parent);
