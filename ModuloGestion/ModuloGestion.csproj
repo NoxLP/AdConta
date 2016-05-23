@@ -48,7 +48,26 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TabbedExpanderTabs\TabExpTabBuscarFincaUC.xaml.cs">
+      <DependentUpon>TabExpTabBuscarFincaUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedExpanderTabs\TabExpTabListaFincasUC.xaml.cs">
+      <DependentUpon>TabExpTabListaFincasUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabbedExpanderTabs\VMTabExpListaFincas.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
+    <Page Include="Resources\GestionRD.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedExpanderTabs\TabExpTabBuscarFincaUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TabbedExpanderTabs\TabExpTabListaFincasUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,6 +139,7 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

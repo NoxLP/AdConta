@@ -11,14 +11,18 @@ namespace ModuloContabilidad
 {
     public class VMTabbedExpDiario : TabExpTabItemBaseVM, IPublicNotify
     {
+        public VMTabbedExpDiario()
+        {
+            base.Expandible = true;
+            base.Header = "Vista diario";
+        }
+
         #region fields
         private bool _IsSelected;
-        private bool _Expandible = true;
         #endregion
 
         #region properties
         public override TabExpTabType TabExpType { get { return TabExpTabType.Diario; } }
-        public string Header { get { return "Vista diario"; } }
         public double DGridHeight { get; }
 
         public bool IsSelected

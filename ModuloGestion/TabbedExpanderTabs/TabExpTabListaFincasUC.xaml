@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="ModuloGestion.TabbedExpanderTabs.TabExpTabListaFincasUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModuloGestion.TabbedExpanderTabs"
+             xmlns:UserControls="clr-namespace:AdConta.UserControls;assembly=AdConta.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <!--OJO, ESTO ES PARA ABRIR LA LISTA EN EL TE INFERIOR. PARA HACER LA LISTA UNA PESTAÑA ATC HAY QUE HACER NUEVO USER CONTROL-->
+    <DockPanel LastChildFill="True" Background="{StaticResource BackgroundAppColor}">
+        <DockPanel DockPanel.Dock="Top" LastChildFill="True" Margin="3,3,3,0" Background="White">
+            <Button x:Name="BNuevaFinca" DockPanel.Dock="Left" Content="Nueva&#x0a;finca" Margin="8,0,8,0"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="40"/>
+            <Button x:Name="BBuscaCdad" DockPanel.Dock="Left" Content="B.Cdad." Margin="0,16,0,0"
+                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="Auto"/>
+            <UserControls:TBoxLabel x:Name="TBLCodigoComunidad" TBWidth="NaN"
+                                    Label="Cdad." Width="43" Margin="3" Text="{Binding}"/>
+            <GroupBox DockPanel.Dock="Right" Header="Buscar finca" BorderBrush="Gray" Margin="6,0,0,0">
+                <WrapPanel Orientation="Horizontal">
+                    <ComboBox x:Name="CBBuscaFinca" HorizontalAlignment="Left" Width="50" Height="22"/>
+                    <TextBox x:Name="TBBuscaFinca" Margin="5,3,3,3" Width="100"/>
+                </WrapPanel>
+            </GroupBox>
+            <TextBox x:Name="TBNombreComunidad" HorizontalAlignment="Stretch" Width="Auto" Grid.ColumnSpan="2"
+                     VerticalAlignment="Bottom" Margin="3,3,3,5" Text="Cdad" IsReadOnly="True"/>
+        </DockPanel>
+        <DataGrid Margin="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cód." Binding="{Binding }" Width="1*" MinWidth="30"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+                <DataGridTextColumn Header="Finca" Binding="{Binding }" Width="2*" MinWidth="50"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+                <DataGridCheckBoxColumn Header="Asoc." Binding="{Binding }" Width="0.8*" MinWidth="30"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+                <DataGridTextColumn Header="Propietario" Binding="{Binding }" Width="6*" MinWidth="150"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+                <DataGridTextColumn Header="Teléfono 1" Binding="{Binding }" Width="2*" MinWidth="50"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+                <DataGridTextColumn Header="Junta directiva" Binding="{Binding }" Width="2*" MinWidth="50"
+                                    CellStyle="{StaticResource CellBackgroundGray}"/>
+            </DataGrid.Columns>
+        </DataGrid>      
+    </DockPanel>
+</UserControl>
