@@ -23,6 +23,7 @@ namespace TabbedExpanderCustomControl
         #region fields
         private bool _Expandible = true;
         private ControlTemplate _TEHeaderTemplate;
+        private HorizontalAlignment _TabHorizontalAlignment = HorizontalAlignment.Left;
         private string _Header = "";
         #endregion
 
@@ -49,6 +50,18 @@ namespace TabbedExpanderCustomControl
                 {
                     this._TEHeaderTemplate = value;
                     NotifyPropChanged("TEHeaderTemplate");
+                }
+            }
+        }
+        public HorizontalAlignment TabHorizontalAlignment
+        {
+            get { return _TabHorizontalAlignment; }
+            set
+            {
+                if (this._TabHorizontalAlignment != value)
+                {
+                    this._TabHorizontalAlignment = value;
+                    NotifyPropChanged("TabHorizontalAlignment");
                 }
             }
         }
