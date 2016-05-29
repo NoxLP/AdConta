@@ -65,10 +65,10 @@
                                 Label="Asociada a" Width="Auto" Margin="3" HorizontalAlignment="Right" VerticalAlignment="Top" Text="Asociada"/>
                 </DockPanel>
             </Grid>
-        <!--CIF Y PROPIETARIO-->
+        <!--NIF Y PROPIETARIO-->
         <DockPanel Grid.Row="2" Grid.ColumnSpan="2" LastChildFill="True">
-            <UserControls:TBoxLabel x:Name="TBLCIF" Grid.Row="2" Grid.Column="1" TBWidth="NaN" DockPanel.Dock="Top"
-                                    Label="C.I.F." Width="100" Margin="3" HorizontalAlignment="Left" Text="CIF"/>
+            <UserControls:TBoxLabel x:Name="TBLNIF" Grid.Row="2" Grid.Column="1" TBWidth="NaN" DockPanel.Dock="Top"
+                                    Label="N.I.F." Width="100" Margin="3" HorizontalAlignment="Left" Text="NIF"/>
             <UserControls:TBoxLabel x:Name="TBLNombrePropietario" Grid.Row="2" Grid.Column="0" TBWidth="NaN" DockPanel.Dock="Top"
                                     Label="Propietario" Width="Auto" Margin="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Text="Propietario"/>
         </DockPanel>
@@ -150,7 +150,7 @@
             </GroupBox>
         </Grid>
         <!--DIRECCION-->
-        <GroupBox Header="Dirección" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Gray" Margin="3">
+        <GroupBox Header="2ª Dirección" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" BorderBrush="Gray" Margin="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
