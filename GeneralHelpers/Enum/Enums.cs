@@ -8,6 +8,10 @@ using System.ComponentModel;
 namespace AdConta
 {
     /// <summary>
+    /// Tipo del nif: DNI persona física española, NIE extranjero, CIF persona jurídica
+    /// </summary>
+    public enum TipoNIF : int { DNI = 0, NIE, CIF, NULL}
+    /// <summary>
     /// Enum for types of tabs that can be displayed in abletabcontrol.
     /// </summary>
     public enum TabType : int { None = 0, Mayor, Diario, Props, Cdad }

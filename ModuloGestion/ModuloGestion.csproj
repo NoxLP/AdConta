@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Persona.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
