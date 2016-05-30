@@ -51,11 +51,11 @@ namespace ModuloContabilidad
         }
         public LedgeAccount CurrentAccount
         {
-            get { return _CurrentAccount; }
+            get { return this._CurrentAccount; }
             protected set
             {
                 if (this._CurrentAccount != value)
-                    _CurrentAccount = value;
+                    this._CurrentAccount = value;
             }
         }
         public int MaxAcc

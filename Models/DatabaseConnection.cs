@@ -301,9 +301,9 @@ namespace AdConta.Models
     public abstract class aDBConnectionBase
     {
         #region fields
-        internal readonly string _strCon = GlobalSettings.Properties.Settings.Default.conta1ConnectionString;
-        internal SqlDataAdapter da;
-        internal SqlCommandBuilder cmdBuilder;
+        protected readonly string _strCon = GlobalSettings.Properties.Settings.Default.conta1ConnectionString;
+        protected SqlDataAdapter da;
+        protected SqlCommandBuilder cmdBuilder;
         #endregion
 
         #region properties
@@ -414,10 +414,6 @@ namespace AdConta.Models
         {
             throw new NotImplementedException();
         }
-        public virtual void CreateTable(string tableName, string cod, LedgeAccount acc)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 
@@ -493,86 +489,7 @@ namespace AdConta.Models
         }
         #endregion
     }
-
-    public class TabMayorDBConnection : aDBConnectionBase
-    {
-        public TabMayorDBConnection()
-        {
-            TableCreateCmds commands = new TableCreateCmds();
-            this._CreateCmd = commands[TableType.Mayor];
-            this._TypeNameIndex = commands.TypeNameIndex;
-            this._TypeNameLength = commands.TypeNameLength;
-        }
-
-        #region fields
-        private readonly string _CreateCmd;
-        private readonly int _TypeNameIndex;
-        private readonly int _TypeNameLength;
-        #endregion
-
-        #region properties
-        public override string CreateCmd
-        {
-            get { return this._CreateCmd; }
-        }
-        #endregion
-
-        #region database connection methods
-        /// <summary>
-        /// Using settings's connection string, set DataTable by provided SQL command and re-initialize class, 
-        /// setting data adapter and command builder.
-        /// </summary>
-        /// <param name="SQLCommand"></param>
-        /// <returns></returns>
-        public override void SetDataTableByCommand(string SQLCommand, ref DataTable dTable)
-        {
-            using (SqlConnection con = new SqlConnection(base._strCon))
-            {
-                con.Open();
-                base.cmdBuilder = new SqlCommandBuilder(base.da);
-                base.da = new SqlDataAdapter(SQLCommand, con);
-                base.da.Fill(dTable);
-                con.Close();
-            }
-        }
-        #endregion
-
-        #region helpers
-        //TODO cuando se crea un record en la tabla de cuentas contables hay que terminar de rellenar datos (importante: nombres de las cuentas)
-        public override void CreateTable(string tableName, string cod, LedgeAccount acc)
-        {
-            //Create account table
-            string command = this.CreateCmd;
-            command = command.Remove(this._TypeNameIndex, this._TypeNameLength);
-            command = command.Insert(this._TypeNameIndex, tableName);
-
-            this.ExecuteNonQuery(command);
-
-            //Update cdad's list(table) of accounts with the new table, create it if no exist
-            TableCreateCmds Tcc = new TableCreateCmds();
-            string accountsTable = "C" + cod + Tcc.TableTypeNames[(int)TableType.CuentasC];
-
-            if (!base.ExistsTableInDB(accountsTable))
-            {
-                command = Tcc[TableType.CuentasC];
-                command = command.Remove(this._TypeNameIndex, this._TypeNameLength);
-                command = command.Insert(this._TypeNameIndex, accountsTable);
-
-                this.ExecuteNonQuery(command);
-            }
-
-            //TODO faltan nombres de las cuentas
-            this.ExecuteNonQuery(string.Format("INSERT INTO {0} (CodigoCuenta, Grupo, Subgrupo, Sufijo, Nombre) VALUES ({1},{2},{3},{4},'{5}')",
-                accountsTable,
-                acc.iCodigo,
-                acc.Grupo,
-                acc.SubGrupo,
-                acc.Sufijo,
-                acc.Nombre));
-        }
-        #endregion
-    }
-
+    
     public class TabDiarioDBConnection : aDBConnectionBase
     {
         public TabDiarioDBConnection()
@@ -602,74 +519,6 @@ namespace AdConta.Models
         public override void SetDataTableByCommand(string SQLCommand, ref DataTable dTable)
         {
 
-        }
-        #endregion
-    }
-
-    public class AsientosDBConnection : aDBConnectionBase
-    {
-        public AsientosDBConnection()
-        {
-            TableCreateCmds commands = new TableCreateCmds();
-            this._CreateCmd = commands[TableType.Mayor];
-            this._TypeNameIndex = commands.TypeNameIndex;
-            this._TypeNameLength = commands.TypeNameLength;
-        }
-
-        #region fields
-        private readonly string _CreateCmd;
-        private readonly int _TypeNameIndex;
-        private readonly int _TypeNameLength;
-        #endregion
-
-        #region properties
-        public override string CreateCmd
-        {
-            get { return this._CreateCmd; }
-        }
-        #endregion
-
-        #region database connection methods
-        /// <summary>
-        /// Using settings's connection string, set DataTable by provided SQL command and re-initialize class, 
-        /// setting data adapter and command builder.
-        /// </summary>
-        /// <param name="SQLCommand"></param>
-        /// <returns></returns>
-        public override void SetDataTableByCommand(string SQLCommand, ref DataTable dTable)
-        {
-            using (SqlConnection con = new SqlConnection(base._strCon))
-            {
-                con.Open();
-                base.cmdBuilder = new SqlCommandBuilder(base.da);
-                base.da = new SqlDataAdapter(SQLCommand, con);
-                base.da.Fill(dTable);
-                con.Close();
-            }
-        }
-
-        public override void UpdateDatabaseTableFromDataTable(DataTable dTable)
-        {
-            using (SqlConnection con = new SqlConnection(this._strCon))
-            {
-                //Update journal
-                DataSet dSet = new DataSet();
-                dSet.Tables.Add(dTable);
-
-                //this.con = new SqlConnection(this.ConnectionString);
-                con.Open();
-                base.cmdBuilder = new SqlCommandBuilder(this.da);
-                base.da.Update(dTable);
-
-                //Update ledge accounts
-                DataTable Accounts = new DataTable();
-                SqlCommand ledgeCmd;
-                SqlDataAdapter ledgeDa;
-
-
-
-                con.Close();
-            }
         }
         #endregion
     }

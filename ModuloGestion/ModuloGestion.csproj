@@ -48,7 +48,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Persona.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +119,9 @@
       <Project>{6cc0248d-705d-4d99-a665-22ff68ec8e37}</Project>
       <Name>ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

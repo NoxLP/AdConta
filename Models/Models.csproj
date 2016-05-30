@@ -7,7 +7,7 @@
     <ProjectGuid>{941A90CB-1636-48BB-9A7B-BC560EA30BA9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Models</RootNamespace>
+    <RootNamespace>AdConta.Models</RootNamespace>
     <AssemblyName>Models</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,8 +45,11 @@
   <ItemGroup>
     <Compile Include="BankAccount.cs" />
     <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="Persona.cs" />
+    <Compile Include="sDireccionPostal.cs" />
     <Compile Include="NIF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sTelefono.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneralHelpers\GeneralHelpers.csproj">

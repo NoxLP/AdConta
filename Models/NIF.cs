@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdConta;
 
-namespace Models
+namespace AdConta.Models
 {
     public class NIFModel
     {
@@ -299,6 +298,28 @@ namespace Models
 
             this.NIF = first + zeroes + second;
             return true;
+        }
+        /// <summary>
+        /// Instead of setting the NIF number by the property, try to set the it and return a string with an invalid message 
+        /// if the number is invalid, and null if the number is valid.
+        /// </summary>
+        /// <param name="nif"></param>
+        /// <returns>Invalid message if number is invalid, null if number is valid.</returns>
+        public string TryModifyNIF(ref string nif)
+        {
+            TipoNIF tipo = new TipoNIF();
+            string dc = "";
+            string newNif = nif.Trim().ToUpper();
+            SetTipoNif(ref tipo, ref newNif);
+
+            if (IsValidNIF(ref tipo, ref newNif, ref dc))
+            {
+                this._NIF = nif;
+                this._DC = dc;
+                this._IsValid = true;
+                return null;
+            }
+            else return this.InvalidMessage;
         }
         #endregion
     }

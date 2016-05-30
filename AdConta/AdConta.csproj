@@ -74,7 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppUserControls\TabCdadModel.cs" />
+    <Compile Include="Models\TabCdadModel.cs" />
     <Compile Include="AppUserControls\TabCdadUC.xaml.cs">
       <DependentUpon>TabCdadUC.xaml</DependentUpon>
     </Compile>

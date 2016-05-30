@@ -27,8 +27,8 @@ namespace AdConta
             this.Type = TabType.Cdad;
             base.InitializeComcod((App.Current.MainWindow.DataContext as VMMain).LastComCod);
             this._model = new TabCdadModel(this.TabComCod);
-            this._model.Account = new BankAccount();
-            this._model.Account.AccountNumber = GetValueFromTable<string>("Cuenta");
+            this._model.CuentaBancaria = new BankAccount();
+            this._model.CuentaBancaria.AccountNumber = GetValueFromTable<string>("Cuenta");
             this._TabPanelWidth = 10;
 
             this._ModifyCommand = new Command_ModifyButtonClick(this);
@@ -158,15 +158,15 @@ namespace AdConta
         #region bank account
         public string Cuenta
         {
-            get { return this._model.Account.AccountNumber; }
+            get { return this._model.CuentaBancaria.AccountNumber; }
             set
             {
-                if (this._model.Account.AccountNumber == value)
+                if (this._model.CuentaBancaria.AccountNumber == value)
                     return;
 
                 try
                 {
-                    this._model.Account.AccountNumber = value;
+                    this._model.CuentaBancaria.AccountNumber = value;
                     this.NotifyBankAccountChanged();
                 }
                 catch (Exception err)
@@ -189,12 +189,12 @@ namespace AdConta
         }
         public string Cuenta_IBAN
         {
-            get { return this._model.Account.GetIBAN(); }
+            get { return this._model.CuentaBancaria.GetIBAN(); }
             set
             {
-                if(this._model.Account.GetIBAN() != value)
+                if(this._model.CuentaBancaria.GetIBAN() != value)
                 {
-                    if (this._model.Account.SetNewAccountIBAN(value))
+                    if (this._model.CuentaBancaria.SetNewAccountIBAN(value))
                         this.NotifyBankAccountChanged();
                     else
                         throw new Exception("La cuenta de banco es incorrecta.");
@@ -213,12 +213,12 @@ namespace AdConta
         }
         public int Cuenta_Banco
         {
-            get { return this._model.Account.GetAccountPart(AccountPart.Bank); }
+            get { return this._model.CuentaBancaria.GetAccountPart(AccountPart.Bank); }
             set
             {
-                if (this._model.Account.GetAccountPart(AccountPart.Bank) != value)
+                if (this._model.CuentaBancaria.GetAccountPart(AccountPart.Bank) != value)
                 {
-                    if (this._model.Account.SetNewAccountByPart(AccountPart.Bank, value))
+                    if (this._model.CuentaBancaria.SetNewAccountByPart(AccountPart.Bank, value))
                         this.NotifyBankAccountChanged();
                     else
                         throw new Exception("La cuenta de banco es incorrecta.");
@@ -237,12 +237,12 @@ namespace AdConta
         }
         public int Cuenta_Ofic
         {
-            get { return this._model.Account.GetAccountPart(AccountPart.Office); }
+            get { return this._model.CuentaBancaria.GetAccountPart(AccountPart.Office); }
             set
             {
-                if (this._model.Account.GetAccountPart(AccountPart.Office) != value)
+                if (this._model.CuentaBancaria.GetAccountPart(AccountPart.Office) != value)
                 {
-                    if (this._model.Account.SetNewAccountByPart(AccountPart.Office, value))
+                    if (this._model.CuentaBancaria.SetNewAccountByPart(AccountPart.Office, value))
                         this.NotifyBankAccountChanged();
                     else
                         throw new Exception("La cuenta de banco es incorrecta.");
@@ -251,12 +251,12 @@ namespace AdConta
         }
         public int Cuenta_DC
         {
-            get { return this._model.Account.GetAccountPart(AccountPart.DC); }
+            get { return this._model.CuentaBancaria.GetAccountPart(AccountPart.DC); }
             set
             {
-                if (this._model.Account.GetAccountPart(AccountPart.DC) != value)
+                if (this._model.CuentaBancaria.GetAccountPart(AccountPart.DC) != value)
                 {
-                    if (this._model.Account.SetNewAccountByPart(AccountPart.DC, value))
+                    if (this._model.CuentaBancaria.SetNewAccountByPart(AccountPart.DC, value))
                         this.NotifyBankAccountChanged();
                     else
                         throw new Exception("La cuenta de banco es incorrecta.");
@@ -265,12 +265,12 @@ namespace AdConta
         }
         public int Cuenta_Cuenta
         {
-            get { return this._model.Account.GetAccountPart(AccountPart.Account); }
+            get { return this._model.CuentaBancaria.GetAccountPart(AccountPart.Account); }
             set
             {
-                if (this._model.Account.GetAccountPart(AccountPart.Account) != value)
+                if (this._model.CuentaBancaria.GetAccountPart(AccountPart.Account) != value)
                 {
-                    if (this._model.Account.SetNewAccountByPart(AccountPart.Account, value))
+                    if (this._model.CuentaBancaria.SetNewAccountByPart(AccountPart.Account, value))
                         this.NotifyBankAccountChanged();
                     else
                         throw new Exception("La cuenta de banco es incorrecta.");
@@ -482,6 +482,7 @@ namespace AdConta
             this.NotifyPropChanged("Cuenta_Cuenta");
 
             this.SetValueToTable("Cuenta", this.Cuenta);
+            //Fuerza CanExecute de los comandos
             CommandManager.InvalidateRequerySuggested();
         }
         /// <summary>

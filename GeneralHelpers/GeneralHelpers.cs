@@ -32,6 +32,39 @@ namespace AdConta
         }
     }
 
+    public class CodigosPostales
+    {
+        private readonly string[] _Provincias = new string[]
+        {
+            "Álava", "Albacete", "Alicante", "Almería", "Ávila", "Bádajoz", "Islas Baleares", "Barcelona", "Burgos", "Cáceres",
+            "Cádiz", "Castellón", "Ciudad Real", "Córdoba", "La Coruña", "Cuenca", "Gerona", "Granada", "Guadalajara", "Guipúzcoa",
+            "Huelva", "Huesca", "Jaén", "León", "Lérida", "La Rioja", "Lugo", "Madrid", "Málaga", "Murcia",
+            "Navarra", "Orense", "Asturias", "Palencia", "Las Palmas", "Pontevedra", "Salamanca", "Santa Cruz de Tenerife", "Cantabria", "Segovia",
+            "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia", "Valladolid", "Vizcaya", "Zamora", "Zaragoza",
+            "Ceuta", "Melilla"
+        };
+        
+        public string this[int TwoDigitsPreffix]
+        {
+            get
+            {
+                if (TwoDigitsPreffix < 1 || TwoDigitsPreffix > 52) return null;
+                return this._Provincias[TwoDigitsPreffix];
+            }
+        }
+
+        public string this[string TwoDigitsPreffix]
+        {
+            get
+            {
+                int index;
+                if (!int.TryParse(TwoDigitsPreffix, out index) || index < 1 || index > 52) return null;
+                return this._Provincias[index];
+            }
+        }
+    }
+
+
     /// <summary>
     /// Class for switch custom type classes
     /// http://stackoverflow.com/questions/298976/is-there-a-better-alternative-than-this-to-switch-on-type

@@ -27,7 +27,7 @@ namespace AdConta.Models
         private DataTable _NewTable;
         private int _MaxCod;
         private int _MinCod;
-        private BankAccount _account;
+        private BankAccount _CuentaBancaria;
         #endregion
 
         #region properties
@@ -46,10 +46,10 @@ namespace AdConta.Models
             get { return this._MinCod; }
             protected set { this._MinCod = value; }
         }
-        public BankAccount Account
+        public BankAccount CuentaBancaria
         {
-            get { return this._account; }
-            set { this._account = value; }
+            get { return this._CuentaBancaria; }
+            set { this._CuentaBancaria = value; }
         }
         #endregion
 

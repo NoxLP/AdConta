@@ -7,19 +7,27 @@ using System.ComponentModel;
 
 namespace AdConta
 {
+    #region data specific
     /// <summary>
     /// Tipo del nif: DNI persona física española, NIE extranjero, CIF persona jurídica
     /// </summary>
     public enum TipoNIF : int { DNI = 0, NIE, CIF, NULL}
     /// <summary>
-    /// Enum for types of tabs that can be displayed in abletabcontrol.
+    /// Tipo de teléfono
     /// </summary>
-    public enum TabType : int { None = 0, Mayor, Diario, Props, Cdad }
+    public enum TipoTelefono : int { Principal, Secundario, Conyuge, Familiar, Trabajo, Movil, Fijo, Otros}
     /// <summary>
     /// Enum for different parts of bank accounts.
     /// TODO?: añadir internacional?
     /// </summary>
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
+    #endregion
+
+    #region app
+    /// <summary>
+    /// Enum for types of tabs that can be displayed in abletabcontrol.
+    /// </summary>
+    public enum TabType : int { None = 0, Mayor, Diario, Props, Cdad }
     /// <summary>
     /// Enum for different tabs that can be in TabMayor's bottom tabbed expander
     /// </summary>
@@ -57,4 +65,5 @@ namespace AdConta
 
         public new bool Description { get; set; }
     }
+    #endregion
 }
