@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using AdConta;
 
-namespace AdConta.Models.Asientos
+namespace ModuloContabilidad.Models.Asientos
 {
     public class Apunte
     {

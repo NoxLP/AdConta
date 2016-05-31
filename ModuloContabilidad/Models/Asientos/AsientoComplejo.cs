@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using AdConta;
 
-namespace AdConta.Models.Asientos
+namespace ModuloContabilidad.Models.Asientos
 {
     public class AsientoComplejo : aAsiento
     {

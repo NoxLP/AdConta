@@ -17,6 +17,10 @@ namespace AdConta
     /// </summary>
     public enum TipoTelefono : int { Principal, Secundario, Conyuge, Familiar, Trabajo, Movil, Fijo, Otros}
     /// <summary>
+    /// Cómo paga las cuotas una finca: en efectivo por caja, ingreso/transf. bancaria, remesa.
+    /// </summary>
+    public enum TipoPagoCuotas : int { Caja = 0, IngTrf, Remesa}
+    /// <summary>
     /// Enum for different parts of bank accounts.
     /// TODO?: añadir internacional?
     /// </summary>

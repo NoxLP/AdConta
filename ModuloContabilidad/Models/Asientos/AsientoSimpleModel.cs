@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
-using AdConta.Models.Asientos;
 using Extensions;
+using AdConta;
+using AdConta.Models;
 
-namespace AdConta.Models
+namespace ModuloContabilidad.Models.Asientos
 {
     public class AsientoSimpleModel : AsientosDBConnection
     {

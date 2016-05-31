@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace AdConta.Models.Asientos
+namespace ModuloContabilidad.Models.Asientos
 {
     public class AsientoSimple : aAsiento
     {

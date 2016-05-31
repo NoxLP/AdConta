@@ -9,9 +9,9 @@ using System.Windows.Input;
 using System.Data;
 using System.Reflection;
 using System.Collections.ObjectModel;
-using AdConta.Models;
-using AdConta.ViewModel;
 using AdConta;
+using AdConta.ViewModel;
+using ModuloContabilidad.Models;
 using TabbedExpanderCustomControl;
 using Extensions;
 

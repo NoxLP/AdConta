@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AdConta.Models
+namespace ModuloContabilidad.Models
 {
     /// <summary>
     /// Class for ledge account

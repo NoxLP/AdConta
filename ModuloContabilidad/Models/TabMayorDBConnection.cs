@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using AdConta.Models;
 
-namespace AdConta.Models
+namespace ModuloContabilidad.Models
 {
     public class TabMayorDBConnection : aMayor_DBConnectionBase
     {

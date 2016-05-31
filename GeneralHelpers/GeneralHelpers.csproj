@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BORRAMEEventHandlerManager.cs" />
+    <Compile Include="Date.cs" />
     <Compile Include="Ext\EnumExtension.cs" />
     <Compile Include="Enum\Enums.cs" />
     <Compile Include="Ext\Extensions.cs" />

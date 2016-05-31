@@ -8,9 +8,9 @@ namespace AdConta.Models
 {
     public class Persona
     {
-        public Persona(int id, string nif, bool forceInvalidNIF)
+        public Persona(int id, string nif, bool forceInvalidNIF = false)
         {
-            this._id = id;
+            this._Id = id;
             this._NIF = new NIFModel(nif);
 
             if (!this._NIF.IsValid && forceInvalidNIF)
@@ -18,14 +18,14 @@ namespace AdConta.Models
         }
 
         #region fields
-        private int _id;
+        private int _Id;
         private NIFModel _NIF;
 
         private BankAccount _CuentaBancaria;
         #endregion
 
         #region properties
-        public int id { get { return this._id; } }
+        public int id { get { return this._Id; } }
         public NIFModel NIF { get { return this._NIF; } }
 
         public bool EsPropietario { get; set; }

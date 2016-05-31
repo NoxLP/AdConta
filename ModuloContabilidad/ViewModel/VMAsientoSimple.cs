@@ -10,7 +10,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using AdConta.ViewModel;
 using AdConta.Models;
-using AdConta.Models.Asientos;
+using ModuloContabilidad.Models.Asientos;
 using AdConta;
 
 namespace ModuloContabilidad

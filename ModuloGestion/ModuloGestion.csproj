@@ -48,6 +48,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\sCobros-sEntACta.cs" />
+    <Compile Include="Models\Cuota.cs" />
+    <Compile Include="Models\Finca.cs" />
+    <Compile Include="Models\Recibo.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -120,9 +124,7 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

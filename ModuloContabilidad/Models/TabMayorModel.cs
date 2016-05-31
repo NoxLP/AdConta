@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using AdConta.Models;
 
-namespace ModuloContabilidad
+namespace ModuloContabilidad.Models
 {
     public class TabMayorModel : TabMayorDBConnection
     {

@@ -79,7 +79,8 @@
         </Grid>
         <!--CUENTA BANCARIA-->
         <Grid Grid.Row="4" Grid.Column="0">
-            <GroupBox VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" BorderBrush="Gray" Margin="3" Header="Cuenta bancaria">
+            <GroupBox VerticalAlignment="Stretch" Height="Auto" HorizontalAlignment="Stretch" Width="Auto" BorderBrush="Gray" Margin="3" 
+                      Header="Cuenta bancaria / Cuotas">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -113,13 +114,18 @@
                                     <RadioButton GroupName="GROUP_TIPOPAGOCUOTAS" Content="Remesa" Margin="2" DockPanel.Dock="Top"/>
                                 </DockPanel>
                             </GroupBox>
-                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5,8,0,0">
-                                <Button x:Name="TabButCopyAcc" Content="Copia CCC" HorizontalAlignment="Right" Margin="0,0,3,0" 
-                                                    VerticalAlignment="Center" Height="Auto" Command="{Binding CopyAccount}"/>
-                                <Button x:Name="TabButPasteAcc" Content="Pega CCC" HorizontalAlignment="Right" Margin="0,0,3,0" 
-                                                    VerticalAlignment="Center" Height="Auto" Command="{Binding PasteAccount}"/>
-                                <!--IsEnabled="{Binding ModifyDataAllowed}"/>-->
-                            </StackPanel>
+                            <DockPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Stretch" Height="Auto" Width="126"
+                                       Margin="5,8,0,0">
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                                        <Button x:Name="TabButCopyAcc" DockPanel.Dock="Top" Content="Copia CCC" HorizontalAlignment="Left" 
+                                                Margin="0,0,3,0" VerticalAlignment="Top" Height="Auto" Command="{Binding CopyAccount}"/>
+                                        <Button x:Name="TabButPasteAcc" DockPanel.Dock="Top" Content="Pega CCC" HorizontalAlignment="Left" 
+                                                Margin="0,0,3,0" VerticalAlignment="Top" Height="Auto" Command="{Binding PasteAccount}"/>
+                                    </StackPanel>
+                                    <UserControls:TBoxLabel x:Name="TBLDeuda" DockPanel.Dock="Bottom" TBWidth="NaN" VerticalAlignment="Bottom" 
+                                                            HorizontalAlignment="Stretch" Margin="0" Label="Total deuda a la fecha" Width="Auto"/>
+                                    <!--IsEnabled="{Binding ModifyDataAllowed}"/>-->
+                            </DockPanel>
                             <DockPanel LastChildFill="True">
                                 <UserControls:TBoxLabel x:Name="TBLTotalCuotas" TBWidth="NaN" DockPanel.Dock="Top"
                                                         Label="Total cuotas mes actual" TBReadOnly="True" TBTextAlignment="Right"
