@@ -1,23 +1,23 @@
 ﻿
 namespace AdConta.Models
 {
-    public struct sConcepto
+    public class Concepto
     {
-        public int _Id { get; private set; }
-        public string Nombre;
-        public string NombreReducido;
-
-        public sConcepto(int id)
+        public Concepto(int id)
         {
             this._Id = id;
             this.Nombre = "";
             this.NombreReducido = "";
         }
-        public sConcepto(int id, string nombre, string nombreReducido)
+        public Concepto(int id, string nombre, string nombreReducido)
         {
             this._Id = id;
             this.Nombre = nombre;
             this.NombreReducido = nombreReducido;
         }
+
+        public int _Id { get; private set; }
+        public string Nombre { get; set; }
+        public string NombreReducido { get; set; }
     }
 }

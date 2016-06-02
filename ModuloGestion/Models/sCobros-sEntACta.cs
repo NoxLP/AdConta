@@ -17,7 +17,7 @@ namespace ModuloGestion.Models
         public sCobro(int id, int idrecibo, int idcuota, decimal importe, bool total = true)
         {
             if (id < 0 || idrecibo < 0 || idcuota < 0) throw new System.Exception("sCobro's Ids have to be > 0");
-
+            
             this.Id = id;
             this.IdRecibo = idrecibo;
             this.IdCuota = idcuota;

@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BankAccount.cs" />
+    <Compile Include="Base\aModelBase.cs" />
+    <Compile Include="Comunidad.cs" />
     <Compile Include="sEjercicio.cs" />
-    <Compile Include="sConcepto.cs" />
-    <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="Concepto.cs" />
+    <Compile Include="Base\DatabaseConnection.cs" />
     <Compile Include="Persona.cs" />
     <Compile Include="sDireccionPostal.cs" />
     <Compile Include="NIF.cs" />

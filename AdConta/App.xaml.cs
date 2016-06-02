@@ -24,7 +24,11 @@ namespace AdConta
             {
                 DefaultValue = FindResource(typeof(Window))
             });
+
+            this._AppModelControl = new Models.AppModelControl();
         }
+
+        private Models.AppModelControl _AppModelControl;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -34,6 +38,12 @@ namespace AdConta
                     System.Windows.Markup.XmlLanguage.GetLanguage(
                     System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag)));
             base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            this._AppModelControl.UnsubscribeModelControlEvents();
+            base.OnExit(e);
         }
     }
 }

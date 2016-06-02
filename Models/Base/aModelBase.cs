@@ -4,21 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeneralHelpers
+namespace AdConta.Models
 {
-    public class ProtectedList<T> : ICollection<T>
+    public abstract class aModelBase
     {
-        public ProtectedList()
+        public aModelBase()
         {
 
         }
 
         #region fields
-        private List<T> _List;
         #endregion
 
         #region properties
-
         #endregion
 
         #region helpers

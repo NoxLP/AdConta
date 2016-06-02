@@ -69,7 +69,7 @@ namespace AdConta
     /// Class for switch custom type classes
     /// http://stackoverflow.com/questions/298976/is-there-a-better-alternative-than-this-to-switch-on-type
     /// </summary>
-    static class TypeSwitch
+    public static class TypeSwitch
     {
         public class CaseInfo
         {

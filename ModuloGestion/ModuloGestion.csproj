@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CobrosEACLists.cs" />
     <Compile Include="Models\sCobros-sEntACta.cs" />
     <Compile Include="Models\Cuota.cs" />
     <Compile Include="Models\Finca.cs" />

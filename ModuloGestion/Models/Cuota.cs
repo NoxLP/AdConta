@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdConta.Models;
 using AdConta;
+using ModuloGestion.Helpers;
 
 namespace ModuloGestion.Models
 {
@@ -12,7 +13,8 @@ namespace ModuloGestion.Models
     {
         public Cuota()
         {
-            this._Cobros = new List<sCobro>();
+            this._Caducidad = new Date();
+            this._Cobros = new CobrosList();
         }
 
         #region fields
@@ -21,13 +23,13 @@ namespace ModuloGestion.Models
         private int _IdCdad;
         private sEjercicio _Ejercicio;
 
-        private sConcepto _Concepto;
+        private Concepto _Concepto;
 
         private int _Mes;
         private Date _Caducidad;
-        private decimal _Importe;
+        private decimal _ImporteTotal;
 
-        private List<sCobro> _Cobros;
+        private CobrosList _Cobros;
         #endregion
 
         #region properties
@@ -36,18 +38,19 @@ namespace ModuloGestion.Models
         public int IdCdad { get { return this._IdCdad; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 
-        public sConcepto Concepto { get { return this._Concepto; } }
+        public Concepto Concepto { get { return this._Concepto; } }
         
         public int Mes { get { return this._Mes; } }        
         public Date Caducidad { get { return this._Caducidad; } }        
-        public decimal Importe { get { return this._Importe; } }
+        public decimal ImporteTotal { get { return this._ImporteTotal; } }
+
+        public CobrosList Cobros { get { return this._Cobros; } }
         #endregion
 
         #region helpers
         #endregion
 
         #region public methods
-
         #endregion
     }
 
