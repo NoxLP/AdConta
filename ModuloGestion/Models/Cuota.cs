@@ -12,7 +12,7 @@ namespace ModuloGestion.Models
     {
         public Cuota()
         {
-
+            this._Cobros = new List<sCobro>();
         }
 
         #region fields
@@ -26,6 +26,8 @@ namespace ModuloGestion.Models
         private int _Mes;
         private Date _Caducidad;
         private decimal _Importe;
+
+        private List<sCobro> _Cobros;
         #endregion
 
         #region properties
@@ -45,6 +47,7 @@ namespace ModuloGestion.Models
         #endregion
 
         #region public methods
+
         #endregion
     }
 

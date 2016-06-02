@@ -50,6 +50,7 @@
     <Compile Include="Ext\Extensions.cs" />
     <Compile Include="GeneralHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtectedList.cs" />
     <Compile Include="TriggerDebugger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -30,14 +30,16 @@ namespace ModuloGestion.Models
     {
         public int Id { get; private set; }
         public int IdRecibo { get; private set; }
+        public int IdFinca { get; private set; }
         public decimal Importe;
 
-        public sEntACta(int id, int idrecibo, decimal importe)
+        public sEntACta(int id, int idrecibo, int idfinca, decimal importe)
         {
             if (id < 0 || idrecibo < 0) throw new System.Exception("sEntACta's Ids have to be > 0");
 
             this.Id = id;
             this.IdRecibo = idrecibo;
+            this.IdFinca = idfinca;
             this.Importe = importe;
         }
     }
