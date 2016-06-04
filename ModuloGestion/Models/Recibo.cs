@@ -16,12 +16,15 @@ namespace ModuloGestion.Models
 
         #region fields
         private int _Id;
+        private int _OwnerIdCdad;
         private decimal _Importe;
-        private 
+
+        
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
+        public int OwnerIdCdad { get { return this._OwnerIdCdad; } }
         public decimal Importe { get { return this._Importe; } }
         #endregion
 

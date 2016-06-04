@@ -36,7 +36,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MGESTION;MCONTABILIDAD</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -74,8 +74,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\AppModelControl.cs" />
-    <Compile Include="Models\Comunidad.cs" />
+    <Compile Include="ModelControl\AppModelControl.cs" />
+    <Compile Include="ModelControl\-MC-ComunidadContabilidad.cs" />
+    <Compile Include="ModelControl\ComunidadGeneral.cs" />
+    <Compile Include="ModelControl\-MG-ComunidadGestion.cs" />
     <Compile Include="Models\TabCdadModel.cs" />
     <Compile Include="AppUserControls\TabCdadUC.xaml.cs">
       <DependentUpon>TabCdadUC.xaml</DependentUpon>

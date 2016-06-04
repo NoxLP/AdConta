@@ -18,6 +18,11 @@ namespace AdConta
         #region events
         public delegate void ModelAddedEventHandler(object sender, ModelControlEventArgs e);
         public static event ModelAddedEventHandler ModelAddedEvent = delegate { };
+        /// <summary>
+        /// Add object Model to the corresponding dictionary, WITHOUT checking if owners exists. The model have to be asked first with
+        /// AppModelControlMessenger.AskForModel
+        /// </summary>
+        /// <param name="model"></param>
         public static void AddModel(ref object model)
         {
             ModelControlEventArgs e = new ModelControlEventArgs(ref model);

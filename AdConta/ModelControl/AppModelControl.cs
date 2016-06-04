@@ -45,6 +45,12 @@ namespace AdConta.ModelControl
         #endregion
 
         #region events
+        /// <summary>
+        /// Add object e.Model to the corresponding dictionary, WITHOUT checking if owners exists. The model have to be asked first with 
+        /// AppModelControlMessenger.AskForModel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnModelAddedEvent(object sender, ModelControlEventArgs e)
         {
             //TypeSwitch.Case<>(x=>)
@@ -64,11 +70,27 @@ namespace AdConta.ModelControl
                     Concepto model = (Concepto)e.Model;
                     this._Conceptos.Add(model.Id, model);
                 }),
+#if (MGESTION)
                 TypeSwitch.Case<Finca>(x =>
                 {
                     Finca model = (Finca)e.Model;
-                    
+
+                    this._Comunidades[model.OwnerIdComunidad]._Fincas.Add(model.Id, model);
+                }),
+                TypeSwitch.Case<Cuota>(x =>
+                {
+                    Cuota model = (Cuota)e.Model;
+
+                    this._Comunidades[model.OwnerIdCdad]._Fincas[model.OwnerIdFinca].Cuotas.Add(model.Id, model);
+                }),
+                TypeSwitch.Case<Recibo>(x =>
+                {
+
                 })
+#endif
+#if (MCONTABILIDAD)
+
+#endif
             );
         }
         private void OnModelAskedEvent(ref object sender, ModelControlEventArgs e)

@@ -19,8 +19,8 @@ namespace ModuloGestion.Models
 
         #region fields
         private int _Id;
-        private int _IdFinca;
-        private int _IdCdad;
+        private int _OwnerIdFinca;
+        private int _OwnerIdCdad;
         private sEjercicio _Ejercicio;
 
         private Concepto _Concepto;
@@ -34,8 +34,8 @@ namespace ModuloGestion.Models
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int IdFinca { get { return this._IdFinca; } }
-        public int IdCdad { get { return this._IdCdad; } }
+        public int OwnerIdFinca { get { return this._OwnerIdFinca; } }
+        public int OwnerIdCdad { get { return this._OwnerIdCdad; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 
         public Concepto Concepto { get { return this._Concepto; } }
