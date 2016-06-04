@@ -25,7 +25,7 @@ namespace AdConta.Models
         #endregion
 
         #region properties
-        public int id { get { return this._Id; } }
+        public int Id { get { return this._Id; } }
         public NIFModel NIF { get { return this._NIF; } }
 
         public bool EsPropietario { get; set; }

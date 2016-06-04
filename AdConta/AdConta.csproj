@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\AppModelControl.cs" />
+    <Compile Include="Models\Comunidad.cs" />
     <Compile Include="Models\TabCdadModel.cs" />
     <Compile Include="AppUserControls\TabCdadUC.xaml.cs">
       <DependentUpon>TabCdadUC.xaml</DependentUpon>

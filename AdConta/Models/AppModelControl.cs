@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdConta;
+using AdConta.Models;
 using ModuloGestion.Models;
 using ModuloContabilidad.Models;
 
-namespace AdConta.Models
+namespace AdConta.ModelControl
 {
     public class AppModelControl //: aAppModelControlBase
     {
@@ -16,15 +16,15 @@ namespace AdConta.Models
             AppModelControlMessenger.ModelAddedEvent += OnModelAddedEvent;
             AppModelControlMessenger.ModelAskedEvent += OnModelAskedEvent;
 
-            this._Comunidades = new List<Comunidad>();
-            this._Personas = new List<Persona>();
-            this._Conceptos = new List<Concepto>();
+            this._Comunidades = new Dictionary<int, Comunidad>();
+            this._Personas = new Dictionary<int, Persona>();
+            this._Conceptos = new Dictionary<int, Concepto>();
         }
 
         #region fields
-        private List<Comunidad> _Comunidades;
-        private List<Persona> _Personas;
-        private List<Concepto> _Conceptos;
+        private Dictionary<int, Comunidad> _Comunidades;
+        private Dictionary<int, Persona> _Personas;
+        private Dictionary<int, Concepto> _Conceptos;
         #endregion
 
         #region properties
@@ -49,9 +49,26 @@ namespace AdConta.Models
         {
             //TypeSwitch.Case<>(x=>)
             TypeSwitch.Do(e.Model,
-                TypeSwitch.Case<Comunidad>(x => this._Comunidades.Add((Comunidad)e.Model)),
-                TypeSwitch.Case<Persona>(x=> this._Personas.Add((Persona)e.Model)),
-                TypeSwitch.Case<Concepto>(x => this._Conceptos.Add((Concepto)e.Model))
+                TypeSwitch.Case<Comunidad>(x => 
+                {
+                    Comunidad model = (Comunidad)e.Model;
+                    this._Comunidades.Add(model.Id, model);
+                }),
+                TypeSwitch.Case<Persona>(x => 
+                {
+                    Persona model = (Persona)e.Model;
+                    this._Personas.Add(model.Id, model);
+                }),
+                TypeSwitch.Case<Concepto>(x => 
+                {
+                    Concepto model = (Concepto)e.Model;
+                    this._Conceptos.Add(model.Id, model);
+                }),
+                TypeSwitch.Case<Finca>(x =>
+                {
+                    Finca model = (Finca)e.Model;
+                    
+                })
             );
         }
         private void OnModelAskedEvent(ref object sender, ModelControlEventArgs e)
@@ -59,9 +76,9 @@ namespace AdConta.Models
             bool ModelExists = false;
 
             TypeSwitch.Do(e.Model,
-                TypeSwitch.Case<Comunidad>(x => ModelExists = this._Comunidades.Contains((Comunidad)e.Model)),
-                TypeSwitch.Case<Persona>(x => ModelExists = this._Personas.Contains((Persona)e.Model)),
-                TypeSwitch.Case<Concepto>(x => ModelExists = this._Conceptos.Contains((Concepto)e.Model))
+                TypeSwitch.Case<Comunidad>(x => ModelExists = this._Comunidades.ContainsKey(((Comunidad)e.Model).Id)),
+                TypeSwitch.Case<Persona>(x => ModelExists = this._Personas.ContainsKey(((Persona)e.Model).Id)),
+                TypeSwitch.Case<Concepto>(x => ModelExists = this._Conceptos.ContainsKey(((Concepto)e.Model).Id))
                 );
 
             AppModelControlMessenger.SetMsgFromAppModelcontrol(sender, ModelExists);

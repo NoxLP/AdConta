@@ -22,5 +22,23 @@ namespace AdConta.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ModuloContabilidad {
+            get {
+                return ((bool)(this["ModuloContabilidad"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ModuloGestion {
+            get {
+                return ((bool)(this["ModuloGestion"]));
+            }
+        }
     }
 }

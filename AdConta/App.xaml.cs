@@ -25,10 +25,10 @@ namespace AdConta
                 DefaultValue = FindResource(typeof(Window))
             });
 
-            this._AppModelControl = new Models.AppModelControl();
+            this._AppModelControl = new ModelControl.AppModelControl();
         }
 
-        private Models.AppModelControl _AppModelControl;
+        private ModelControl.AppModelControl _AppModelControl;
 
         protected override void OnStartup(StartupEventArgs e)
         {

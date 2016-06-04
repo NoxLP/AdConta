@@ -109,4 +109,70 @@ namespace ModuloGestion.Helpers
         }
         #endregion
     }
+
+    /// <summary>
+    /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 
+    /// y no permite añadir ni borrar sin llevar esa contabilidad
+    /// </summary>
+    public class CobrosDict : aProtectedStructDict<int, sCobro>
+    {
+        #region fields
+        private decimal _Total;
+        #endregion
+
+        #region properties
+        public decimal Total { get { return this._Total; } }
+        #endregion
+
+        #region public methods
+        public override void Add(int key, sCobro item)
+        {
+            base._Dict.Add(key, item);
+            this._Total += item.Importe;
+        }
+        public override void Remove(int key)
+        {
+            this._Total -= this[key].Importe;
+            base._Dict.Remove(key);
+        }
+        public override void Clear()
+        {
+            this._Total = 0;
+            base._Dict.Clear();
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Simplemente lleva la contabilidad del total de las entregas a cuenta según se añaden o borran, 
+    /// y no permite añadir ni borrar sin llevar esa contabilidad
+    /// </summary>
+    public class EntACtaDict : aProtectedStructDict<int, sEntACta>
+    {
+        #region fields
+        private decimal _Total;
+        #endregion
+
+        #region properties
+        public decimal Total { get { return this._Total; } }
+        #endregion
+
+        #region public methods
+        public override void Add(int key, sEntACta item)
+        {
+            base._Dict.Add(key, item);
+            this._Total += item.Importe;
+        }
+        public override void Remove(int key)
+        {
+            this._Total -= this[key].Importe;
+            base._Dict.Remove(key);
+        }
+        public override void Clear()
+        {
+            this._Total = 0;
+            base._Dict.Clear();
+        }
+        #endregion
+    }
 }

@@ -43,7 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppModelControlBase.cs" />
+    <Compile Include="AppModelControlMessenger.cs" />
     <Compile Include="BORRAMEEventHandlerManager.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="Ext\EnumExtension.cs" />
