@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdConta;
-using ModuloGestion.Models;
 
-namespace ModuloGestion.Helpers
+namespace ModuloGestion.Models
 {
     /// <summary>
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 

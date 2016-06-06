@@ -25,7 +25,7 @@ namespace ModuloGestion.Models
 
         private Concepto _Concepto;
 
-        private int _Mes;
+        private Date _Mes;
         private Date _Caducidad;
         private decimal _ImporteTotal;
 
@@ -40,7 +40,7 @@ namespace ModuloGestion.Models
 
         public Concepto Concepto { get { return this._Concepto; } }
         
-        public int Mes { get { return this._Mes; } }        
+        public Date Mes { get { return this._Mes; } }        
         public Date Caducidad { get { return this._Caducidad; } }        
         public decimal ImporteTotal { get { return this._ImporteTotal; } }
 
@@ -51,6 +51,33 @@ namespace ModuloGestion.Models
         #endregion
 
         #region public methods
+        public decimal GetDeuda()
+        {
+            return this.ImporteTotal - this.Cobros.Total;
+        }
+        public decimal GetDeuda(Date fechaIngresos)
+        {
+            decimal deuda = this.ImporteTotal;
+
+            foreach(sCobro cobro in this.Cobros.GetEnumerable())
+            {
+                if (cobro.Fecha <= fechaIngresos) deuda -= cobro.Importe;
+            }
+
+            return deuda;
+        }
+        /*public decimal GetDeuda(Date fechaInicial, Date fechaIngresos)
+        {
+            decimal deuda = this.ImporteTotal;
+
+            foreach (sCobro cobro in this.Cobros.GetEnumerable())
+            {
+                if (cobro.Fecha >= fechaInicial && cobro.Fecha <= fechaIngresos)
+                    deuda -= cobro.Importe;
+            }
+
+            return deuda;
+        }*/
         #endregion
     }
 

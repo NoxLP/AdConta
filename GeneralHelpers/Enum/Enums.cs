@@ -15,7 +15,7 @@ namespace AdConta
     /// <summary>
     /// Tipo de teléfono
     /// </summary>
-    public enum TipoTelefono : int { Principal, Secundario, Conyuge, Familiar, Trabajo, Movil, Fijo, Otros}
+    public enum TipoTelefono : int { Principal, Secundario, Fax, Conyuge, Familiar, Trabajo, Movil, Fijo, Otros}
     /// <summary>
     /// Cómo paga las cuotas una finca: en efectivo por caja, ingreso/transf. bancaria, remesa.
     /// </summary>

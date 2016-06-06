@@ -9,6 +9,14 @@ namespace AdConta.Models
         public int IdCdad { get; private set; }
         public bool Cerrado;
 
+        public bool Contains(Date date)
+        {
+            if (date > this.FechaComienzo && date < this.FechaFinal)
+                return true;
+
+            return false;
+        }
+
         public sEjercicio(int id, Date fechaComienzo, Date fechaFinal, int idCdad, bool cerrado = false)
         {
             if (id < 0 || idCdad < 0) throw new System.Exception("sEjercicio's Id and IdCdad have to be > 0");

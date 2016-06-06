@@ -72,15 +72,27 @@ namespace AdConta
             get { return this._Day; }
             set { this._Day = value; }
         }
-        #endregion
 
-        #region helpers
+        public static Date Today
+        {
+            get
+            {
+                DateTime t = DateTime.Today;
+                return new Date(t);
+            }
+        }
         #endregion
 
         #region public methods
         public DateTime GetDateTime()
         {
             return new DateTime(this.Year, this.Month, this.Day);
+        }
+        public void CopyDateTime(DateTime dateT)
+        {
+            this.Year = dateT.Year;
+            this.Month = dateT.Month;
+            this.Day = dateT.Day;
         }
         public override string ToString()
         {
@@ -102,6 +114,76 @@ namespace AdConta
                 default:
                     return this.GetDateTime().ToString();
             }
+        }
+        public void AddDays(int days)
+        {
+            DateTime dateT = new DateTime(this.Year, this.Month, this.Day);
+            dateT.AddDays(days);
+            CopyDateTime(dateT);
+        }
+        public void AddMonths(int months)
+        {
+            DateTime dateT = new DateTime(this.Year, this.Month, this.Day);
+            dateT.AddMonths(months);
+            CopyDateTime(dateT);
+        }
+        public void AddYears(int years)
+        {
+            DateTime dateT = new DateTime(this.Year, this.Month, this.Day);
+            dateT.AddYears(years);
+            CopyDateTime(dateT);
+        }
+        #endregion
+
+        #region operators
+        public static bool operator <(Date dateL, Date dateR)
+        {
+            if (dateL.Year < dateR.Year) return true;
+            else if (dateL.Year > dateR.Year) return false;
+
+            if (dateL.Month < dateL.Month) return true;
+            else if (dateL.Month > dateL.Month) return false;
+
+            if (dateL.Day < dateL.Day) return true;
+            else if (dateL.Day > dateL.Day) return false;
+
+            return false;
+        }
+        public static bool operator >(Date dateL, Date dateR)
+        {
+            if (dateL.Year < dateR.Year) return true;
+            else if (dateL.Year > dateR.Year) return false;
+
+            if (dateL.Month < dateL.Month) return true;
+            else if (dateL.Month > dateL.Month) return false;
+
+            if (dateL.Day < dateL.Day) return true;
+            else if (dateL.Day > dateL.Day) return false;
+
+            return false;
+        }
+        public static bool operator ==(Date dateL, Date dateR)
+        {
+            if (dateL.Year == dateR.Year && dateL.Month == dateR.Month && dateL.Day == dateR.Day)
+                return true;
+            return false;
+        }
+        public static bool operator !=(Date dateL, Date dateR)
+        {
+            if (!(dateL == dateR)) return true;
+            return false;
+        }
+        public static bool operator <=(Date dateL, Date dateR)
+        {
+            if (dateL < dateR || dateL == dateR) return true;
+
+            return false;
+        }
+        public static bool operator >=(Date dateL, Date dateR)
+        {
+            if (dateL > dateR || dateL == dateR) return true;
+
+            return false;
         }
         #endregion
     }
