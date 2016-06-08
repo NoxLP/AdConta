@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AdConta.Models;
 using AdConta;
-using ModuloGestion.Helpers;
 
 namespace ModuloGestion.Models
 {

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\CobrosEACLists-Dicts.cs" />
+    <Compile Include="Models\Propietario.cs" />
     <Compile Include="Models\sCobros-sEntACta.cs" />
     <Compile Include="Models\Cuota.cs" />
     <Compile Include="Models\Finca.cs" />

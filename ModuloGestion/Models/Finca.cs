@@ -22,7 +22,7 @@ namespace ModuloGestion.Models
         private string _Nombre;
         private double _Coeficiente;
         private BankAccount _Account;
-        private Persona _Propietario;
+        private Propietario _Propietario;
 
         private int[] _IdCopropietarios = new int[3];
         private int[] _IdPagadores = new int[3];
@@ -46,7 +46,7 @@ namespace ModuloGestion.Models
             set { this._Account = value; }
         }
         public TipoPagoCuotas TipoPagoCuotas { get; set; }
-        public Persona Propietario { get { return this._Propietario; } }
+        public Propietario Propietario { get { return this._Propietario; } }
         public sTelefono Telefono1 { get; set; }
         public sTelefono Telefono2 { get; set; }
         public sTelefono Telefono3 { get; set; }
@@ -211,8 +211,26 @@ namespace ModuloGestion.Models
         }
 
         #region propietario methods
+        public void CambioPropietario(ref List<Cuota> cuotas, ref Propietario newPropietario, Date fechaInicial, Date fechaFinal)
+        {
+            this.Propietario.RemoveCuotas(ref cuotas, fechaInicial, fechaFinal);
+            newPropietario.AddCuotas(ref cuotas);
+            this._Propietario = newPropietario;
+        }
+        public string CambioNIFPropietario(string nif, bool forceNIF = false)
+        {
+            string invalidMsg = this.Propietario.NIF.TryModifyNIF(ref nif);
+
+            if(invalidMsg != null && forceNIF)
+                this.Propietario.NIF.ForceInvalidNIF(ref nif);
+
+            return invalidMsg;
+        }
+        public void CambioNombrePropietario(string nombre)
+        {
+            this.Propietario.CambioNombrePropietario(nombre);
+        }
         #endregion
         #endregion
     }
-
 }

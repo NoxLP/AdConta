@@ -249,7 +249,7 @@ namespace AdConta.Models
         /// Force the class to set an invalid NIF by explicit user request.
         /// </summary>
         /// <param name="NIF"></param>
-        public void ForceInvalidNIF(string NIF)
+        public void ForceInvalidNIF(ref string NIF)
         {
             this._NIF = NIF;
             this._IsValid = false;

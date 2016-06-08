@@ -27,6 +27,7 @@ namespace AdConta.Models
         #region properties
         public int Id { get { return this._Id; } }
         public NIFModel NIF { get { return this._NIF; } }
+        public string Nombre { get; protected set; }
 
         public bool EsPropietario { get; set; }
         public bool EsPagador { get; set; }
