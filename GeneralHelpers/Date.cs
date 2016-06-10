@@ -133,6 +133,10 @@ namespace AdConta
             dateT.AddYears(years);
             CopyDateTime(dateT);
         }
+        public ReadOnlyDate AsReadOnly()
+        {
+            return new ReadOnlyDate(this);
+        }
         #endregion
 
         #region operators
@@ -184,6 +188,60 @@ namespace AdConta
             if (dateL > dateR || dateL == dateR) return true;
 
             return false;
+        }
+        #endregion
+    }
+
+    public class ReadOnlyDate
+    {
+        public ReadOnlyDate(Date date)
+        {
+            this._Year = date.Year;
+            this._Month = date.Month;
+            this._Day = date.Day;
+        }
+
+        #region fields
+        private int _Year;
+        private int _Month;
+        private int _Day;
+        #endregion
+
+        #region properties
+        public int Year { get { return this._Year; } }
+        public int Month { get { return this._Month; } }
+        public int Day { get { return this._Day; } }
+        #endregion
+
+        #region public methods
+        public DateTime GetDateTime()
+        {
+            return new DateTime(this.Year, this.Month, this.Day);
+        }
+        public Date GetDate()
+        {
+            return new Date(this.Year, this.Month, this.Day);
+        }
+        public override string ToString()
+        {
+            string paddedDay = this.Day.ToString().PadLeft(2);
+            string paddedMonth = this.Month.ToString().PadLeft(2);
+            return string.Format("{0}/{1}/{2}", paddedDay, paddedMonth, this.Year);
+        }
+        public string ToString(string param)
+        {
+            switch (param)
+            {
+                case "d":
+                    return this.ToString();
+                case "D":
+                    return string.Format("{0} de {1} del {3}",
+                        this.Day,
+                        CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(this.Month),
+                        this.Year);
+                default:
+                    return this.GetDateTime().ToString();
+            }
         }
         #endregion
     }

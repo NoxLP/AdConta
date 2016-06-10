@@ -14,7 +14,7 @@ namespace AdConta.ModelControl
         public AppModelControl()
         {
             AppModelControlMessenger.ModelAddedEvent += OnModelAddedEvent;
-            AppModelControlMessenger.ModelAskedEvent += OnModelAskedEvent;
+            AppModelControlMessenger.ExistsObjectModelEvent += OnExistsObjModelEvent;
 
             this._Comunidades = new Dictionary<int, Comunidad>();
             this._Personas = new Dictionary<int, Persona>();
@@ -40,7 +40,7 @@ namespace AdConta.ModelControl
         public void UnsubscribeModelControlEvents()
         {
             AppModelControlMessenger.ModelAddedEvent -= OnModelAddedEvent;
-            AppModelControlMessenger.ModelAskedEvent -= OnModelAskedEvent;
+            AppModelControlMessenger.ExistsObjectModelEvent -= OnExistsObjModelEvent;
         }
         #endregion
 
@@ -54,35 +54,35 @@ namespace AdConta.ModelControl
         private void OnModelAddedEvent(object sender, ModelControlEventArgs e)
         {
             //TypeSwitch.Case<>(x=>)
-            TypeSwitch.Do(e.Model,
+            TypeSwitch.Do(e.ObjectModel,
                 TypeSwitch.Case<Comunidad>(x => 
                 {
-                    Comunidad model = (Comunidad)e.Model;
+                    Comunidad model = (Comunidad)e.ObjectModel;
                     this._Comunidades.Add(model.Id, model);
                 }),
                 TypeSwitch.Case<Persona>(x => 
                 {
-                    Persona model = (Persona)e.Model;
+                    Persona model = (Persona)e.ObjectModel;
                     this._Personas.Add(model.Id, model);
                 }),
                 TypeSwitch.Case<Concepto>(x => 
                 {
-                    Concepto model = (Concepto)e.Model;
+                    Concepto model = (Concepto)e.ObjectModel;
                     this._Conceptos.Add(model.Id, model);
                 }),
 #if (MGESTION)
                 TypeSwitch.Case<Finca>(x =>
                 {
-                    Finca model = (Finca)e.Model;
+                    Finca model = (Finca)e.ObjectModel;
 
                     this._Comunidades[model.OwnerIdComunidad]._Fincas.Add(model.Id, model);
                 }),
-                TypeSwitch.Case<Cuota>(x =>
+                /*TypeSwitch.Case<Cuota>(x =>
                 {
                     Cuota model = (Cuota)e.Model;
 
                     this._Comunidades[model.OwnerIdCdad]._Fincas[model.OwnerIdFinca].Cuotas.Add(model.Id, model);
-                }),
+                }),*/
                 TypeSwitch.Case<Recibo>(x =>
                 {
 
@@ -93,17 +93,17 @@ namespace AdConta.ModelControl
 #endif
             );
         }
-        private void OnModelAskedEvent(ref object sender, ModelControlEventArgs e)
+        private void OnExistsObjModelEvent(ref object sender, ModelControlEventArgs e)
         {
             bool ModelExists = false;
 
-            TypeSwitch.Do(e.Model,
-                TypeSwitch.Case<Comunidad>(x => ModelExists = this._Comunidades.ContainsKey(((Comunidad)e.Model).Id)),
-                TypeSwitch.Case<Persona>(x => ModelExists = this._Personas.ContainsKey(((Persona)e.Model).Id)),
-                TypeSwitch.Case<Concepto>(x => ModelExists = this._Conceptos.ContainsKey(((Concepto)e.Model).Id))
+            TypeSwitch.Do(e.ObjectModel,
+                TypeSwitch.Case<Comunidad>(x => ModelExists = this._Comunidades.ContainsKey(((Comunidad)e.ObjectModel).Id)),
+                TypeSwitch.Case<Persona>(x => ModelExists = this._Personas.ContainsKey(((Persona)e.ObjectModel).Id)),
+                TypeSwitch.Case<Concepto>(x => ModelExists = this._Conceptos.ContainsKey(((Concepto)e.ObjectModel).Id))
                 );
 
-            AppModelControlMessenger.SetMsgFromAppModelcontrol(sender, ModelExists);
+            AppModelControlMessenger.SetMsgFromAppModelcontrol(ref sender, ModelExists);
         }
         #endregion
     }

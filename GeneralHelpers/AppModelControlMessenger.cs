@@ -12,7 +12,8 @@ namespace AdConta
     {
 
         #region fields
-        private static Dictionary<object, bool?> _msgDict = new Dictionary<object, bool?>();
+        private static Dictionary<object, bool?> _MsgDict = new Dictionary<object, bool?>();
+        private static Dictionary<object, object> _ObjectsDict = new Dictionary<object, object>();
         #endregion
 
         #region events
@@ -30,39 +31,41 @@ namespace AdConta
             ModelAddedEvent(null, e);
         }
 
-        public delegate void ModelAskedEventHandler(ref object sender, ModelControlEventArgs e);
-        public static event ModelAskedEventHandler ModelAskedEvent = delegate { };
-        public static bool AskForModel(ref object sender, ref object model)
+        public delegate void ExistsObjectModelEventHandler(ref object sender, ModelControlEventArgs e);
+        public static event ExistsObjectModelEventHandler ExistsObjectModelEvent = delegate { };
+        public static bool ExistsObjectModel(ref object sender, ref object model)
         {
             ModelControlEventArgs e = new ModelControlEventArgs(ref model);
 
-            if (!_msgDict.ContainsKey(sender)) _msgDict.Add(sender, null);
-            ModelAskedEvent(ref sender, e);
+            if (!_MsgDict.ContainsKey(sender)) _MsgDict.Add(sender, null);
+            ExistsObjectModelEvent(ref sender, e);
             
-            bool ret =(_msgDict[sender] == null ? false : (bool)_msgDict[sender]);
-            _msgDict.Remove(sender);
+            bool ret =(_MsgDict[sender] == null ? false : (bool)_MsgDict[sender]);
+            _MsgDict.Remove(sender);
             return ret;
         }
+
+
         #endregion
 
         #region public methods
-        public static void SetMsgFromAppModelcontrol(object key, bool value)
+        public static void SetMsgFromAppModelcontrol(ref object key, bool value)
         {
-            if (!_msgDict.ContainsKey(key)) return;
+            if (!_MsgDict.ContainsKey(key)) return;
 
-            _msgDict[key] = value;
+            _MsgDict[key] = value;
         }
         #endregion
     }
 
     public class ModelControlEventArgs : EventArgs
     {
-        public ModelControlEventArgs(ref object model)
+        public ModelControlEventArgs(ref object objectModel)
         {
-            this._Model = model;
+            this._ObjectModel = objectModel;
         }
 
-        private object _Model;
-        public object Model { get { return this._Model; } }
+        private object _ObjectModel;
+        public object ObjectModel { get { return this._ObjectModel; } }
     }
 }

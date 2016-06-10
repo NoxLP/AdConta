@@ -20,6 +20,7 @@ namespace ModuloGestion.Models
         private int _Id;
         private int _OwnerIdFinca;
         private int _OwnerIdCdad;
+        private int _OwnerIdPropietario;
         private sEjercicio _Ejercicio;
 
         private Concepto _Concepto;
@@ -35,6 +36,7 @@ namespace ModuloGestion.Models
         public int Id { get { return this._Id; } }
         public int OwnerIdFinca { get { return this._OwnerIdFinca; } }
         public int OwnerIdCdad { get { return this._OwnerIdCdad; } }
+        public int OwnerIdPropietario { get { return this._OwnerIdPropietario; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 
         public Concepto Concepto { get { return this._Concepto; } }

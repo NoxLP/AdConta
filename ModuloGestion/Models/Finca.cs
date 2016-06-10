@@ -13,7 +13,8 @@ namespace ModuloGestion.Models
     {
         public Finca()
         {
-
+            AdConta.ModelControl.Comunidad c = new AdConta.ModelControl.Comunidad(1);
+            
         }
 
         #region fields
@@ -22,11 +23,13 @@ namespace ModuloGestion.Models
         private string _Nombre;
         private double _Coeficiente;
         private BankAccount _Account;
-        private Propietario _Propietario;
+        private Propietario _PropietarioActual;
+        private Dictionary<Date, int> _HistoricoPropietarios;
 
         private int[] _IdCopropietarios = new int[3];
         private int[] _IdPagadores = new int[3];
 
+        private int[] _IdAsociadas;
         private Dictionary<int, Cuota> _Cuotas;
         private EntACtaDict _EntregasACuenta;
         #endregion
@@ -46,7 +49,9 @@ namespace ModuloGestion.Models
             set { this._Account = value; }
         }
         public TipoPagoCuotas TipoPagoCuotas { get; set; }
-        public Propietario Propietario { get { return this._Propietario; } }
+        public Propietario PropietarioActual { get { return this._PropietarioActual; } }
+        public ReadOnlyDictionary<Date,int> HistoricoPropietarios { get { return new ReadOnlyDictionary<Date, int>(this._HistoricoPropietarios); } }
+
         public sTelefono Telefono1 { get; set; }
         public sTelefono Telefono2 { get; set; }
         public sTelefono Telefono3 { get; set; }
@@ -63,6 +68,11 @@ namespace ModuloGestion.Models
             set { this._IdPagadores = value; }
         }
 
+        public int[] IdAsociadas
+        {
+            get { return this._IdAsociadas; }
+            set { this._IdAsociadas = value; }
+        }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
         public EntACtaDict EntregasACuenta { get { return this._EntregasACuenta; } }
         
@@ -146,6 +156,8 @@ namespace ModuloGestion.Models
 
             return total;
         }
+
+
         #endregion
 
         #region public methods
@@ -193,6 +205,22 @@ namespace ModuloGestion.Models
         {
             return DeudaPorCuotasImpagadas(fechaInicial, fechaFinal, fechaIngresos) - TotalEntregasACuentaAFecha(fechaInicial, fechaIngresos);
         }
+        /// <summary>
+        /// Llena deuda con un dictionario (idPropietario, cuotas con deuda) siguiendo los propietarios que aparecen en this.HistoricoPropietarios
+        /// </summary>
+        /// <param name="deuda"></param>
+        public void DeudaPorPropietario(ref Dictionary<int, List<Cuota>> deuda, Date primeraFecha)
+        {                        
+            IOrderedEnumerable<KeyValuePair<Date, int>> orderedHistorico = this.HistoricoPropietarios.OrderBy(x => x.Key);
+            
+            foreach (KeyValuePair<Date, int> kvp in orderedHistorico)
+            {
+                deuda.Add(kvp.Value,
+                    this.Cuotas.Where(x => x.Value.OwnerIdPropietario == kvp.Value && x.Value.GetDeuda() > 0)
+                    .Select(x => x.Value)
+                    .ToList<Cuota>());
+            }
+        }
         #endregion
 
         public bool TryRemoveCuota(int key)
@@ -211,24 +239,35 @@ namespace ModuloGestion.Models
         }
 
         #region propietario methods
+        /// <summary>
+        /// Cambio de propietario de la finca: 
+        /// 1.- las cuotas desde fechaInicial a fechaFinal pasan a ser de newPropietario en vez de this.PropietarioAcutal
+        /// 2.- se añade newPropietario a this.HistoricoPropietarios
+        /// 3.- se cambia this._PropietarioActual por newPropietario
+        /// </summary>
+        /// <param name="cuotas"></param>
+        /// <param name="newPropietario"></param>
+        /// <param name="fechaInicial"></param>
+        /// <param name="fechaFinal"></param>
         public void CambioPropietario(ref List<Cuota> cuotas, ref Propietario newPropietario, Date fechaInicial, Date fechaFinal)
         {
-            this.Propietario.RemoveCuotas(ref cuotas, fechaInicial, fechaFinal);
+            this.PropietarioActual.RemoveCuotas(ref cuotas, fechaInicial, fechaFinal);
             newPropietario.AddCuotas(ref cuotas);
-            this._Propietario = newPropietario;
+            this._HistoricoPropietarios.Add(fechaFinal, newPropietario.Id);
+            this._PropietarioActual = newPropietario;
         }
         public string CambioNIFPropietario(string nif, bool forceNIF = false)
         {
-            string invalidMsg = this.Propietario.NIF.TryModifyNIF(ref nif);
+            string invalidMsg = this.PropietarioActual.NIF.TryModifyNIF(ref nif);
 
             if(invalidMsg != null && forceNIF)
-                this.Propietario.NIF.ForceInvalidNIF(ref nif);
+                this.PropietarioActual.NIF.ForceInvalidNIF(ref nif);
 
             return invalidMsg;
         }
         public void CambioNombrePropietario(string nombre)
         {
-            this.Propietario.CambioNombrePropietario(nombre);
+            this.PropietarioActual.CambioNombrePropietario(nombre);
         }
         #endregion
         #endregion

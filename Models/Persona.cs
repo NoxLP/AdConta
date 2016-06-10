@@ -14,7 +14,7 @@ namespace AdConta.Models
             this._NIF = new NIFModel(nif);
 
             if (!this._NIF.IsValid && forceInvalidNIF)
-                this._NIF.ForceInvalidNIF(nif);
+                this._NIF.ForceInvalidNIF(ref nif);
         }
 
         #region fields

@@ -74,10 +74,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ModelControl\AppModelControl.cs" />
     <Compile Include="ModelControl\-MC-ComunidadContabilidad.cs" />
-    <Compile Include="ModelControl\ComunidadGeneral.cs" />
     <Compile Include="ModelControl\-MG-ComunidadGestion.cs" />
+    <Compile Include="ModelControl\AppModelControl.cs" />
+    <Compile Include="ModelControl\ComunidadGeneral.cs" />
     <Compile Include="Models\TabCdadModel.cs" />
     <Compile Include="AppUserControls\TabCdadUC.xaml.cs">
       <DependentUpon>TabCdadUC.xaml</DependentUpon>
