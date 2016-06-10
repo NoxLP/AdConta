@@ -8,14 +8,15 @@ using System.Data.SqlClient;
 using Extensions;
 using AdConta;
 using AdConta.Models;
+using ModuloContabilidad.ObjModels;
 
-namespace ModuloContabilidad.Models.Asientos
+namespace ModuloContabilidad.Models
 {
     public class AsientoSimpleModel : AsientosDBConnection
     {
         public AsientoSimpleModel(int cod, bool asientoIsNew)
         {
-            this._Asiento = new AsientoSimple(GetNAsiento(asientoIsNew));
+            this._Asiento = new ObjModels.AsientoSimple(GetNAsiento(asientoIsNew));
         }
 
         #region fields

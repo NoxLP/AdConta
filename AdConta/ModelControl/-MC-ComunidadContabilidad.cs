@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ModuloContabilidad.Models;
-using ModuloContabilidad.Models.Asientos;
+using ModuloContabilidad.ObjModels;
 
 namespace AdConta.ModelControl
 {
@@ -20,16 +20,28 @@ namespace AdConta.ModelControl
 
         #region properties
         public ReadOnlyDictionary<int, LedgeAccount> CuentasContables { get; set; }
+        public ComunidadContabilidad CdadContabilidad { get; private set; }
         #endregion
 
         #region helpers
+        private ComunidadContabilidad GetCdadContabilidadDBData()
+        {
+            //TODO
+            throw new NotImplementedException();
+            return null;
+        }
         private void InitContabilidad()
         {
             this.CuentasContables = new ReadOnlyDictionary<int, LedgeAccount>(this._CuentasContables);
+            this.CdadContabilidad = GetCdadContabilidadDBData();
         }
         #endregion
 
         #region public methods
+        public void SetCdadContabilidad(ref ComunidadContabilidad cdadConta)
+        {
+            this.CdadContabilidad = cdadConta;
+        }
         #endregion
     }
 

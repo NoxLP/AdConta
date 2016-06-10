@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 using AdConta;
 using AdConta.Models;
 
-namespace ModuloGestion.Models
+namespace ModuloGestion.ObjModels
 {
     public class Finca
     {
         public Finca()
         {
-            AdConta.ModelControl.Comunidad c = new AdConta.ModelControl.Comunidad(1);
             
         }
 
         #region fields
         private int _Id;
-        private int _Owner_IdComunidad;
+        private int _OwnerIdComunidad;
         private string _Nombre;
         private double _Coeficiente;
         private BankAccount _Account;
@@ -36,7 +35,7 @@ namespace ModuloGestion.Models
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int OwnerIdComunidad { get { return this._Owner_IdComunidad; } }
+        public int OwnerIdComunidad { get { return this._OwnerIdComunidad; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
 

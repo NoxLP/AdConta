@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdConta;
 
-namespace ModuloGestion.Models
+namespace ModuloGestion.ObjModels
 {
     public class Recibo
     {
@@ -21,6 +21,8 @@ namespace ModuloGestion.Models
             this._Importe = importe;
             this.Fecha = fecha;
             this.Concepto = concepto;
+            this._Cobros = new CobrosDict();
+            this._EntregasACuenta = new EntACtaDict();
         }
 
         #region fields

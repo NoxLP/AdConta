@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using AdConta.Models;
+using ModuloContabilidad.ObjModels;
 
 namespace ModuloContabilidad.Models
 {

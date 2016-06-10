@@ -53,12 +53,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Asientos\Asiento.cs" />
-    <Compile Include="Models\Asientos\AsientoComplejo.cs" />
+    <Compile Include="ObjModels\Asiento.cs" />
+    <Compile Include="ObjModels\AsientoComplejo.cs" />
     <Compile Include="Models\Asientos\AsientosDBConnection.cs" />
-    <Compile Include="Models\Asientos\AsientoSimple.cs" />
+    <Compile Include="ObjModels\AsientoSimple.cs" />
     <Compile Include="Models\aMayor_DBConnectionBase.cs" />
-    <Compile Include="Models\LedgeAccount.cs" />
+    <Compile Include="ObjModels\ComunidadContabilidad.cs" />
+    <Compile Include="ObjModels\LedgeAccount.cs" />
     <Compile Include="Models\TabMayorDBConnection.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Diario.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />

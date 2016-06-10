@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AdConta;
 
-namespace ModuloGestion.Models
+namespace ModuloGestion.ObjModels
 {
     /// <summary>
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 

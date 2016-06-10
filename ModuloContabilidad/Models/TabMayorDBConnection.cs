@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using AdConta.Models;
+using ModuloContabilidad.ObjModels;
 
 namespace ModuloContabilidad.Models
 {

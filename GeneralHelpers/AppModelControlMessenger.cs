@@ -12,8 +12,7 @@ namespace AdConta
     {
 
         #region fields
-        private static Dictionary<object, bool?> _MsgDict = new Dictionary<object, bool?>();
-        private static Dictionary<object, object> _ObjectsDict = new Dictionary<object, object>();
+        private static Dictionary<object, object> _MsgDict = new Dictionary<object, object>();
         #endregion
 
         #region events
@@ -31,29 +30,32 @@ namespace AdConta
             ModelAddedEvent(null, e);
         }
 
-        public delegate void ExistsObjectModelEventHandler(ref object sender, ModelControlEventArgs e);
-        public static event ExistsObjectModelEventHandler ExistsObjectModelEvent = delegate { };
-        public static bool ExistsObjectModel(ref object sender, ref object model)
+        public delegate void ObjModelAskedEventHandler(ref object sender, ModelControlEventArgs e);
+        public static event ObjModelAskedEventHandler ObjModelAskedEvent = delegate { };
+        public static bool AskForObjModel(ref object sender, ref object objModel)
         {
-            ModelControlEventArgs e = new ModelControlEventArgs(ref model);
+            ModelControlEventArgs e = new ModelControlEventArgs(ref objModel);
 
             if (!_MsgDict.ContainsKey(sender)) _MsgDict.Add(sender, null);
-            ExistsObjectModelEvent(ref sender, e);
-            
-            bool ret =(_MsgDict[sender] == null ? false : (bool)_MsgDict[sender]);
+            ObjModelAskedEvent(ref sender, e);
+
+            if (_MsgDict[sender] == null) return false;
+
+            objModel = _MsgDict[sender];
+            return true;
+
+            /*bool ret =(_MsgDict[sender] == null ? false : (bool)_MsgDict[sender]);
             _MsgDict.Remove(sender);
-            return ret;
+            return ret;*/
         }
-
-
         #endregion
 
         #region public methods
-        public static void SetMsgFromAppModelcontrol(ref object key, bool value)
+        public static void SetMsgFromAppModelcontrol(ref object key, ref object objModel)
         {
             if (!_MsgDict.ContainsKey(key)) return;
 
-            _MsgDict[key] = value;
+            _MsgDict[key] = objModel;
         }
         #endregion
     }

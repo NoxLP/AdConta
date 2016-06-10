@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdConta.Models;
-using ModuloGestion.Models;
-using ModuloContabilidad.Models;
+using ModuloGestion.ObjModels;
+using ModuloContabilidad.ObjModels;
 
 namespace AdConta.ModelControl
 {
@@ -14,7 +14,7 @@ namespace AdConta.ModelControl
         public AppModelControl()
         {
             AppModelControlMessenger.ModelAddedEvent += OnModelAddedEvent;
-            AppModelControlMessenger.ExistsObjectModelEvent += OnExistsObjModelEvent;
+            AppModelControlMessenger.ObjModelAskedEvent += OnObjModelAskedEvent;
 
             this._Comunidades = new Dictionary<int, Comunidad>();
             this._Personas = new Dictionary<int, Persona>();
@@ -40,7 +40,7 @@ namespace AdConta.ModelControl
         public void UnsubscribeModelControlEvents()
         {
             AppModelControlMessenger.ModelAddedEvent -= OnModelAddedEvent;
-            AppModelControlMessenger.ExistsObjectModelEvent -= OnExistsObjModelEvent;
+            AppModelControlMessenger.ObjModelAskedEvent -= OnObjModelAskedEvent;
         }
         #endregion
 
@@ -71,6 +71,12 @@ namespace AdConta.ModelControl
                     this._Conceptos.Add(model.Id, model);
                 }),
 #if (MGESTION)
+                TypeSwitch.Case<ComunidadGestion>(x =>
+                {
+                    ComunidadGestion model = (ComunidadGestion)e.ObjectModel;
+
+                    this._Comunidades[model.OwnerIdCdad].SetCdadGestion(ref model);
+                }),
                 TypeSwitch.Case<Finca>(x =>
                 {
                     Finca model = (Finca)e.ObjectModel;
@@ -86,24 +92,69 @@ namespace AdConta.ModelControl
                 TypeSwitch.Case<Recibo>(x =>
                 {
 
-                })
+                }),
 #endif
 #if (MCONTABILIDAD)
+                TypeSwitch.Case<ComunidadContabilidad>(x =>
+                {
+                    ComunidadContabilidad model = (ComunidadContabilidad)e.ObjectModel;
 
+                    this._Comunidades[model.OwnerIdCdad].SetCdadContabilidad(ref model);
+                })
 #endif
             );
         }
-        private void OnExistsObjModelEvent(ref object sender, ModelControlEventArgs e)
+        private void OnObjModelAskedEvent(ref object sender, ModelControlEventArgs e)
         {
-            bool ModelExists = false;
+            object objModel = null;
+            int id;
 
-            TypeSwitch.Do(e.ObjectModel,
+            /*TypeSwitch.Do(e.ObjectModel,
                 TypeSwitch.Case<Comunidad>(x => ModelExists = this._Comunidades.ContainsKey(((Comunidad)e.ObjectModel).Id)),
                 TypeSwitch.Case<Persona>(x => ModelExists = this._Personas.ContainsKey(((Persona)e.ObjectModel).Id)),
                 TypeSwitch.Case<Concepto>(x => ModelExists = this._Conceptos.ContainsKey(((Concepto)e.ObjectModel).Id))
+                );*/
+
+            TypeSwitch.Do(e.ObjectModel,
+                TypeSwitch.Case<Comunidad>(x =>
+                {
+                    id = ((Comunidad)e.ObjectModel).Id;
+                    if (this._Comunidades.ContainsKey(id)) objModel = this._Comunidades[id];
+                    else objModel = null;
+                }),
+                TypeSwitch.Case<Persona>(x => 
+                {
+                    id = ((Persona)e.ObjectModel).Id;
+                    if (this._Personas.ContainsKey(id)) objModel = this._Personas[id];
+                    else objModel = null;
+                }),
+                TypeSwitch.Case<Concepto>(x =>
+                {
+                    id = ((Concepto)e.ObjectModel).Id;
+                    if (this._Conceptos.ContainsKey(id)) objModel = this._Conceptos[id];
+                    else objModel = null;
+                }),
+#if (MGESTION)
+                TypeSwitch.Case<ComunidadGestion>(x =>
+                {
+                    id = ((ComunidadGestion)e.ObjectModel).OwnerIdCdad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadGestion.OwnerIdCdad == id)
+                        objModel = this._Comunidades[id].CdadGestion;
+                    else objModel = null;
+                }),
+#endif
+#if (MCONTABILIDAD)
+                TypeSwitch.Case<ComunidadContabilidad>(x =>
+                {
+                    id = ((ComunidadContabilidad)e.ObjectModel).OwnerIdCdad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadContabilidad.OwnerIdCdad == id)
+                        objModel = this._Comunidades[id].CdadContabilidad;
+                    else objModel = null;
+                })
+#endif
                 );
 
-            AppModelControlMessenger.SetMsgFromAppModelcontrol(ref sender, ModelExists);
+            AppModelControlMessenger.SetMsgFromAppModelcontrol(ref sender, ref objModel);
         }
         #endregion
     }

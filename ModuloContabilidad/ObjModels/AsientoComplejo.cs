@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using AdConta;
 
-namespace ModuloContabilidad.Models.Asientos
+namespace ModuloContabilidad.ObjModels
 {
     public class AsientoComplejo : aAsiento
     {

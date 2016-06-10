@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AdConta;
 using AdConta.Models;
 
-namespace ModuloGestion.Models
+namespace ModuloGestion.ObjModels
 {
     public class Propietario : Persona 
     {

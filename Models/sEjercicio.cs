@@ -6,7 +6,7 @@ namespace AdConta.Models
         public int Id { get; private set; }
         public Date FechaComienzo { get; private set; }
         public Date FechaFinal { get; private set; }
-        public int IdCdad { get; private set; }
+        public int IdOwnerCdad { get; private set; }
         public bool Cerrado;
 
         public bool Contains(Date date)
@@ -23,7 +23,7 @@ namespace AdConta.Models
             else
             {
                 this.Id = id;
-                this.IdCdad = idCdad;
+                this.IdOwnerCdad = idCdad;
             }
 
             this.FechaComienzo = fechaComienzo;
@@ -37,7 +37,7 @@ namespace AdConta.Models
         public sEjercicio(int idCdad)
         {
             if (idCdad < 0) throw new System.Exception("sEjercicio's IdCdad have to be > 0");
-            else this.IdCdad = idCdad;
+            else this.IdOwnerCdad = idCdad;
 
             this.Id = -1;
             this.FechaComienzo = new Date();

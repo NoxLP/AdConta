@@ -49,11 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\CobrosEACLists-Dicts.cs" />
-    <Compile Include="Models\Propietario.cs" />
-    <Compile Include="Models\sCobros-sEntACta.cs" />
-    <Compile Include="Models\Cuota.cs" />
-    <Compile Include="Models\Finca.cs" />
-    <Compile Include="Models\Recibo.cs" />
+    <Compile Include="ObjModels\ComunidadGestion.cs" />
+    <Compile Include="ObjModels\Propietario.cs" />
+    <Compile Include="ObjModels\sCobros-sEntACta.cs" />
+    <Compile Include="ObjModels\Cuota.cs" />
+    <Compile Include="ObjModels\Finca.cs" />
+    <Compile Include="ObjModels\Recibo.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>

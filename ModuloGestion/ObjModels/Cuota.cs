@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AdConta.Models;
 using AdConta;
 
-namespace ModuloGestion.Models
+namespace ModuloGestion.ObjModels
 {
     public class Cuota
     {
