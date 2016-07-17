@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdConta;
+using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Recibo
+    public class Recibo : iOwnerComunidad
     {
         public Recibo()
         {
@@ -17,7 +18,7 @@ namespace ModuloGestion.ObjModels
         public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto)
         {
             this._Id = id;
-            this._OwnerIdCdad = idCdad;
+            this._IdOwnerCdad = idCdad;
             this._Importe = importe;
             this.Fecha = fecha;
             this.Concepto = concepto;
@@ -27,7 +28,7 @@ namespace ModuloGestion.ObjModels
 
         #region fields
         private int _Id;
-        private int _OwnerIdCdad;
+        private int _IdOwnerCdad;
         private decimal _Importe;
 
         private CobrosDict _Cobros;
@@ -36,7 +37,7 @@ namespace ModuloGestion.ObjModels
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int OwnerIdCdad { get { return this._OwnerIdCdad; } }
+        public int IdOwnerCdad { get { return this._IdOwnerCdad; } }
         public decimal Importe { get { return this._Importe; } }
         public Date Fecha { get; set; }
         public string Concepto { get; set; }

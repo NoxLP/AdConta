@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Finca
+    public class Finca : iOwnerComunidad
     {
         public Finca()
         {
@@ -18,10 +18,10 @@ namespace ModuloGestion.ObjModels
 
         #region fields
         private int _Id;
-        private int _OwnerIdComunidad;
+        private int _IdOwnerComunidad;
         private string _Nombre;
         private double _Coeficiente;
-        private BankAccount _Account;
+        
         private Propietario _PropietarioActual;
         private Dictionary<Date, int> _HistoricoPropietarios;
 
@@ -35,19 +35,13 @@ namespace ModuloGestion.ObjModels
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int OwnerIdComunidad { get { return this._OwnerIdComunidad; } }
+        public int IdOwnerCdad { get { return this._IdOwnerComunidad; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
 
         public sDireccionPostal Direccion { get; set; }
-        public sDireccionPostal Direccion2 { get; set; }
+        public sDireccionPostal Direccion2 { get; set; }        
         
-        public BankAccount Account
-        {
-            get { return this._Account; }
-            set { this._Account = value; }
-        }
-        public TipoPagoCuotas TipoPagoCuotas { get; set; }
         public Propietario PropietarioActual { get { return this._PropietarioActual; } }
         public ReadOnlyDictionary<Date,int> HistoricoPropietarios { get { return new ReadOnlyDictionary<Date, int>(this._HistoricoPropietarios); } }
 
@@ -215,7 +209,7 @@ namespace ModuloGestion.ObjModels
             foreach (KeyValuePair<Date, int> kvp in orderedHistorico)
             {
                 deuda.Add(kvp.Value,
-                    this.Cuotas.Where(x => x.Value.OwnerIdPropietario == kvp.Value && x.Value.GetDeuda() > 0)
+                    this.Cuotas.Where(x => x.Value.IdOwnerPersona == kvp.Value && x.Value.GetDeuda() > 0)
                     .Select(x => x.Value)
                     .ToList<Cuota>());
             }

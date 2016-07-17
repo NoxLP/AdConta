@@ -4,22 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdConta;
+using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class ComunidadContabilidad
+    public class ComunidadContabilidad : iOwnerComunidad
     {
         public ComunidadContabilidad(Date primeraFecha, int ownerIdCdad)
         {
             this.PrimeraFecha = new ReadOnlyDate(primeraFecha);
-            this.OwnerIdCdad = ownerIdCdad;
+            this.IdOwnerCdad = ownerIdCdad;
         }
 
         #region fields
         #endregion
 
         #region properties
-        public int OwnerIdCdad { get; private set; }
+        public int IdOwnerCdad { get; private set; }
+        public string GrupoPropietarios { get; private set; }
+        public string GrupoProveedores { get; private set; }
         public ReadOnlyDate PrimeraFecha { get; private set; }
         public ReadOnlyDate FechaPunteo { get; private set; }
         public ReadOnlyDate FechaBanco { get; private set; }

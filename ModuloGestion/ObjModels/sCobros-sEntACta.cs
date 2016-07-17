@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdConta;
+using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public struct sCobro
+    public struct sCobro : iOwnerPropietario, iOwnerCuota, iOwnerRecibo
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }
@@ -31,7 +32,7 @@ namespace ModuloGestion.ObjModels
         }
     }
 
-    public struct sEntACta
+    public struct sEntACta : iOwnerFinca, iOwnerPropietario, iOwnerRecibo 
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }

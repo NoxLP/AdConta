@@ -21,6 +21,10 @@ namespace AdConta
     /// </summary>
     public enum TipoPagoCuotas : int { Caja = 0, IngTrf, Remesa}
     /// <summary>
+    /// Efectivo, cheque, domiciliado
+    /// </summary>
+    public enum TipoPagoFacturas : int { Efectivo = 0, Cheque, Domiciliado}
+    /// <summary>
     /// Enum for different parts of bank accounts.
     /// TODO?: añadir internacional?
     /// </summary>

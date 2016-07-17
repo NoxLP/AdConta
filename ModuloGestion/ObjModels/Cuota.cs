@@ -8,7 +8,7 @@ using AdConta;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Cuota
+    public class Cuota : iOwnerComunidad, iOwnerPersona, iOwnerFinca
     {
         public Cuota()
         {
@@ -18,9 +18,9 @@ namespace ModuloGestion.ObjModels
 
         #region fields
         private int _Id;
-        private int _OwnerIdFinca;
-        private int _OwnerIdCdad;
-        private int _OwnerIdPropietario;
+        private int _IdOwnerFinca;
+        private int _IdOwnerCdad;
+        private int _IdOwnerPersona;
         private sEjercicio _Ejercicio;
 
         private Concepto _Concepto;
@@ -34,9 +34,9 @@ namespace ModuloGestion.ObjModels
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int OwnerIdFinca { get { return this._OwnerIdFinca; } }
-        public int OwnerIdCdad { get { return this._OwnerIdCdad; } }
-        public int OwnerIdPropietario { get { return this._OwnerIdPropietario; } }
+        public int IdOwnerFinca { get { return this._IdOwnerFinca; } }
+        public int IdOwnerCdad { get { return this._IdOwnerCdad; } }
+        public int IdOwnerPersona { get { return this._IdOwnerPersona; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 
         public Concepto Concepto { get { return this._Concepto; } }

@@ -43,9 +43,9 @@ namespace ModuloGestion.ObjModels
             foreach (Cuota cuota in cuotasEnum)
                 this._Cuotas.Remove(cuota.Id);
         }
-        public void AddCuotas(ref List<Cuota> cuotasToRemove)
+        public void AddCuotas(ref List<Cuota> cuotasToAdd)
         {
-            this._Cuotas.Union(cuotasToRemove.ToDictionary(x => x.Id)); //Ya hace distinct => no es necesario comprobar si tiene las id
+            this._Cuotas.Union(cuotasToAdd.ToDictionary(x => x.Id)); //Ya hace distinct => no es necesario comprobar si tiene las id
         }
         #endregion
     }

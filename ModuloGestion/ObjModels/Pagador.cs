@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdConta;
 using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class ComunidadGestion : iOwnerComunidad
+    public class Pagador : Persona
     {
-        public ComunidadGestion(Date primeraFecha, int ownerIdCdad)
+        public Pagador(int id, string nif, bool forceInvalidNIF = false) : base(id, nif, forceInvalidNIF)
         {
-            this.PrimeraFecha = new ReadOnlyDate(primeraFecha);
-            this.IdOwnerCdad = ownerIdCdad;
+
         }
 
         #region fields
         #endregion
 
         #region properties
-        public int IdOwnerCdad { get; private set; }
-        public ReadOnlyDate PrimeraFecha { get; private set; }
         #endregion
 
         #region helpers

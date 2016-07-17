@@ -69,19 +69,20 @@ namespace AdConta.ModelControl
                 {
                     Concepto model = (Concepto)e.ObjectModel;
                     this._Conceptos.Add(model.Id, model);
-                }),
+                })
 #if (MGESTION)
+                ,
                 TypeSwitch.Case<ComunidadGestion>(x =>
                 {
                     ComunidadGestion model = (ComunidadGestion)e.ObjectModel;
 
-                    this._Comunidades[model.OwnerIdCdad].SetCdadGestion(ref model);
+                    this._Comunidades[model.IdOwnerCdad].SetCdadGestion(ref model);
                 }),
                 TypeSwitch.Case<Finca>(x =>
                 {
                     Finca model = (Finca)e.ObjectModel;
 
-                    this._Comunidades[model.OwnerIdComunidad]._Fincas.Add(model.Id, model);
+                    this._Comunidades[model.IdOwnerCdad]._Fincas.Add(model.Id, model);
                 }),
                 /*TypeSwitch.Case<Cuota>(x =>
                 {
@@ -92,14 +93,15 @@ namespace AdConta.ModelControl
                 TypeSwitch.Case<Recibo>(x =>
                 {
 
-                }),
+                })
 #endif
 #if (MCONTABILIDAD)
+                ,
                 TypeSwitch.Case<ComunidadContabilidad>(x =>
                 {
                     ComunidadContabilidad model = (ComunidadContabilidad)e.ObjectModel;
 
-                    this._Comunidades[model.OwnerIdCdad].SetCdadContabilidad(ref model);
+                    this._Comunidades[model.IdOwnerCdad].SetCdadContabilidad(ref model);
                 })
 #endif
             );
@@ -133,21 +135,23 @@ namespace AdConta.ModelControl
                     id = ((Concepto)e.ObjectModel).Id;
                     if (this._Conceptos.ContainsKey(id)) objModel = this._Conceptos[id];
                     else objModel = null;
-                }),
+                })
 #if (MGESTION)
+                ,
                 TypeSwitch.Case<ComunidadGestion>(x =>
                 {
-                    id = ((ComunidadGestion)e.ObjectModel).OwnerIdCdad;
-                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadGestion.OwnerIdCdad == id)
+                    id = ((ComunidadGestion)e.ObjectModel).IdOwnerCdad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadGestion.IdOwnerCdad == id)
                         objModel = this._Comunidades[id].CdadGestion;
                     else objModel = null;
-                }),
+                })
 #endif
 #if (MCONTABILIDAD)
+                ,
                 TypeSwitch.Case<ComunidadContabilidad>(x =>
                 {
-                    id = ((ComunidadContabilidad)e.ObjectModel).OwnerIdCdad;
-                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadContabilidad.OwnerIdCdad == id)
+                    id = ((ComunidadContabilidad)e.ObjectModel).IdOwnerCdad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadContabilidad.IdOwnerCdad == id)
                         objModel = this._Comunidades[id].CdadContabilidad;
                     else objModel = null;
                 })
