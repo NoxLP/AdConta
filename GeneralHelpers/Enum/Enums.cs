@@ -31,6 +31,32 @@ namespace AdConta
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
     #endregion
 
+    #region accounting specific
+    /// <summary>
+    /// Debit/credit enum
+    /// </summary>
+    public enum DebitCredit
+    {
+        [Description("True")]
+        Debit = 0,
+        [Description("False")]
+        Credit
+    }
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class DebitCreditAtttribute : DescriptionAttribute
+    {
+        public DebitCreditAtttribute(string description, string value)
+        {
+            this.Description = bool.Parse(description);
+        }
+
+        public new bool Description { get; set; }
+    }
+
+    public enum TipoCuentaAcreedoraDeudora : int { Acreedora = 0, Deudora}
+    #endregion
+
     #region app
     /// <summary>
     /// Enum for types of tabs that can be displayed in abletabcontrol.
@@ -52,26 +78,5 @@ namespace AdConta
     /// Enum for specify top or bottom TabbedExpander
     /// </summary>
     public enum TabExpWhich : byte { Top = 0, Bottom}
-    /// <summary>
-    /// Debit/credit enum
-    /// </summary>
-    public enum DebitCredit
-    {
-        [Description("True")]
-        Debit = 0,
-        [Description("False")]
-        Credit
-    }
-    
-    [AttributeUsage(AttributeTargets.All)]
-    public class DebitCreditAtttribute : DescriptionAttribute
-    {
-        public DebitCreditAtttribute(string description, string value)
-        {
-            this.Description = bool.Parse(description);
-        }
-
-        public new bool Description { get; set; }
-    }
     #endregion
 }

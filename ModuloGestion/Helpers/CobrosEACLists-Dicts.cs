@@ -11,7 +11,7 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class CobrosList : aProtectedStructList<sCobro>
+    public class CobrosList : aProtectedList<sCobro>
     {
         #region fields
         private decimal _Total;
@@ -38,12 +38,18 @@ namespace ModuloGestion.ObjModels
         }
         public override void RemoveAt(int index)
         {
+            if (index < 0 || index > this.Count)
+                throw new IndexOutOfRangeException();
+
             this._Total -= this[index].Importe;
             base._List.RemoveAt(index);
         }
         public override void RemoveRange(int index, int count)
         {
-            for(int i = index; i< count;i++)
+            if (index < 0 || index > this.Count || (index + count) > this.Count)
+                throw new IndexOutOfRangeException();
+
+            for (int i = index; i< count;i++)
             {
                 this._Total -= this[i].Importe;
             }
@@ -62,7 +68,7 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de las entregas a cuenta según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class EntACtaList : aProtectedStructList<sEntACta>
+    public class EntACtaList : aProtectedList<sEntACta>
     {
         #region fields
         private decimal _Total;
@@ -89,11 +95,17 @@ namespace ModuloGestion.ObjModels
         }
         public override void RemoveAt(int index)
         {
+            if (index < 0 || index > this.Count)
+                throw new IndexOutOfRangeException();
+
             this._Total -= this[index].Importe;
             base._List.RemoveAt(index);
         }
         public override void RemoveRange(int index, int count)
         {
+            if (index < 0 || index > this.Count || (index + count) > this.Count)
+                throw new IndexOutOfRangeException();
+
             for (int i = index; i < count; i++)
             {
                 this._Total -= this[i].Importe;
@@ -113,7 +125,7 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class CobrosDict : aProtectedStructDict<int, sCobro>
+    public class CobrosDict : aProtectedDict<int, sCobro>
     {
         #region fields
         private decimal _Total;
@@ -126,11 +138,17 @@ namespace ModuloGestion.ObjModels
         #region public methods
         public override void Add(int key, sCobro item)
         {
+            if (this._Dict.ContainsKey(key))
+                throw new ArgumentException();
+
             base._Dict.Add(key, item);
             this._Total += item.Importe;
         }
         public override void Remove(int key)
         {
+            if (!this._Dict.ContainsKey(key))
+                throw new KeyNotFoundException();
+
             this._Total -= this[key].Importe;
             base._Dict.Remove(key);
         }
@@ -146,7 +164,7 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de las entregas a cuenta según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class EntACtaDict : aProtectedStructDict<int, sEntACta>
+    public class EntACtaDict : aProtectedDict<int, sEntACta>
     {
         #region fields
         private decimal _Total;
@@ -159,11 +177,17 @@ namespace ModuloGestion.ObjModels
         #region public methods
         public override void Add(int key, sEntACta item)
         {
+            if (this._Dict.ContainsKey(key))
+                throw new ArgumentException();
+
             base._Dict.Add(key, item);
             this._Total += item.Importe;
         }
         public override void Remove(int key)
         {
+            if (!this._Dict.ContainsKey(key))
+                throw new KeyNotFoundException();
+
             this._Total -= this[key].Importe;
             base._Dict.Remove(key);
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,16 +8,18 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Gasto : GastosPagosBase, iOwnerProveedor
+    public class Pago : GastosPagosBase, iOwnerProveedor, iOwnerFactura
     {
-        public Gasto(int id, int idProveedor, Date fecha) : base(id, fecha)
+        public Pago(int id, int idProveedor, int idFactura, Date fecha) : base(id, fecha)
         {
             this._IdOwnerProveedor = idProveedor;
+            this._IdOwnerFactura = idFactura;
         }
 
-        /*public Gasto(
+        /*public Pago(
             int id,
             int idProveedor,
+            int idFactura,
             List<sImporteCuenta> cuentasAcreedoras,
             List<sImporteCuenta> cuentasDeudoras,
             Date fecha,
@@ -26,14 +27,18 @@ namespace ModuloContabilidad.ObjModels
             decimal importe) : base(id, cuentasAcreedoras, cuentasDeudoras, fecha, concepto, importe)
         {
             this._IdOwnerProveedor = idProveedor;
+            this._IdOwnerFactura = idFactura;
         }*/
 
         #region fields
         private int _IdOwnerProveedor;
+        private int _IdOwnerFactura;
         #endregion
 
         #region properties
         public int IdOwnerProveedor { get { return this._IdOwnerProveedor; } }
+        public int IdOwnerFactura { get { return this._IdOwnerFactura; } }
         #endregion
     }
+
 }

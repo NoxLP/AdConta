@@ -87,7 +87,6 @@ namespace ModuloContabilidad.ObjModels
         #region helpers
         public bool IsLastAccount()
         {
-            
             return this.iCodigo == GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS;
         }
         public bool IsFirstAccount()

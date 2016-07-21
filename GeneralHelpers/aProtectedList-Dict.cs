@@ -1,0 +1,90 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdConta
+{
+    public abstract class aProtectedList<T>
+    {
+        public aProtectedList()
+        {
+            this._List = new List<T>();
+            
+        }
+
+        #region fields
+        protected List<T> _List;
+        #endregion
+
+        #region properties
+        public int Count { get { return this._List.Count; } }
+        #endregion
+
+        #region operators
+        public T this[int index]
+        {
+            get
+            {
+                T i = this._List[index];
+                return i; //return struct as value
+            }
+
+        }
+        #endregion
+
+        #region public methods
+        public abstract void Add(T item);
+        public abstract void RemoveAt(int index);
+        public abstract void Clear();
+        public virtual void AddRange(IEnumerable<T> collection)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual void RemoveRange(int index, int count)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<T> GetEnumerable()
+        {
+            return this._List.AsEnumerable<T>();
+        }
+        #endregion
+    }
+
+    public abstract class aProtectedDict<R,T>
+    {
+        public aProtectedDict()
+        {
+            this._Dict = new Dictionary<R,T>();
+            
+        }
+
+        #region fields
+        protected Dictionary<R,T> _Dict;
+        #endregion
+
+        #region operators
+        public T this[R key]
+        {
+            get
+            {
+                T i = this._Dict[key];
+                return i; //return struct as value
+            }
+
+        }
+        #endregion
+
+        #region public methods
+        public abstract void Add(R key, T item);
+        public abstract void Remove(R key);
+        public abstract void Clear();
+        public IEnumerable<KeyValuePair<R,T>> GetEnumerable()
+        {
+            return this._Dict.AsEnumerable<KeyValuePair<R, T>>();
+        }
+        #endregion
+    }
+}

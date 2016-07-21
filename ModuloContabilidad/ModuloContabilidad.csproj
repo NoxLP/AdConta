@@ -61,9 +61,13 @@
     <Compile Include="ObjModels\ComunidadContabilidad.cs" />
     <Compile Include="ObjModels\Factura.cs" />
     <Compile Include="ObjModels\Gasto.cs" />
+    <Compile Include="ObjModels\GastosPagosBase.cs" />
+    <Compile Include="ObjModels\GastosPagosLists.cs" />
     <Compile Include="ObjModels\LedgeAccount.cs" />
     <Compile Include="Models\TabMayorDBConnection.cs" />
+    <Compile Include="ObjModels\Pago.cs" />
     <Compile Include="ObjModels\Proveedor.cs" />
+    <Compile Include="ObjModels\sImporteCuenta.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Diario.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />
     <Compile Include="TabbedExpanderTabs\TabExpTabBuscarUC.xaml.cs">
