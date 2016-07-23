@@ -19,7 +19,7 @@ namespace ModuloGestion.ObjModels
         #region fields
         private int _Id;
         private int _IdOwnerFinca;
-        private int _IdOwnerCdad;
+        private int _IdOwnerComunidad;
         private int _IdOwnerPersona;
         private sEjercicio _Ejercicio;
 
@@ -35,7 +35,7 @@ namespace ModuloGestion.ObjModels
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerFinca { get { return this._IdOwnerFinca; } }
-        public int IdOwnerCdad { get { return this._IdOwnerCdad; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerPersona { get { return this._IdOwnerPersona; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 

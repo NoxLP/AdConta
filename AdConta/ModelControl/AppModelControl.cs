@@ -76,13 +76,13 @@ namespace AdConta.ModelControl
                 {
                     ComunidadGestion model = (ComunidadGestion)e.ObjectModel;
 
-                    this._Comunidades[model.IdOwnerCdad].SetCdadGestion(ref model);
+                    this._Comunidades[model.IdOwnerComunidad].SetCdadGestion(ref model);
                 }),
                 TypeSwitch.Case<Finca>(x =>
                 {
                     Finca model = (Finca)e.ObjectModel;
 
-                    this._Comunidades[model.IdOwnerCdad]._Fincas.Add(model.Id, model);
+                    this._Comunidades[model.IdOwnerComunidad]._Fincas.Add(model.Id, model);
                 }),
                 /*TypeSwitch.Case<Cuota>(x =>
                 {
@@ -101,7 +101,7 @@ namespace AdConta.ModelControl
                 {
                     ComunidadContabilidad model = (ComunidadContabilidad)e.ObjectModel;
 
-                    this._Comunidades[model.IdOwnerCdad].SetCdadContabilidad(ref model);
+                    this._Comunidades[model.IdOwnerComunidad].SetCdadContabilidad(ref model);
                 })
 #endif
             );
@@ -140,8 +140,8 @@ namespace AdConta.ModelControl
                 ,
                 TypeSwitch.Case<ComunidadGestion>(x =>
                 {
-                    id = ((ComunidadGestion)e.ObjectModel).IdOwnerCdad;
-                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadGestion.IdOwnerCdad == id)
+                    id = ((ComunidadGestion)e.ObjectModel).IdOwnerComunidad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadGestion.IdOwnerComunidad == id)
                         objModel = this._Comunidades[id].CdadGestion;
                     else objModel = null;
                 })
@@ -150,8 +150,8 @@ namespace AdConta.ModelControl
                 ,
                 TypeSwitch.Case<ComunidadContabilidad>(x =>
                 {
-                    id = ((ComunidadContabilidad)e.ObjectModel).IdOwnerCdad;
-                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadContabilidad.IdOwnerCdad == id)
+                    id = ((ComunidadContabilidad)e.ObjectModel).IdOwnerComunidad;
+                    if (this._Comunidades.ContainsKey(id) && this._Comunidades[id].CdadContabilidad.IdOwnerComunidad == id)
                         objModel = this._Comunidades[id].CdadContabilidad;
                     else objModel = null;
                 })

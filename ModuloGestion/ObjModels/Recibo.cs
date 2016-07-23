@@ -18,7 +18,7 @@ namespace ModuloGestion.ObjModels
         public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto)
         {
             this._Id = id;
-            this._IdOwnerCdad = idCdad;
+            this._IdOwnerComunidad = idCdad;
             this._Importe = importe;
             this.Fecha = fecha;
             this.Concepto = concepto;
@@ -28,7 +28,7 @@ namespace ModuloGestion.ObjModels
 
         #region fields
         private int _Id;
-        private int _IdOwnerCdad;
+        private int _IdOwnerComunidad;
         private decimal _Importe;
 
         private CobrosDict _Cobros;
@@ -37,7 +37,7 @@ namespace ModuloGestion.ObjModels
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int IdOwnerCdad { get { return this._IdOwnerCdad; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public decimal Importe { get { return this._Importe; } }
         public Date Fecha { get; set; }
         public string Concepto { get; set; }
@@ -50,7 +50,7 @@ namespace ModuloGestion.ObjModels
         #endregion
 
         #region public methods
-        public bool TryAddCobrosEntACta(ref CobrosDict cobros, ref EntACtaDict entregasACuenta)
+        public bool TrySetCobrosEntACta(ref CobrosDict cobros, ref EntACtaDict entregasACuenta)
         {
             decimal importeTotal = cobros.Total + entregasACuenta.Total;
 

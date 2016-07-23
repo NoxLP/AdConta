@@ -11,7 +11,7 @@ namespace ModuloContabilidad.ObjModels
 {
     public class Gasto : GastosPagosBase, iOwnerProveedor
     {
-        public Gasto(int id, int idProveedor, Date fecha) : base(id, fecha)
+        public Gasto(int id, int idComunidad, int idProveedor, Date fecha) : base(id, idComunidad, fecha)
         {
             this._IdOwnerProveedor = idProveedor;
         }

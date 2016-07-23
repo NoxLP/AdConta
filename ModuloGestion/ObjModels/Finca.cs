@@ -35,7 +35,7 @@ namespace ModuloGestion.ObjModels
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int IdOwnerCdad { get { return this._IdOwnerComunidad; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
 

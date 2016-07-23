@@ -11,7 +11,6 @@ namespace AdConta
         public aProtectedList()
         {
             this._List = new List<T>();
-            
         }
 
         #region fields
@@ -52,6 +51,44 @@ namespace AdConta
         }
         #endregion
     }
+
+    public abstract class aReadOnlyProtectedList<T>
+    {
+        public aReadOnlyProtectedList() { }
+
+        public aReadOnlyProtectedList(List<T> list)
+        {
+            this._List = list;
+        }
+
+        #region fields
+        protected List<T> _List;
+        #endregion
+
+        #region properties
+        public int Count { get { return this._List.Count; } }
+        #endregion
+
+        #region operators
+        public T this[int index]
+        {
+            get
+            {
+                T i = this._List[index];
+                return i; //return struct as value
+            }
+
+        }
+        #endregion
+
+        #region public methods
+        public IEnumerable<T> GetEnumerable()
+        {
+            return this._List.AsReadOnly().AsEnumerable<T>();
+        }
+        #endregion
+    }
+
 
     public abstract class aProtectedDict<R,T>
     {

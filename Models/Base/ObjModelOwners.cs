@@ -8,7 +8,7 @@ namespace AdConta.Models
 {
     public interface iOwnerComunidad
     {
-        int IdOwnerCdad { get; }
+        int IdOwnerComunidad { get; }
     }
 
     public interface iOwnerPersona

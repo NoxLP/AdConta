@@ -13,14 +13,14 @@ namespace ModuloContabilidad.ObjModels
         public ComunidadContabilidad(Date primeraFecha, int ownerIdCdad)
         {
             this.PrimeraFecha = new ReadOnlyDate(primeraFecha);
-            this.IdOwnerCdad = ownerIdCdad;
+            this.IdOwnerComunidad = ownerIdCdad;
         }
 
         #region fields
         #endregion
 
         #region properties
-        public int IdOwnerCdad { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
         public string GrupoPropietarios { get; private set; }
         public string GrupoProveedores { get; private set; }
         public ReadOnlyDate PrimeraFecha { get; private set; }

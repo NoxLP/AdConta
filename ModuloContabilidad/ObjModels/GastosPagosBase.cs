@@ -9,12 +9,13 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class GastosPagosBase
+    public class GastosPagosBase : iOwnerComunidad
     {
-        public GastosPagosBase(int id, Date fecha)
+        public GastosPagosBase(int id, int idComunidad, Date fecha)
         {
             this._Id = id;
             this._Fecha = fecha;
+            this._IdOwnerComunidad = idComunidad;
         }
 
         /*public GastosPagosBase(
@@ -37,16 +38,18 @@ namespace ModuloContabilidad.ObjModels
 
         #region fields
         private int _Id;
+        private int _IdOwnerComunidad;
 
         private List<sImporteCuenta> _CuentasAcreedoras;
         private List<sImporteCuenta> _CuentasDeudoras;
 
         private Date _Fecha;
-        private decimal _ImporteTotal;
+        private decimal _Importe;
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
 
         public ReadOnlyCollection<sImporteCuenta> CuentasAcreedoras
         {
@@ -59,7 +62,7 @@ namespace ModuloContabilidad.ObjModels
 
         public Date Fecha { get { return this._Fecha; } }
         public string Concepto { get; set; }
-        public decimal ImporteTotal { get { return this._ImporteTotal; } }
+        public decimal Importe { get { return this._Importe; } }
         #endregion
 
         #region helpers
@@ -78,7 +81,7 @@ namespace ModuloContabilidad.ObjModels
 
             if (SaldoDeudor != SaldoAcreedor) return false;
 
-            this._ImporteTotal = SaldoDeudor;
+            this._Importe = SaldoDeudor;
             return true;
         }
         #endregion

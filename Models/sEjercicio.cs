@@ -6,7 +6,7 @@ namespace AdConta.Models
         public int Id { get; private set; }
         public Date FechaComienzo { get; private set; }
         public Date FechaFinal { get; private set; }
-        public int IdOwnerCdad { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
         public bool Cerrado;
 
         public bool Contains(Date date)
@@ -17,13 +17,13 @@ namespace AdConta.Models
             return false;
         }
 
-        public sEjercicio(int id, Date fechaComienzo, Date fechaFinal, int idCdad, bool cerrado = false)
+        public sEjercicio(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado = false)
         {
-            if (id < 0 || idCdad < 0) throw new System.Exception("sEjercicio's Id and IdCdad have to be > 0");
+            if (id < 0 || idOwnerComunidad < 0) throw new System.Exception("sEjercicio's Id and IdOwnerComunidad have to be > 0");
             else
             {
                 this.Id = id;
-                this.IdOwnerCdad = idCdad;
+                this.IdOwnerComunidad = idOwnerComunidad;
             }
 
             this.FechaComienzo = fechaComienzo;
@@ -34,10 +34,10 @@ namespace AdConta.Models
         /// Usar este constructor para nuevos ejercicios.
         /// </summary>
         /// <param name="idCdad"></param>
-        public sEjercicio(int idCdad)
+        public sEjercicio(int idOwnerComunidad)
         {
-            if (idCdad < 0) throw new System.Exception("sEjercicio's IdCdad have to be > 0");
-            else this.IdOwnerCdad = idCdad;
+            if (idOwnerComunidad < 0) throw new System.Exception("sEjercicio's IdOwnerComunidad have to be > 0");
+            else this.IdOwnerComunidad = idOwnerComunidad;
 
             this.Id = -1;
             this.FechaComienzo = new Date();
