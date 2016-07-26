@@ -83,7 +83,7 @@ namespace ModuloContabilidad.Models
                 accountsTable,
                 acc.iCodigo,
                 acc.Grupo,
-                acc.SubGrupo,
+                acc.Subgrupo,
                 acc.Sufijo,
                 acc.Nombre));
         }

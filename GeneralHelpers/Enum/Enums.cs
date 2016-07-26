@@ -29,6 +29,8 @@ namespace AdConta
     /// TODO?: añadir internacional?
     /// </summary>
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
+
+    public enum SituacionCuota : int { Pendiente = 0, Cobrada, Devuelta, }
     #endregion
 
     #region accounting specific
