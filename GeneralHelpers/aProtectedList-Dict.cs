@@ -99,6 +99,9 @@ namespace AdConta
         }
 
         #region fields
+        /// <summary>
+        /// Key = value object's id
+        /// </summary>
         protected Dictionary<R,T> _Dict;
         #endregion
 

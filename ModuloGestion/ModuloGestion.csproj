@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\CobrosEACLists-Dicts.cs" />
+    <Compile Include="Helpers\IngresosDevueltosList-Dict.cs" />
     <Compile Include="ObjModels\ComunidadGestion.cs" />
+    <Compile Include="ObjModels\Devolucion.cs" />
     <Compile Include="ObjModels\Pagador.cs" />
     <Compile Include="ObjModels\Propietario.cs" />
     <Compile Include="ObjModels\sCobros-sEntACta.cs" />
@@ -84,7 +86,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Diagram_ModGestion-14.07.16.cd" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Diagrams\Diagram_ModGestion-25.07.16.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -129,9 +132,7 @@
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Diagrams\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

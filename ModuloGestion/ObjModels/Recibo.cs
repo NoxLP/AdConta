@@ -10,11 +10,7 @@ namespace ModuloGestion.ObjModels
 {
     public class Recibo : iOwnerComunidad
     {
-        public Recibo()
-        {
-            this._Cobros = new CobrosDict();
-            this._EntregasACuenta = new EntACtaDict();
-        }
+        private Recibo() { }
         public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto)
         {
             this._Id = id;

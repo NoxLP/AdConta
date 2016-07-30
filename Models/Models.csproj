@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="BankAccount.cs" />
     <Compile Include="Base\aModelBase.cs" />
-    <Compile Include="Base\ObjModelOwners.cs" />
+    <Compile Include="Base\iObjModelOwners.cs" />
     <Compile Include="sEjercicio.cs" />
     <Compile Include="Concepto.cs" />
     <Compile Include="Base\DatabaseConnection.cs" />

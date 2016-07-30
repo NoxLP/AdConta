@@ -11,10 +11,57 @@ namespace ModuloGestion.ObjModels
 {
     public class Finca : iOwnerComunidad
     {
-        public Finca()
+        #region constructors
+        private Finca() { }
+
+        public Finca(
+            int id,
+            int idOwnerComunidad,
+            string nombre,
+            double coeficiente)
         {
-            
+            this._Id = id;
+            this._IdOwnerComunidad = idOwnerComunidad;
+            this._Nombre = nombre;
+            this._Coeficiente = coeficiente;
         }
+        public Finca(
+            int id,
+            int idOwnerComunidad,
+            string nombre,
+            double coeficiente,
+            Propietario propietarioActual,
+            Dictionary<Date,int> historicoProps)
+        {
+            this._Id = id;
+            this._IdOwnerComunidad = idOwnerComunidad;
+            this._Nombre = nombre;
+            this._Coeficiente = coeficiente;
+            this._PropietarioActual = propietarioActual;
+            this._HistoricoPropietarios = historicoProps;
+        }
+        public Finca(
+            int id,
+            int idOwnerComunidad,
+            string nombre,
+            double coeficiente,
+            Propietario propietarioActual,
+            Dictionary<Date, int> historicoProps,
+            Dictionary<int,Cuota> cuotas,
+            EntACtaDict EAC = null,
+            IngresosDevueltosList devoluciones = null)
+        {
+            this._Id = id;
+            this._IdOwnerComunidad = idOwnerComunidad;
+            this._Nombre = nombre;
+            this._Coeficiente = coeficiente;
+            this._PropietarioActual = propietarioActual;
+            this._HistoricoPropietarios = historicoProps;
+            this._Cuotas = cuotas;
+            this._EntregasACuenta = EAC;
+            this._Devoluciones = devoluciones;
+        }
+        #endregion
 
         #region fields
         private int _Id;
@@ -31,6 +78,7 @@ namespace ModuloGestion.ObjModels
         private int[] _IdAsociadas;
         private Dictionary<int, Cuota> _Cuotas;
         private EntACtaDict _EntregasACuenta;
+        private IngresosDevueltosList _Devoluciones;
         #endregion
 
         #region properties
@@ -68,7 +116,8 @@ namespace ModuloGestion.ObjModels
         }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
         public EntACtaDict EntregasACuenta { get { return this._EntregasACuenta; } }
-        
+        public IngresosDevueltosList Devoluciones { get { return this._Devoluciones; } }
+
         public string Notas { get; set; }
         #endregion
 
@@ -146,6 +195,11 @@ namespace ModuloGestion.ObjModels
                 if (kvp.Value.Fecha <= fechaInicial && kvp.Value.Fecha >= fechaFinal)
                     total += kvp.Value.Importe;
             }
+            foreach (sIngresoDevuelto ingreso in this.Devoluciones.GetEnumerable())
+            {
+                if (ingreso.Fecha <= fechaInicial && ingreso.Fecha >= fechaFinal)
+                    total -= (ingreso.Importe + ingreso.Gastos);
+            }
 
             return total;
         }
@@ -165,7 +219,7 @@ namespace ModuloGestion.ObjModels
         /// <returns></returns>
         public decimal DeudaALaFecha()
         {
-            return DeudaPorCuotasImpagadas() - this.EntregasACuenta.Total;
+            return DeudaPorCuotasImpagadas() - this.EntregasACuenta.Total - Devoluciones.Total - Devoluciones.TotalGastos;
         }
         /// <summary>
         /// Ingresos hasta el día de la fecha
@@ -199,7 +253,8 @@ namespace ModuloGestion.ObjModels
             return DeudaPorCuotasImpagadas(fechaInicial, fechaFinal, fechaIngresos) - TotalEntregasACuentaAFecha(fechaInicial, fechaIngresos);
         }
         /// <summary>
-        /// Llena deuda con un dictionario (idPropietario, cuotas con deuda) siguiendo los propietarios que aparecen en this.HistoricoPropietarios
+        /// Llena deuda con un diccionario (idPropietario, cuotas con deuda) siguiendo los propietarios que aparecen en this.HistoricoPropietarios
+        /// SIN ENTREGAS A CUENTA
         /// </summary>
         /// <param name="deuda"></param>
         public void DeudaPorPropietario(ref Dictionary<int, List<Cuota>> deuda, Date primeraFecha)
@@ -209,7 +264,7 @@ namespace ModuloGestion.ObjModels
             foreach (KeyValuePair<Date, int> kvp in orderedHistorico)
             {
                 deuda.Add(kvp.Value,
-                    this.Cuotas.Where(x => x.Value.IdOwnerPersona == kvp.Value && x.Value.GetDeuda() > 0)
+                    this.Cuotas.Where(x => x.Value.IdOwnerPropietario == kvp.Value && x.Value.GetDeuda() > 0)
                     .Select(x => x.Value)
                     .ToList<Cuota>());
             }

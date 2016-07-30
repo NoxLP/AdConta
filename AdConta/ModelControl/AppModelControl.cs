@@ -9,7 +9,10 @@ using ModuloContabilidad.ObjModels;
 
 namespace AdConta.ModelControl
 {
-    public class AppModelControl //: aAppModelControlBase
+    /// <summary>
+    /// Control and store ALL object models. Just for internal use, to add object models use static AppModelControlMessenger.
+    /// </summary>
+    public class AppModelControl
     {
         public AppModelControl()
         {
@@ -25,15 +28,6 @@ namespace AdConta.ModelControl
         private Dictionary<int, Comunidad> _Comunidades;
         private Dictionary<int, Persona> _Personas;
         private Dictionary<int, Concepto> _Conceptos;
-        #endregion
-
-        #region properties
-        /*public List<Comunidad> Comunidades { get; }
-        public List<Persona> Personas { get; private set; }
-        public List<sConcepto> Conceptos { get { return this._Conceptos; } }*/
-        #endregion
-
-        #region helpers
         #endregion
 
         #region public methods

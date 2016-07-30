@@ -8,19 +8,42 @@ using AdConta;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Cuota : iOwnerComunidad, iOwnerPersona, iOwnerFinca
+    public class Cuota : iOwnerComunidad, iOwnerPropietario, iOwnerFinca
     {
-        public Cuota()
+        private Cuota() { }
+        public Cuota(
+            int id, 
+            int idOwnerFinca, 
+            int idOwnerComunidad, 
+            int idOwnerPropietario,
+            sEjercicio ejercicio,
+            Concepto concepto,
+            Date mes,
+            Date caducidad,
+            decimal importeTotal,
+            CobrosDict cobros = null,
+            Situacion_Recibo_Cobro_EntaCta situacion = Situacion_Recibo_Cobro_EntaCta.Normal,
+            IngresosDevueltosList devoluciones = null)
         {
-            this._Caducidad = new Date();
-            this._Cobros = new CobrosList();
+            this._Id = id;
+            this._IdOwnerFinca = idOwnerFinca;
+            this._IdOwnerComunidad = idOwnerComunidad;
+            this._IdOwnerPropietario = idOwnerPropietario;
+            this._Ejercicio = ejercicio;
+            this._Concepto = concepto;
+            this._Mes = mes;
+            this._Caducidad = caducidad;
+            this._ImporteTotal = importeTotal;
+            this._Cobros = cobros;
+            this._Situacion = situacion;
+            this._Devoluciones = devoluciones;
         }
 
         #region fields
         private int _Id;
         private int _IdOwnerFinca;
         private int _IdOwnerComunidad;
-        private int _IdOwnerPersona;
+        private int _IdOwnerPropietario;
         private sEjercicio _Ejercicio;
 
         private Concepto _Concepto;
@@ -29,14 +52,16 @@ namespace ModuloGestion.ObjModels
         private Date _Caducidad;
         private decimal _ImporteTotal;
 
-        private CobrosList _Cobros;
+        private CobrosDict _Cobros;
+        private Situacion_Recibo_Cobro_EntaCta _Situacion;
+        private IngresosDevueltosList _Devoluciones;        
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerFinca { get { return this._IdOwnerFinca; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
-        public int IdOwnerPersona { get { return this._IdOwnerPersona; } }
+        public int IdOwnerPropietario { get { return this._IdOwnerPropietario; } }
         public sEjercicio Ejercicio { get { return this._Ejercicio; } }
 
         public Concepto Concepto { get { return this._Concepto; } }
@@ -45,24 +70,27 @@ namespace ModuloGestion.ObjModels
         public Date Caducidad { get { return this._Caducidad; } }        
         public decimal ImporteTotal { get { return this._ImporteTotal; } }
 
-        public CobrosList Cobros { get { return this._Cobros; } }
-        #endregion
-
-        #region helpers
+        public CobrosDict Cobros { get { return this._Cobros; } }
+        public Situacion_Recibo_Cobro_EntaCta Situacion { get { return this._Situacion; } }
+        public IngresosDevueltosList Devoluciones { get { return this._Devoluciones; } }
         #endregion
 
         #region public methods
         public decimal GetDeuda()
         {
-            return this.ImporteTotal - this.Cobros.Total;
+            return this.ImporteTotal - this.Cobros.Total + this.Devoluciones.Total + this.Devoluciones.TotalGastos;
         }
         public decimal GetDeuda(Date fechaIngresos)
         {
             decimal deuda = this.ImporteTotal;
 
-            foreach(sCobro cobro in this.Cobros.GetEnumerable())
+            foreach(KeyValuePair<int,sCobro> cobro in this.Cobros.GetEnumerable())
             {
-                if (cobro.Fecha <= fechaIngresos) deuda -= cobro.Importe;
+                if (cobro.Value.Fecha <= fechaIngresos) deuda -= cobro.Value.Importe;
+            }
+            foreach(sIngresoDevuelto ingreso in this.Devoluciones.GetEnumerable())
+            {
+                if (ingreso.Fecha <= fechaIngresos) deuda = deuda + ingreso.Importe + ingreso.Gastos;
             }
 
             return deuda;
