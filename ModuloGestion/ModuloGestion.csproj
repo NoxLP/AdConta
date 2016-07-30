@@ -52,7 +52,6 @@
     <Compile Include="Helpers\IngresosDevueltosList-Dict.cs" />
     <Compile Include="ObjModels\ComunidadGestion.cs" />
     <Compile Include="ObjModels\Devolucion.cs" />
-    <Compile Include="ObjModels\Pagador.cs" />
     <Compile Include="ObjModels\Propietario.cs" />
     <Compile Include="ObjModels\sCobros-sEntACta.cs" />
     <Compile Include="ObjModels\Cuota.cs" />
