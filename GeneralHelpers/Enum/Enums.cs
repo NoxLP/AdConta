@@ -80,5 +80,7 @@ namespace AdConta
     /// Enum for specify top or bottom TabbedExpander
     /// </summary>
     public enum TabExpWhich : byte { Top = 0, Bottom}
+
+    public enum ErrorSettingReciboDicts : int { None = 0, ImporteIncorrecto, VariasEACaMismaFinca}
     #endregion
 }

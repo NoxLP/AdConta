@@ -62,7 +62,7 @@
     <Compile Include="ObjModels\Factura.cs" />
     <Compile Include="ObjModels\Gasto.cs" />
     <Compile Include="ObjModels\GastosPagosBase.cs" />
-    <Compile Include="ObjModels\GastosPagosLists.cs" />
+    <Compile Include="Helpers\GastosPagosLists.cs" />
     <Compile Include="ObjModels\GruposCuentas.cs" />
     <Compile Include="ObjModels\LedgeAccount.cs" />
     <Compile Include="Models\TabMayorDBConnection.cs" />

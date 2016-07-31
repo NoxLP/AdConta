@@ -9,6 +9,12 @@ namespace ModuloContabilidad.ObjModels
 {
     public class GastosPagosList<T> : aProtectedList<T> where T : GastosPagosBase
     {
+        public GastosPagosList()
+        {
+            this._Total = 0;
+            foreach (T item in this._List) this._Total += item.Importe;
+        }
+
         #region fields
         private decimal _Total;
         #endregion

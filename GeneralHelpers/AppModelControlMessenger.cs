@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace AdConta.ModelControl
+namespace AdConta
 {
     /// <summary>
     /// Static class for adding objectModels so they don't get duplicated.

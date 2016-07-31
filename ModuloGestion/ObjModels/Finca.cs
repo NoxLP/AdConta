@@ -195,7 +195,7 @@ namespace ModuloGestion.ObjModels
                 if (kvp.Value.Fecha <= fechaInicial && kvp.Value.Fecha >= fechaFinal)
                     total += kvp.Value.Importe;
             }
-            foreach (sIngresoDevuelto ingreso in this.Devoluciones.GetEnumerable())
+            foreach (sIngresoDevuelto ingreso in this.Devoluciones.GetIngresosDevueltosEnumerable())
             {
                 if (ingreso.Fecha <= fechaInicial && ingreso.Fecha >= fechaFinal)
                     total -= (ingreso.Importe + ingreso.Gastos);
@@ -203,8 +203,6 @@ namespace ModuloGestion.ObjModels
 
             return total;
         }
-
-
         #endregion
 
         #region public methods

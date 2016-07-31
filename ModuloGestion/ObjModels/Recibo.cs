@@ -42,20 +42,21 @@ namespace ModuloGestion.ObjModels
         public EntACtaDict EntregasACuenta { get { return this._EntregasACuenta; } }
         #endregion
 
-        #region helpers
-        #endregion
-
         #region public methods
-        public bool TrySetCobrosEntACta(ref CobrosDict cobros, ref EntACtaDict entregasACuenta)
+        public ErrorSettingReciboDicts TrySetCobrosEntACta(ref CobrosDict cobros, ref EntACtaDict entregasACuenta)
         {
             decimal importeTotal = cobros.Total + entregasACuenta.Total;
 
             if (importeTotal != this.Importe)
-                return false;
+                return ErrorSettingReciboDicts.ImporteIncorrecto;            
+
+            List<int> fincas = new List<int>(entregasACuenta.Values.Select(x => x.IdOwnerFinca).Distinct());
+            if (fincas.Count() != entregasACuenta.Count)
+                return ErrorSettingReciboDicts.VariasEACaMismaFinca;
 
             this._Cobros = cobros;
             this._EntregasACuenta = entregasACuenta;
-            return true;
+            return ErrorSettingReciboDicts.None;
         }
         #endregion
     }

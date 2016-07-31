@@ -13,6 +13,12 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class CobrosList : aProtectedList<sCobro>
     {
+        public CobrosList()
+        {
+            this._Total = 0;
+            foreach(sCobro cobro in this._List) this._Total += cobro.Importe;
+        }
+
         #region fields
         private decimal _Total;
         #endregion
@@ -70,6 +76,12 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class EntACtaList : aProtectedList<sEntACta>
     {
+        public EntACtaList()
+        {
+            this._Total = 0;
+            foreach (sEntACta EAC in this._List) this._Total += EAC.Importe;
+        }
+
         #region fields
         private decimal _Total;
         #endregion
@@ -127,6 +139,12 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class CobrosDict : aProtectedDict<int, sCobro>
     {
+        public CobrosDict()
+        {
+            this._Total = 0;
+            foreach (KeyValuePair<int, sCobro> kvp in this._Dict) this._Total += kvp.Value.Importe;
+        }
+
         #region fields
         private decimal _Total;
         #endregion
@@ -166,12 +184,18 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class EntACtaDict : aProtectedDict<int, sEntACta>
     {
+        public EntACtaDict()
+        {
+            this._Total = 0;
+            foreach (KeyValuePair<int, sEntACta> kvp in this._Dict) this._Total += kvp.Value.Importe;
+        }
+
         #region fields
         private decimal _Total;
         #endregion
 
         #region properties
-        public decimal Total { get { return this._Total; } }
+        public decimal Total { get { return this._Total; } }        
         #endregion
 
         #region public methods
@@ -195,6 +219,7 @@ namespace ModuloGestion.ObjModels
         {
             this._Total = 0;
             base._Dict.Clear();
+            
         }
         #endregion
     }

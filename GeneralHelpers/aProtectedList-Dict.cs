@@ -105,6 +105,12 @@ namespace AdConta
         protected Dictionary<R,T> _Dict;
         #endregion
 
+        #region properties
+        public Dictionary<R, T>.KeyCollection Keys { get { return this._Dict.Keys; } }
+        public Dictionary<R, T>.ValueCollection Values { get { return this._Dict.Values; } }
+        public int Count { get { return this._Dict.Count; } }
+        #endregion
+
         #region operators
         public T this[R key]
         {

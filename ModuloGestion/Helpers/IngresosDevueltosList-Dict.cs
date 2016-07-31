@@ -11,7 +11,14 @@ namespace ModuloGestion.ObjModels
     {
         public IngresosDevueltosList()
         {
+            this._Total = 0;
+            this._TotalGastos = 0;
 
+            foreach(Devolucion dev in this._List)
+            {
+                this._Total += dev.ImporteTotal;
+                this._TotalGastos += dev.GastosTotal;
+            }
         }
 
         #region fields
@@ -24,19 +31,48 @@ namespace ModuloGestion.ObjModels
         public decimal TotalGastos { get { return this._TotalGastos; } }
         #endregion
 
-        #region helpers
-        #endregion
-
         #region public methods
         public override void Add(Devolucion item)
         {
             this._List.Add(item);
-            this._Total += item.Importe;
-            this._TotalGastos += item.Gastos;
+            this._Total += item.ImporteTotal;
+            this._TotalGastos += item.GastosTotal;
         }
         public override void AddRange(IEnumerable<Devolucion> collection)
         {
             base.AddRange(collection);
+        }
+        public override void RemoveAt(int index)
+        {
+            if (index < 0 || index > this.Count)
+                throw new IndexOutOfRangeException();
+
+            this._Total -= this[index].ImporteTotal;
+            this._TotalGastos -= this[index].GastosTotal;
+            base._List.RemoveAt(index);
+        }
+        public override void RemoveRange(int index, int count)
+        {
+            if (index < 0 || index > this.Count || (index + count) > this.Count)
+                throw new IndexOutOfRangeException();
+
+            for (int i = index; i < count; i++)
+            {
+                this._Total -= this[i].ImporteTotal;
+                this._TotalGastos -= this[i].GastosTotal;
+            }
+
+            base._List.RemoveRange(index, count);
+        }
+        public override void Clear()
+        {
+            this._Total = 0;
+            this._TotalGastos = 0;
+            this._List.Clear();
+        }
+        public IEnumerable<sIngresoDevuelto> GetIngresosDevueltosEnumerable()
+        {
+            return (IEnumerable<sIngresoDevuelto>)this._List.Select(x => x.IngresosDevueltos.AsEnumerable<sIngresoDevuelto>());
         }
         #endregion
     }
