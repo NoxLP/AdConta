@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using ModuloContabilidad;
+using AdConta;
 using AdConta.ViewModel;
 
 namespace ModuloContabilidad
@@ -19,14 +19,14 @@ namespace ModuloContabilidad
     /// <summary>
     /// Interaction logic for AsientosWindow.xaml
     /// </summary>
-    public partial class AsientosWindow : CustomChromeLibrary.CustomChromeWindow
+    public partial class AsientosWindow : CustomChromeLibrary.CustomChromeWindow, iWindow_UCContainer<VMAsientoSimple>
     {
         public AsientosWindow()
         {
             InitializeComponent();
-        }
+        }        
 
-        public void AddExpanderUserControl(VMAsientoSimple vm)
+        public void AddUserControlToWindow(VMAsientoSimple vm)
         {
             this.CPresenter.Content = vm;
             //DataGrid DGrid = this.CPresenter.FindVisualChild<DataGrid>(x => (x as DataGrid).Name == "DGridAsiento");
@@ -34,7 +34,7 @@ namespace ModuloContabilidad
             //DGrid.SetBinding(DGrid.Height, new Binding("DGridHeight"));
         }
 
-        public void MoveUserControlToAbleTabcontrol(object sender, EventArgs e)
+        public void MoveUserControlToATC(object sender, EventArgs e)
         {
             //AsientoSimple ASUC = this.CPresenter.Content as AsientoSimple;//FindFirstVisualChildren<AsientoSimple>();
             VMAsientoSimple VM = this.CPresenter.Content as VMAsientoSimple;

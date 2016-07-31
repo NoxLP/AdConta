@@ -79,7 +79,7 @@ namespace ModuloContabilidad
 
                 AsientosWindow w = new AsientosWindow();
                 w.Name = "testWindow";
-                w.AddExpanderUserControl(this._tab);
+                w.AddUserControlToWindow(this._tab);
                 w.Show();
                 w.Focus();
             }

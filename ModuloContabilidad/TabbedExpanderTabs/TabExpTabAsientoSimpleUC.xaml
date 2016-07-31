@@ -30,14 +30,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Margin="3,4,3,3"
+    <DockPanel Background="White" LastChildFill="True">
+            <Border DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="Auto" Width="Auto" Margin="3,4,3,3"
                     BorderThickness="1" BorderBrush="Gray">
                 <DockPanel>
                     <UserControls:TBoxLabel Label="Fecha" DockPanel.Dock="Left" TBReadOnly="False" HorizontalAlignment="Left" TBWidth="75"
@@ -54,9 +48,19 @@
                                             Margin="3" TBTextAlignment="Right" Text="{Binding SaldoDebe}"/>
                 </DockPanel>
             </Border>
-        </Grid>
-        <Grid Grid.Row="1" x:Name="ASGridRow1">
-            <DataGrid x:Name="DGridAsiento" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Margin="3,1,3,1"
+        <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Height="Auto" HorizontalAlignment="Stretch">
+            <Button x:Name="PinButton" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="19"
+                        Template="{StaticResource PinButtonTemplate}" Content="{StaticResource PinImage}" Visibility="{Binding PinButtonVisibility}"
+                        Command="{Binding MoveAsientoToWindow}"/>
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Guardar" Margin="0,3,2,2"/>
+            <Button DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Cancelar" Margin="0,3,2,2"
+                        Click="TabExpCloseTabButton_Click"/>
+            <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="A.Predef" Margin="2,3,0,2"/>
+        </DockPanel>
+
+        <DataGrid x:Name="DGridAsiento" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                      Height="Auto" 
+                      Width="Auto" Margin="3,1,3,1"
                           HeadersVisibility="All" AutoGenerateColumns="False"
                           SelectionMode="Extended" SelectionUnit="CellOrRowHeader" CanUserAddRows="True"
                           HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray"
@@ -75,7 +79,7 @@
                                         Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabbedExpander:TabbedExpander}}, 
                         Path=ActualHeight, Mode=OneWay, Converter={StaticResource ADGridHeightconverter}, ConverterParameter=AS,
                         diag:PresentationTraceSources.TraceLevel=High}"/>
-                                <!--Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type AbleTabControl:TabMayorUC}}, 
+                                <!--="{Binding RelativeSource={RelativeSource AncestorType={x:Type AbleTabControl:TabMayorUC}}, 
                                     Path=DataContext.SecondaryDGridHeight, 
                                     Converter={StaticResource ADGridHeightconverter}, 
                                     ConverterParameter=AS,
@@ -107,18 +111,6 @@
                                                  HeaderStyle="{StaticResource DGridLeftHeaderStyle}"
                                                  ElementStyle="{StaticResource DGridRightCellStyle}"/>
                 </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <Grid Grid.Row="2">
-            <DockPanel VerticalAlignment="Stretch" Height="Auto">
-                <Button x:Name="PinButton" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="19"
-                        Template="{StaticResource PinButtonTemplate}" Content="{StaticResource PinImage}" Visibility="{Binding PinButtonVisibility}"
-                        Command="{Binding MoveAsientoToWindow}"/>
-                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Guardar" Margin="0,3,2,2"/>
-                <Button DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Cancelar" Margin="0,3,2,2"
-                        Click="TabExpCloseTabButton_Click"/>
-                <Button DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="A.Predef" Margin="2,3,0,2"/>
-            </DockPanel>
-        </Grid>
-    </Grid>
+            </DataGrid>  
+    </DockPanel>
 </UserControl>
