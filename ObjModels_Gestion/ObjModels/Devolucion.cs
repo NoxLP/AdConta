@@ -19,7 +19,7 @@ namespace ModuloGestion.ObjModels
         public decimal Gastos { get; private set; }
     }
 
-    public class Devolucion : iOwnerComunidad
+    public class Devolucion : iObjModelBase, iOwnerComunidad
     {
         private Devolucion() { }
         public Devolucion(int id, int idComunidad, Date fecha, List<sIngresoDevuelto> devoluciones)

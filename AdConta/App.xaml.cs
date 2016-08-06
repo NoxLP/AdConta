@@ -14,7 +14,7 @@ namespace AdConta
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, iAppRepositories
     {
         public App()
         {
@@ -24,7 +24,7 @@ namespace AdConta
             {
                 DefaultValue = FindResource(typeof(Window))
             });
-
+            
             this._AppModelControl = new ModelControl.AppModelControl();
         }
 

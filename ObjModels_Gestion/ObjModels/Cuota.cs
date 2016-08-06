@@ -8,7 +8,7 @@ using AdConta;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Cuota : iOwnerComunidad, iOwnerPropietario, iOwnerFinca
+    public class Cuota : iObjModelBase, iOwnerComunidad, iOwnerPropietario, iOwnerFinca
     {
         private Cuota() { }
         public Cuota(

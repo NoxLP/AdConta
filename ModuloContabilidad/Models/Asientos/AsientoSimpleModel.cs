@@ -62,7 +62,7 @@ namespace ModuloContabilidad.Models
             {
                 DTable.NewRow();
                 i++;
-                DTable.Rows[i].SetField<int>("Cuenta", ap.Account.iCodigo);
+                DTable.Rows[i].SetField<int>("Cuenta", ap.Account.Id);
                 DTable.Rows[i].SetField<decimal>("Importe", ap.Amount);
                 DTable.Rows[i].SetField<bool>("Debe/Haber", ap.DebeHaber.GetAttribute<DebitCreditAtttribute>().Description);
                 DTable.Rows[i].SetField<string>("Concepto", ap.Concepto);
@@ -92,7 +92,7 @@ namespace ModuloContabilidad.Models
             {
                 DTable.NewRow();
                 i++;
-                DTable.Rows[i].SetField<int>("Cuenta", ap.Account.iCodigo);
+                DTable.Rows[i].SetField<int>("Cuenta", ap.Account.Id);
                 DTable.Rows[i].SetField<decimal>("Importe", ap.Amount);
                 DTable.Rows[i].SetField<bool>("Debe/Haber", ap.DebeHaber.GetAttribute<DebitCreditAtttribute>().Description);
                 DTable.Rows[i].SetField<string>("Concepto", ap.Concepto);

@@ -4,21 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using AdConta;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class AsientoComplejo : aAsiento
+    public class AsientoSimple : aAsiento
     {
-        public AsientoComplejo(int nAsiento)
+        public AsientoSimple(int nAsiento)
         {
-            base._NAsiento = nAsiento;
+            base._Id = nAsiento;
             this.Date = DateTime.Today;
             base._Apuntes = new ObservableCollection<Apunte>();
             this.Balance = 0;
             this.IsNew = true;
         }
-        public AsientoComplejo(DateTime date, ObservableCollection<Apunte> apuntes, bool isNew)
+        public AsientoSimple(DateTime date, ObservableCollection<Apunte> apuntes, bool isNew)
         {
             if (apuntes.Count < 2)
             {
@@ -43,7 +42,7 @@ namespace ModuloContabilidad.ObjModels
         public override bool IsNew { get; set; }
         public override Apunte this[int i]
         {
-            get { return base._Apuntes[i]; }
+            get { return this._Apuntes[i]; }
         }
         /*public IEnumerable Apuntes
         {
@@ -67,15 +66,7 @@ namespace ModuloContabilidad.ObjModels
         /// <returns></returns>
         protected override decimal GetBalanceOfList(ObservableCollection<Apunte> apuntes)
         {
-            decimal sum = 0;
-            int sign;
-            foreach (Apunte ap in apuntes)
-            {
-                sign = (ap.DebeHaber == DebitCredit.Debit) ? 1 : -1;
-                sum += (ap.Amount * sign);
-            }
-
-            return sum;
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Modify this.Balance property to new accounting balance given that apunte have been changed.
@@ -84,14 +75,8 @@ namespace ModuloContabilidad.ObjModels
         /// <param name="oldamount"></param>
         public override void ChangeBalance(Apunte apunte, decimal oldamount)
         {
-            int sign = (apunte.DebeHaber == DebitCredit.Debit) ? 1 : -1;
-            this.Balance -= (oldamount * sign);
-            this.Balance += (apunte.Amount * sign);
+            throw new NotImplementedException();
         }
-        #endregion
-
-        #region public methods
-
         #endregion
     }
 }

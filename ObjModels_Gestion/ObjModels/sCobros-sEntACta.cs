@@ -8,7 +8,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public interface iIngresoPropietario : iOwnerPersona, iOwnerRecibo
+    public interface iIngresoPropietario : iObjModelBase, iOwnerPersona, iOwnerRecibo
     {
         int Id { get; }
         Date Fecha { get; }
@@ -16,7 +16,7 @@ namespace ModuloGestion.ObjModels
         Situacion_Recibo_Cobro_EntaCta Situacion { get; }
     }
 
-    public struct sCobro : iIngresoPropietario, iOwnerCuota
+    public struct sCobro : iObjModelBase, iIngresoPropietario, iOwnerCuota
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }
@@ -43,7 +43,7 @@ namespace ModuloGestion.ObjModels
         }
     }
 
-    public struct sEntACta : iIngresoPropietario, iOwnerFinca
+    public struct sEntACta : iObjModelBase, iIngresoPropietario, iOwnerFinca
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }        

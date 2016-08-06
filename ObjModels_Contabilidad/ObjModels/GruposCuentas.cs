@@ -7,7 +7,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public struct GruposCuentas : iOwnerComunidad
+    public struct GruposCuentas : iObjModelBase, iOwnerComunidad
     {
         public int Id { get; private set; }
         public int IdOwnerComunidad { get; private set; }

@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Finca : iOwnerComunidad
+    public class Finca : iObjModelBase, iOwnerComunidad
     {
         #region constructors
         private Finca() { }

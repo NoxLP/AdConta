@@ -87,7 +87,7 @@ namespace ModuloContabilidad.ObjModels
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class LedgeAccount
+    public class LedgeAccount : AdConta.Models.iObjModelBase
     {
         public LedgeAccount(string accountNumber)
         {
@@ -96,7 +96,7 @@ namespace ModuloContabilidad.ObjModels
         }
 
         #region fields
-        private int _iCodigo;
+        private int _Id;
         private string _Codigo;
         private GrupoContable _Grupo;
         private SubgrupoContable _Subgrupo;
@@ -106,17 +106,17 @@ namespace ModuloContabilidad.ObjModels
         #endregion
 
         #region properties
-        public int iCodigo
+        public int Id
         {
-            get { return _iCodigo; }
+            get { return _Id; }
             set
             {
-                if (value == this._iCodigo ||
+                if (value == this._Id ||
                     value < GlobalSettings.Properties.Settings.Default.MINCODCUENTAS ||
                     value > GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS)
                     return;
                 
-                this._iCodigo = value;
+                this._Id = value;
                 this._Grupo = new GrupoContable();
                 this._Subgrupo = new SubgrupoContable();
                 this._Grupo.SetGrupoByAccNumber(value);
@@ -162,7 +162,7 @@ namespace ModuloContabilidad.ObjModels
 
                 int sufDigits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 3;
                 sufDigits = (int)Math.Truncate(Math.Pow(10, sufDigits));
-                this._iCodigo = (this.Grupo + this.Subgrupo) * sufDigits + this.Sufijo;                
+                this._Id = (this.Grupo + this.Subgrupo) * sufDigits + this.Sufijo;                
             }
         }
         public string Nombre { get; set; }
@@ -175,11 +175,11 @@ namespace ModuloContabilidad.ObjModels
         #region public methods
         public bool IsLastAccount()
         {
-            return this.iCodigo == GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS;
+            return this.Id == GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS;
         }
         public bool IsFirstAccount()
         {
-            return this.iCodigo == GlobalSettings.Properties.Settings.Default.MINCODCUENTAS;
+            return this.Id == GlobalSettings.Properties.Settings.Default.MINCODCUENTAS;
         }
         #endregion
     }

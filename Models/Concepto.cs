@@ -1,7 +1,7 @@
 ﻿
 namespace AdConta.Models
 {
-    public class Concepto
+    public class Concepto : iObjModelBase
     {
         public Concepto(int id)
         {

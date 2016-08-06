@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdConta.Models
 {
-    public class Persona
+    public class Persona : iObjModelBase
     {
         public Persona(int id, string nif, bool forceInvalidNIF = false)
         {

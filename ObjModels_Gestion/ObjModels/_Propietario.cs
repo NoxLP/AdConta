@@ -15,17 +15,16 @@ namespace ModuloGestion.ObjModels
         {
             this._Cuotas = new Dictionary<int, Cuota>();
         }
-        
+
 
         #region fields
+        private int _IdPropietario;
         private Dictionary<int, Cuota> _Cuotas;
         #endregion
 
         #region properties
+        public int IdPropietario { get { return this._IdPropietario; } }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
-        #endregion
-
-        #region helpers
         #endregion
 
         #region public methods

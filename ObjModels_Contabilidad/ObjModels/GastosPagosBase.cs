@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class GastosPagosBase : iOwnerComunidad
+    public class GastosPagosBase : iObjModelBase, iOwnerComunidad
     {
         public GastosPagosBase(int id, int idComunidad, Date fecha)
         {

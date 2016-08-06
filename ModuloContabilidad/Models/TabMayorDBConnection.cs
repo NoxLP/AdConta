@@ -30,8 +30,7 @@ namespace ModuloContabilidad.Models
         public override string CreateCmd
         {
             get { return this._CreateCmd; }
-        }
-        
+        }        
         #endregion
 
         #region database connection methods
@@ -81,7 +80,7 @@ namespace ModuloContabilidad.Models
             //TODO faltan nombres de las cuentas
             this.ExecuteNonQuery(string.Format("INSERT INTO {0} (CodigoCuenta, Grupo, Subgrupo, Sufijo, Nombre) VALUES ({1},{2},{3},{4},'{5}')",
                 accountsTable,
-                acc.iCodigo,
+                acc.Id,
                 acc.Grupo,
                 acc.Subgrupo,
                 acc.Sufijo,

@@ -8,7 +8,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Proveedor : Persona
+    public class Proveedor : Persona, iObjModelBase
     {
         public Proveedor(int id, int idPersona, string nif, bool forceInvalidNIF = false) 
             : base(idPersona, nif, forceInvalidNIF)

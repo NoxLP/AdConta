@@ -9,7 +9,7 @@ using AdConta;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Apunte
+    public class Apunte : AdConta.Models.iObjModelBase
     {
         //public Apunte() { }
         public Apunte(aAsiento asiento)
@@ -24,7 +24,7 @@ namespace ModuloContabilidad.ObjModels
         #endregion
 
         #region properties
-        public int NApunte { get; set; }
+        public int Id { get; set; }
         public LedgeAccount Account { get; set; }
         public decimal Amount
         {
@@ -70,10 +70,11 @@ namespace ModuloContabilidad.ObjModels
     {
         #region fields
         protected ObservableCollection<Apunte> _Apuntes;
-        protected int _NAsiento;
+        protected int _Id;
         #endregion
 
         #region properties
+        public int Id { get { return this._Id; } }
         public abstract DateTime Date { get; set; }
         public abstract decimal Balance { get; protected set; }
         public abstract bool IsNew { get; set; }

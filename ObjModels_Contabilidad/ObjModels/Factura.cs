@@ -9,7 +9,7 @@ using Extensions;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Factura : iOwnerProveedor, iOwnerComunidad
+    public class Factura : iObjModelBase, iOwnerProveedor, iOwnerComunidad
     {
         public Factura()
         {

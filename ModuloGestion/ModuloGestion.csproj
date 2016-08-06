@@ -48,15 +48,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\CobrosEACLists-Dicts.cs" />
-    <Compile Include="Helpers\IngresosDevueltosList-Dict.cs" />
-    <Compile Include="ObjModels\ComunidadGestion.cs" />
-    <Compile Include="ObjModels\Devolucion.cs" />
-    <Compile Include="ObjModels\Propietario.cs" />
-    <Compile Include="ObjModels\sCobros-sEntACta.cs" />
-    <Compile Include="ObjModels\Cuota.cs" />
-    <Compile Include="ObjModels\Finca.cs" />
-    <Compile Include="ObjModels\Recibo.cs" />
     <Compile Include="ViewModel\VMTabProps.cs" />
     <Page Include="TabPropsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -117,6 +108,14 @@
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{941a90cb-1636-48bb-9a7b-bc560ea30ba9}</Project>
       <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjModels_Gestion\ObjModels_Gestion.csproj">
+      <Project>{6086eaa3-02ee-4e05-a9a9-3362488be42a}</Project>
+      <Name>ObjModels_Gestion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{441f08bb-c1e9-484a-8ecb-f661004bf47f}</Project>
+      <Name>Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\TabbedExpanderCustomControl\TabbedExpanderCustomControl.csproj">
       <Project>{e11c702f-ebbc-4d3a-beb7-7fb951db254d}</Project>

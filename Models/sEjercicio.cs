@@ -1,7 +1,7 @@
 ﻿
 namespace AdConta.Models
 {
-    public struct sEjercicio : iOwnerComunidad
+    public struct sEjercicio : iObjModelBase, iOwnerComunidad
     {
         public int Id { get; private set; }
         public Date FechaComienzo { get; private set; }
