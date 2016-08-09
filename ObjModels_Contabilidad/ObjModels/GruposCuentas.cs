@@ -7,7 +7,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public struct GruposCuentas : iObjModelBase, iOwnerComunidad
+    public class GruposCuentas : iObjModelBase, iOwnerComunidad
     {
         public int Id { get; private set; }
         public int IdOwnerComunidad { get; private set; }
@@ -30,7 +30,7 @@ namespace ModuloContabilidad.ObjModels
             this.Subgrupo = new SubgrupoContable(accountNumber);
         }
         
-        public bool Contains(ref LedgeAccount acc)
+        public bool Contains(ref CuentaMayor acc)
         {
             return (acc.Grupo == this.Grupo.Digits) && (acc.Subgrupo == this.Subgrupo.Digits);
         }

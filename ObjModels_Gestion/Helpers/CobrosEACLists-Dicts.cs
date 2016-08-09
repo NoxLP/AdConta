@@ -11,12 +11,12 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class CobrosList : aProtectedList<sCobro>
+    public class CobrosList : aProtectedList<Cobro>
     {
         public CobrosList()
         {
             this._Total = 0;
-            foreach(sCobro cobro in this._List) this._Total += cobro.Importe;
+            foreach(Cobro cobro in this._List) this._Total += cobro.Importe;
         }
 
         #region fields
@@ -28,16 +28,16 @@ namespace ModuloGestion.ObjModels
         #endregion
 
         #region public methods
-        public override void Add(sCobro item)
+        public override void Add(Cobro item)
         {
             base._List.Add(item);
             this._Total += item.Importe;
         }
-        public override void AddRange(IEnumerable<sCobro> collection)
+        public override void AddRange(IEnumerable<Cobro> collection)
         {
             base._List.AddRange(collection);
 
-            foreach(sCobro cobro in collection)
+            foreach(Cobro cobro in collection)
             {
                 this._Total += cobro.Importe;
             }
@@ -74,12 +74,12 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de las entregas a cuenta según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class EntACtaList : aProtectedList<sEntACta>
+    public class EntACtaList : aProtectedList<EntACta>
     {
         public EntACtaList()
         {
             this._Total = 0;
-            foreach (sEntACta EAC in this._List) this._Total += EAC.Importe;
+            foreach (EntACta EAC in this._List) this._Total += EAC.Importe;
         }
 
         #region fields
@@ -91,16 +91,16 @@ namespace ModuloGestion.ObjModels
         #endregion
 
         #region public methods
-        public override void Add(sEntACta item)
+        public override void Add(EntACta item)
         {
             base._List.Add(item);
             this._Total += item.Importe;
         }
-        public override void AddRange(IEnumerable<sEntACta> collection)
+        public override void AddRange(IEnumerable<EntACta> collection)
         {
             base._List.AddRange(collection);
 
-            foreach (sEntACta cobro in collection)
+            foreach (EntACta cobro in collection)
             {
                 this._Total += cobro.Importe;
             }
@@ -137,12 +137,12 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de los cobros según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class CobrosDict : aProtectedDict<int, sCobro>
+    public class CobrosDict : aProtectedDict<int, Cobro>
     {
         public CobrosDict()
         {
             this._Total = 0;
-            foreach (KeyValuePair<int, sCobro> kvp in this._Dict) this._Total += kvp.Value.Importe;
+            foreach (KeyValuePair<int, Cobro> kvp in this._Dict) this._Total += kvp.Value.Importe;
         }
 
         #region fields
@@ -154,7 +154,7 @@ namespace ModuloGestion.ObjModels
         #endregion
 
         #region public methods
-        public override void Add(int key, sCobro item)
+        public override void Add(int key, Cobro item)
         {
             if (this._Dict.ContainsKey(key))
                 throw new ArgumentException();
@@ -182,12 +182,12 @@ namespace ModuloGestion.ObjModels
     /// Simplemente lleva la contabilidad del total de las entregas a cuenta según se añaden o borran, 
     /// y no permite añadir ni borrar sin llevar esa contabilidad
     /// </summary>
-    public class EntACtaDict : aProtectedDict<int, sEntACta>
+    public class EntACtaDict : aProtectedDict<int, EntACta>
     {
         public EntACtaDict()
         {
             this._Total = 0;
-            foreach (KeyValuePair<int, sEntACta> kvp in this._Dict) this._Total += kvp.Value.Importe;
+            foreach (KeyValuePair<int, EntACta> kvp in this._Dict) this._Total += kvp.Value.Importe;
         }
 
         #region fields
@@ -199,7 +199,7 @@ namespace ModuloGestion.ObjModels
         #endregion
 
         #region public methods
-        public override void Add(int key, sEntACta item)
+        public override void Add(int key, EntACta item)
         {
             if (this._Dict.ContainsKey(key))
                 throw new ArgumentException();

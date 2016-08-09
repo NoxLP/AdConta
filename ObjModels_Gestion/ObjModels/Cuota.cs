@@ -16,7 +16,7 @@ namespace ModuloGestion.ObjModels
             int idOwnerFinca, 
             int idOwnerComunidad, 
             int idOwnerPropietario,
-            sEjercicio ejercicio,
+            Ejercicio ejercicio,
             Concepto concepto,
             Date mes,
             Date caducidad,
@@ -44,7 +44,7 @@ namespace ModuloGestion.ObjModels
         private int _IdOwnerFinca;
         private int _IdOwnerComunidad;
         private int _IdOwnerPropietario;
-        private sEjercicio _Ejercicio;
+        private Ejercicio _Ejercicio;
 
         private Concepto _Concepto;
 
@@ -62,7 +62,7 @@ namespace ModuloGestion.ObjModels
         public int IdOwnerFinca { get { return this._IdOwnerFinca; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerPropietario { get { return this._IdOwnerPropietario; } }
-        public sEjercicio Ejercicio { get { return this._Ejercicio; } }
+        public Ejercicio Ejercicio { get { return this._Ejercicio; } }
 
         public Concepto Concepto { get { return this._Concepto; } }
         
@@ -84,7 +84,7 @@ namespace ModuloGestion.ObjModels
         {
             decimal deuda = this.ImporteTotal;
 
-            foreach(KeyValuePair<int,sCobro> cobro in this.Cobros.GetEnumerable())
+            foreach(KeyValuePair<int,Cobro> cobro in this.Cobros.GetEnumerable())
             {
                 if (cobro.Value.Fecha <= fechaIngresos) deuda -= cobro.Value.Importe;
             }

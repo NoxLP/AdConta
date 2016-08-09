@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
+    [Table("personasgeneral")]
     public class Persona : iObjModelBase
     {
         public Persona(int id, string nif, bool forceInvalidNIF = false)
@@ -47,12 +49,6 @@ namespace AdConta.Models
         public string Fax { get; set; }
         public string Email { get; set; }
         public string Notas { get; set; }
-        #endregion
-
-        #region helpers
-        #endregion
-
-        #region public methods
         #endregion
     }
 

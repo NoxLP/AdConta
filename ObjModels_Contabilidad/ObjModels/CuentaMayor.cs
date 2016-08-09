@@ -87,9 +87,9 @@ namespace ModuloContabilidad.ObjModels
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class LedgeAccount : AdConta.Models.iObjModelBase
+    public class CuentaMayor : AdConta.Models.iObjModelBase
     {
-        public LedgeAccount(string accountNumber)
+        public CuentaMayor(string accountNumber)
         {
             this.Codigo = accountNumber;
             this.IsFakeAccount = false;

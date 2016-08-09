@@ -25,7 +25,7 @@ namespace ModuloContabilidad.ObjModels
 
         #region properties
         public int Id { get; set; }
-        public LedgeAccount Account { get; set; }
+        public CuentaMayor Account { get; set; }
         public decimal Amount
         {
             get { return this._Amount; }

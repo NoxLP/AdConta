@@ -1,4 +1,9 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace AdConta.Models
 {
     public struct sDireccionPostal
@@ -10,7 +15,7 @@ namespace AdConta.Models
         public string Provincia;
     }
 
-    public struct sDireccionPostalCompleta
+    public class DireccionPostalCompleta
     {
         public string TipoVia;
         public string NombreVia;

@@ -1,7 +1,12 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace AdConta.Models
 {
-    public struct sEjercicio : iObjModelBase, iOwnerComunidad
+    public class Ejercicio : iObjModelBase, iOwnerComunidad
     {
         public int Id { get; private set; }
         public Date FechaComienzo { get; private set; }
@@ -17,7 +22,7 @@ namespace AdConta.Models
             return false;
         }
 
-        public sEjercicio(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado = false)
+        public Ejercicio(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado = false)
         {
             if (id < 0 || idOwnerComunidad < 0) throw new System.Exception("sEjercicio's Id and IdOwnerComunidad have to be > 0");
             else
@@ -34,7 +39,7 @@ namespace AdConta.Models
         /// Usar este constructor para nuevos ejercicios.
         /// </summary>
         /// <param name="idCdad"></param>
-        public sEjercicio(int idOwnerComunidad)
+        public Ejercicio(int idOwnerComunidad)
         {
             if (idOwnerComunidad < 0) throw new System.Exception("sEjercicio's IdOwnerComunidad have to be > 0");
             else this.IdOwnerComunidad = idOwnerComunidad;

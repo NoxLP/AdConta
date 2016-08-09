@@ -14,12 +14,12 @@ namespace AdConta.ModelControl
     public partial class Comunidad
     {
         #region fields
-        internal Dictionary<int, LedgeAccount> _CuentasContables = new Dictionary<int, LedgeAccount>();
+        internal Dictionary<int, CuentaMayor> _CuentasContables = new Dictionary<int, CuentaMayor>();
         //internal Dictionary<int, aAsiento> _Asientos; <==== ¿Es necesario? Si lo es hay que añadirle tambien un ReadOnlyDictionary
         #endregion
 
         #region properties
-        public ReadOnlyDictionary<int, LedgeAccount> CuentasContables { get; set; }
+        public ReadOnlyDictionary<int, CuentaMayor> CuentasContables { get; set; }
         public ComunidadContabilidad CdadContabilidad { get; private set; }
         #endregion
 
@@ -32,7 +32,7 @@ namespace AdConta.ModelControl
         }
         private void InitContabilidad()
         {
-            this.CuentasContables = new ReadOnlyDictionary<int, LedgeAccount>(this._CuentasContables);
+            this.CuentasContables = new ReadOnlyDictionary<int, CuentaMayor>(this._CuentasContables);
             this.CdadContabilidad = GetCdadContabilidadDBData();
         }
         #endregion

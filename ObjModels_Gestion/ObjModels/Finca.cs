@@ -190,7 +190,7 @@ namespace ModuloGestion.ObjModels
         {
             decimal total = 0;
 
-            foreach (KeyValuePair<int, sEntACta> kvp in this.EntregasACuenta.GetEnumerable())
+            foreach (KeyValuePair<int, EntACta> kvp in this.EntregasACuenta.GetEnumerable())
             {
                 if (kvp.Value.Fecha <= fechaInicial && kvp.Value.Fecha >= fechaFinal)
                     total += kvp.Value.Importe;
@@ -234,7 +234,7 @@ namespace ModuloGestion.ObjModels
         /// </summary>
         /// <param name="ejercicio"></param>
         /// <returns></returns>
-        public decimal DeudaALaFecha(sEjercicio ejercicio)
+        public decimal DeudaALaFecha(Ejercicio ejercicio)
         {
             return DeudaPorCuotasImpagadas(ejercicio.FechaComienzo, ejercicio.FechaFinal) - 
                 TotalEntregasACuentaAFecha(ejercicio.FechaComienzo, ejercicio.FechaFinal);

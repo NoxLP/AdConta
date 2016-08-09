@@ -9,6 +9,6 @@ namespace ModuloContabilidad.ObjModels
     public struct sImporteCuenta
     {
         public decimal Importe;
-        public LedgeAccount Cuenta;
+        public CuentaMayor Cuenta;
     }
 }

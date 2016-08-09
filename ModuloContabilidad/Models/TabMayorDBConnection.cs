@@ -55,7 +55,7 @@ namespace ModuloContabilidad.Models
 
         #region helpers
         //TODO cuando se crea un record en la tabla de cuentas contables hay que terminar de rellenar datos (importante: nombres de las cuentas)
-        public override void CreateTable(string tableName, string cod, LedgeAccount acc)
+        public override void CreateTable(string tableName, string cod, CuentaMayor acc)
         {
             //Create account table
             string command = this.CreateCmd;

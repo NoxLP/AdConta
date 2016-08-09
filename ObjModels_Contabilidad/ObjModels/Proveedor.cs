@@ -8,7 +8,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Proveedor : Persona, iObjModelBase
+    public class Proveedor : Persona
     {
         public Proveedor(int id, int idPersona, string nif, bool forceInvalidNIF = false) 
             : base(idPersona, nif, forceInvalidNIF)
@@ -17,9 +17,9 @@ namespace ModuloContabilidad.ObjModels
         }
 
         public Proveedor(
-            LedgeAccount CuentaContProveedor, 
-            LedgeAccount CuentaContGasto,
-            LedgeAccount CuentaContPago,
+            CuentaMayor CuentaContProveedor, 
+            CuentaMayor CuentaContGasto,
+            CuentaMayor CuentaContPago,
             int id, 
             string Razon,
             double IGICIVA,
@@ -40,30 +40,22 @@ namespace ModuloContabilidad.ObjModels
         #region fields
         private int _IdProveedor;
 
-        private LedgeAccount _CuentaContableGasto;
-        private LedgeAccount _CuentaContablePago;
-        private LedgeAccount _CuentaContableProveedor;
+        private CuentaMayor _CuentaContableGasto;
+        private CuentaMayor _CuentaContablePago;
+        private CuentaMayor _CuentaContableProveedor;
         #endregion
 
         #region properties
         public int IdProveedor { get { return this._IdProveedor; } }
         public string RazonSocial { get; set; }
 
-        public LedgeAccount CuentaContableGasto { get { return this._CuentaContableGasto; } }
-        public LedgeAccount CuentacontablePago { get { return this._CuentaContablePago; } }
-        public LedgeAccount CuentaContableProveedor { get { return this._CuentaContableProveedor; } }
+        public CuentaMayor CuentaContableGasto { get { return this._CuentaContableGasto; } }
+        public CuentaMayor CuentacontablePago { get { return this._CuentaContablePago; } }
+        public CuentaMayor CuentaContableProveedor { get { return this._CuentaContableProveedor; } }
 
         public double IGICIVAPercent { get; set; }
         public double IRPFPercent { get; set; }
         public TipoPagoFacturas DefaultTipoPagoFacturas { get; set; }
-
-
-        #endregion
-
-        #region helpers
-        #endregion
-
-        #region public methods
         #endregion
     }
 
