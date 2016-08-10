@@ -13,6 +13,15 @@ namespace AdConta.Models
         public int CP;
         public string Localidad;
         public string Provincia;
+
+        public sDireccionPostal(string tipoVia, string direccion, int cp, string localidad, string provincia)
+        {
+            this.TipoVia = tipoVia;
+            this.Direccion = direccion;
+            this.CP = cp;
+            this.Localidad = localidad;
+            this.Provincia = provincia;
+        }
     }
 
     public class DireccionPostalCompleta

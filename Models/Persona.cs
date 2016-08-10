@@ -10,10 +10,11 @@ namespace AdConta.Models
     [Table("personasgeneral")]
     public class Persona : iObjModelBase
     {
-        public Persona(int id, string nif, bool forceInvalidNIF = false)
+        public Persona(int id, string nif, string nombre, bool forceInvalidNIF = false)
         {
             this._Id = id;
             this._NIF = new NIFModel(nif);
+            this.Nombre = nombre;
 
             if (!this._NIF.IsValid && forceInvalidNIF)
                 this._NIF.ForceInvalidNIF(ref nif);
@@ -23,7 +24,7 @@ namespace AdConta.Models
         private int _Id;
         private NIFModel _NIF;
 
-        private BankAccount _CuentaBancaria;
+        private CuentaBancaria _CuentaBancaria;
         #endregion
 
         #region properties
@@ -37,7 +38,7 @@ namespace AdConta.Models
 
         public sDireccionPostal Direccion { get; set; }
 
-        public BankAccount CuentaBancaria
+        public CuentaBancaria CuentaBancaria
         {
             get { return this._CuentaBancaria; }
             set { this._CuentaBancaria = value; }

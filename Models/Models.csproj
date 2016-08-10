@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="DBWrappers\GeneralDBWrappers.cs" />
     <Compile Include="DBWrappers\DBWrapper.cs" />
-    <Compile Include="_BankAccount.cs" />
+    <Compile Include="_CuentaBancaria.cs" />
     <Compile Include="Base\iObjModelBase.cs" />
     <Compile Include="ObjModelsHelpers\aProtectedList-Dict.cs" />
     <Compile Include="ObjModelsHelpers\iObjModelOwners.cs" />

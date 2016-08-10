@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
+    [Table("conceptocuotas")]
     public class Concepto : iObjModelBase
     {
         public Concepto(int id)

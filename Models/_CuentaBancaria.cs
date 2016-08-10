@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AdConta.Models
 {
     #region bank account class
-    public class BankAccount
+    public class CuentaBancaria
     {
         #region fields
         private string _account;
