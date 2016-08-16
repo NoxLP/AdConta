@@ -46,6 +46,8 @@
     <Compile Include="AppModelControlMessenger.cs" />
     <Compile Include="BORRAMEEventHandlerManager.cs" />
     <Compile Include="Date.cs" />
+    <Compile Include="Exceptions\CustomException_DBWrapper.cs" />
+    <Compile Include="Exceptions\CustomException_ObjModels.cs" />
     <Compile Include="Extensions\DecimalExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Enum\Enums.cs" />

@@ -7,7 +7,6 @@ using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
-    [Table("personasgeneral")]
     public class Persona : iObjModelBase
     {
         public Persona(int id, string nif, string nombre, bool forceInvalidNIF = false)
@@ -50,6 +49,19 @@ namespace AdConta.Models
         public string Fax { get; set; }
         public string Email { get; set; }
         public string Notas { get; set; }
+        #endregion
+
+        #region copy
+        public void CopyProtectedOrWorseToThis(ref Persona objToCopy)
+        {
+            this._Id = objToCopy.Id;
+            this._NIF = objToCopy.NIF;
+            this.Nombre = objToCopy.Nombre;
+        }
+        public void CopyId(ref Persona objToCopy)
+        {
+            this._Id = objToCopy.Id;
+        }
         #endregion
     }
 

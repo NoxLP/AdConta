@@ -18,18 +18,21 @@ namespace ModuloGestion.ObjModels
             int id,
             int idOwnerComunidad,
             string nombre,
-            double coeficiente)
+            double coeficiente,
+            int codigo)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
+            this.Codigo = codigo;
         }
         public Finca(
             int id,
             int idOwnerComunidad,
             string nombre,
-            double coeficiente,
+            double coeficiente,,
+            int codigo,
             Propietario propietarioActual,
             Dictionary<Date,int> historicoProps)
         {
@@ -37,6 +40,7 @@ namespace ModuloGestion.ObjModels
             this._IdOwnerComunidad = idOwnerComunidad;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
+            this.Codigo = codigo;
             this._PropietarioActual = propietarioActual;
             this._HistoricoPropietarios = historicoProps;
         }
@@ -45,6 +49,7 @@ namespace ModuloGestion.ObjModels
             int idOwnerComunidad,
             string nombre,
             double coeficiente,
+            int codigo,
             Propietario propietarioActual,
             Dictionary<Date, int> historicoProps,
             Dictionary<int,Cuota> cuotas,
@@ -55,6 +60,7 @@ namespace ModuloGestion.ObjModels
             this._IdOwnerComunidad = idOwnerComunidad;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
+            this.Codigo = codigo;
             this._PropietarioActual = propietarioActual;
             this._HistoricoPropietarios = historicoProps;
             this._Cuotas = cuotas;
@@ -86,6 +92,7 @@ namespace ModuloGestion.ObjModels
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
+        public int Codigo { get; set; }
 
         public sDireccionPostal Direccion { get; set; }
         public sDireccionPostal Direccion2 { get; set; }        
@@ -195,7 +202,7 @@ namespace ModuloGestion.ObjModels
                 if (kvp.Value.Fecha <= fechaInicial && kvp.Value.Fecha >= fechaFinal)
                     total += kvp.Value.Importe;
             }
-            foreach (sIngresoDevuelto ingreso in this.Devoluciones.GetIngresosDevueltosEnumerable())
+            foreach (IngresoDevuelto ingreso in this.Devoluciones.GetIngresosDevueltosEnumerable())
             {
                 if (ingreso.Fecha <= fechaInicial && ingreso.Fecha >= fechaFinal)
                     total -= (ingreso.Importe + ingreso.Gastos);

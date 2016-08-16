@@ -70,9 +70,9 @@ namespace ModuloGestion.ObjModels
             this._TotalGastos = 0;
             this._List.Clear();
         }
-        public IEnumerable<sIngresoDevuelto> GetIngresosDevueltosEnumerable()
+        public IEnumerable<IngresoDevuelto> GetIngresosDevueltosEnumerable()
         {
-            return (IEnumerable<sIngresoDevuelto>)this._List.Select(x => x.IngresosDevueltos.AsEnumerable<sIngresoDevuelto>());
+            return (IEnumerable<IngresoDevuelto>)this._List.Select(x => x.IngresosDevueltos.AsEnumerable<IngresoDevuelto>());
         }
         #endregion
     }

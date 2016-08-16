@@ -9,8 +9,12 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public struct sIngresoDevuelto : iOwnerDevolucion
+    public class IngresoDevuelto : iOwnerDevolucion
     {
+        private int _IdOwnerDevolucion;
+        public int IdOwnerDevolucion { get { return this._IdOwnerDevolucion; } }
+
+
         public int IdOwnerDevolucion { get; private set; }
         public Date Fecha { get; private set; }
         public iIngresoPropietario Devuelto { get; private set; }
@@ -22,14 +26,14 @@ namespace ModuloGestion.ObjModels
     public class Devolucion : iObjModelBase, iOwnerComunidad
     {
         private Devolucion() { }
-        public Devolucion(int id, int idComunidad, Date fecha, List<sIngresoDevuelto> devoluciones)
+        public Devolucion(int id, int idComunidad, Date fecha, List<IngresoDevuelto> devoluciones)
         {
             this._Id = id;
             this._IdOwnerComunidad = idComunidad;
             this._Fecha = fecha;
             this._IngresosDevueltos = devoluciones;
 
-            foreach(sIngresoDevuelto ingreso in devoluciones)
+            foreach(IngresoDevuelto ingreso in devoluciones)
             {
                 this._ImporteTotal += ingreso.Importe;
                 this._GastosTotal += ingreso.Gastos;
@@ -44,7 +48,7 @@ namespace ModuloGestion.ObjModels
         
         private decimal _ImporteTotal = 0;
         private decimal _GastosTotal = 0;
-        private List<sIngresoDevuelto> _IngresosDevueltos;
+        private List<IngresoDevuelto> _IngresosDevueltos;
         #endregion
 
         #region properties
@@ -55,7 +59,7 @@ namespace ModuloGestion.ObjModels
         
         public decimal ImporteTotal { get { return this._ImporteTotal; } }
         public decimal GastosTotal { get { return this._GastosTotal; } }
-        public ReadOnlyCollection<sIngresoDevuelto> IngresosDevueltos { get { return this._IngresosDevueltos.AsReadOnly(); } }
+        public ReadOnlyCollection<IngresoDevuelto> IngresosDevueltos { get { return this._IngresosDevueltos.AsReadOnly(); } }
         #endregion
     }
 }

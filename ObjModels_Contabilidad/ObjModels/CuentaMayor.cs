@@ -100,8 +100,6 @@ namespace ModuloContabilidad.ObjModels
         private string _Codigo;
         private GrupoContable _Grupo;
         private SubgrupoContable _Subgrupo;
-        /*private int _Grupo;
-        private int _SubGrupo;*/
         private int _Sufijo;
         #endregion
 
@@ -180,6 +178,13 @@ namespace ModuloContabilidad.ObjModels
         public bool IsFirstAccount()
         {
             return this.Id == GlobalSettings.Properties.Settings.Default.MINCODCUENTAS;
+        }
+        public bool IsProveedor_Propietario(List<GruposCuentas> cuentasProveedores_Cobros)
+        {
+            foreach (GruposCuentas gc in cuentasProveedores_Cobros)
+                if (gc.Contains(this)) return true;
+
+            return false;
         }
         #endregion
     }

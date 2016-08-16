@@ -88,7 +88,7 @@ namespace ModuloGestion.ObjModels
             {
                 if (cobro.Value.Fecha <= fechaIngresos) deuda -= cobro.Value.Importe;
             }
-            foreach(sIngresoDevuelto ingreso in this.Devoluciones.GetIngresosDevueltosEnumerable())
+            foreach(IngresoDevuelto ingreso in this.Devoluciones.GetIngresosDevueltosEnumerable())
             {
                 if (ingreso.Fecha <= fechaIngresos) deuda = deuda + ingreso.Importe + ingreso.Gastos;
             }

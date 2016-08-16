@@ -22,7 +22,7 @@ namespace AdConta.Models
         ErrorTryingDBRange RemoveRange(IEnumerable<T> objModels);
     }
 
-    public abstract class aRepository<T> : iRepository<T> where T : class, iObjModelBase
+    public abstract class aRepository<T,R> : iRepository<T> where T : class, iObjModelBase  where R : class, iDBWrapper<T>
     {
         public aRepository()
         {
@@ -34,7 +34,7 @@ namespace AdConta.Models
         #endregion
 
         #region properties
-        public abstract iDBWrapper<T> DBWrapper { get; protected set; }
+        public abstract R DBWrapper { get; protected set; }
         #endregion
 
         #region helpers
@@ -124,7 +124,7 @@ namespace AdConta.Models
         /// <returns></returns>
         public virtual ErrorTryingDBRange AddRange(IEnumerable<T> objModels)
         {
-            ErrorTryingDBRange DBError = this.DBWrapper.CreateRange(objModels);
+            ErrorTryingDBRange DBError = this.DBWrapper.CreateRange(objModels) ? ErrorTryingDBRange.None : ErrorTryingDBRange.DB_ObjectsEnumerableError;
             if (DBError != ErrorTryingDBRange.None) return DBError;
 
             foreach (T objModel in objModels)
@@ -166,7 +166,7 @@ namespace AdConta.Models
         /// <returns></returns>
         public virtual ErrorTryingDBRange RemoveRange(IEnumerable<T> objModels)
         {
-            return this.DBWrapper.RemoveRange(objModels);
+            return this.DBWrapper.RemoveRange(objModels) ? ErrorTryingDBRange.None : ErrorTryingDBRange.DB_ObjectsEnumerableError;
         }
         #endregion
     }
