@@ -9,21 +9,26 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Propietario : Persona 
+    public class Propietario : Persona, iOwnerComunidad
     {
-        public Propietario(int id, string nif, bool forceInvalidNIF = false) : base(id, nif, forceInvalidNIF)
+        public Propietario(int id, int idPropietario, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
+            : base(id, nif, nombre, forceInvalidNIF)
         {
             this._Cuotas = new Dictionary<int, Cuota>();
+            this._IdPropietario = IdPropietario;
+            this._IdOwnerComunidad = idComunidad;
         }
 
 
         #region fields
         private int _IdPropietario;
+        private int _IdOwnerComunidad;        
         private Dictionary<int, Cuota> _Cuotas;
         #endregion
 
         #region properties
         public int IdPropietario { get { return this._IdPropietario; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
         #endregion
 

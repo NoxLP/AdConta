@@ -35,7 +35,7 @@ namespace AdConta.Models
         public bool EsPagador { get; set; }
         public bool EsCopropietario { get; set; }
 
-        public sDireccionPostal Direccion { get; set; }
+        public DireccionPostal Direccion { get; set; }
 
         public CuentaBancaria CuentaBancaria
         {

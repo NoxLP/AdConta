@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdConta.Models
 {
-    public struct sDireccionPostal
+    public class DireccionPostal
     {
         public string TipoVia;
         public string Direccion;
@@ -14,7 +14,7 @@ namespace AdConta.Models
         public string Localidad;
         public string Provincia;
 
-        public sDireccionPostal(string tipoVia, string direccion, int cp, string localidad, string provincia)
+        public DireccionPostal(string tipoVia, string direccion, int cp, string localidad, string provincia)
         {
             this.TipoVia = tipoVia;
             this.Direccion = direccion;
@@ -36,9 +36,9 @@ namespace AdConta.Models
         public string Localidad;
         public string Provincia;
 
-        public void GetDireccionPostalSimple(out sDireccionPostal direccion)
+        public void GetDireccionPostalSimple(out DireccionPostal direccion)
         {
-            direccion = new sDireccionPostal();
+            direccion = new DireccionPostal();
 
             direccion.TipoVia = this.TipoVia;
             direccion.Direccion = string.Format("{0}, {1}{2}{3}{4}", this.NombreVia, this.NumeroVia, this.Portal, this.Piso, this.Puerta);

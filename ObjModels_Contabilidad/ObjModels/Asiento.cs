@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using AdConta;
+using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Apunte : AdConta.Models.iObjModelBase
+    public class Apunte : iObjModelBase, iOwnerComunidad
     {
         //public Apunte() { }
         public Apunte(aAsiento asiento)
@@ -18,13 +19,16 @@ namespace ModuloContabilidad.ObjModels
         }
 
         #region fields
+        private int _Id;
+        private int _IdOwnerComunidad;
         private decimal _Amount;
         private DebitCredit _DebeHaber;
         private aAsiento _Asiento;
         #endregion
 
         #region properties
-        public int Id { get; set; }
+        public int Id { get { return this._Id; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public CuentaMayor Account { get; set; }
         public decimal Amount
         {
@@ -66,15 +70,17 @@ namespace ModuloContabilidad.ObjModels
         #endregion*/
     }
 
-    public abstract class aAsiento
+    public abstract class aAsiento : iObjModelBase, iOwnerComunidad
     {
         #region fields
         protected ObservableCollection<Apunte> _Apuntes;
         protected int _Id;
+        private int _IdOwnerComunidad;
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public abstract DateTime Date { get; set; }
         public abstract decimal Balance { get; protected set; }
         public abstract bool IsNew { get; set; }

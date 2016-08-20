@@ -94,8 +94,8 @@ namespace ModuloGestion.ObjModels
         public double Coeficiente { get { return this._Coeficiente; } }
         public int Codigo { get; set; }
 
-        public sDireccionPostal Direccion { get; set; }
-        public sDireccionPostal Direccion2 { get; set; }        
+        public DireccionPostal Direccion { get; set; }
+        public DireccionPostal Direccion2 { get; set; }        
         
         public Propietario PropietarioActual { get { return this._PropietarioActual; } }
         public ReadOnlyDictionary<Date,int> HistoricoPropietarios { get { return new ReadOnlyDictionary<Date, int>(this._HistoricoPropietarios); } }

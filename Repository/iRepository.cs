@@ -22,7 +22,7 @@ namespace AdConta.Models
         ErrorTryingDBRange RemoveRange(IEnumerable<T> objModels);
     }
 
-    public abstract class aRepository<T,R> : iRepository<T> where T : class, iObjModelBase  where R : class, iDBWrapper<T>
+    public abstract class aRepository<T,R> : iRepository<T> where T : class, iObjModelBase  where R : class, iDapperWrapper<T>
     {
         public aRepository()
         {

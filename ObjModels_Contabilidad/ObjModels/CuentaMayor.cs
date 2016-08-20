@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
@@ -87,7 +88,7 @@ namespace ModuloContabilidad.ObjModels
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class CuentaMayor : AdConta.Models.iObjModelBase
+    public class CuentaMayor : iObjModelBase, iOwnerComunidad
     {
         public CuentaMayor(string accountNumber)
         {
@@ -97,6 +98,7 @@ namespace ModuloContabilidad.ObjModels
 
         #region fields
         private int _Id;
+        private int _IdOwnerComunidad;
         private string _Codigo;
         private GrupoContable _Grupo;
         private SubgrupoContable _Subgrupo;
@@ -131,6 +133,7 @@ namespace ModuloContabilidad.ObjModels
                 */
             }
         }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public string Codigo
         {
             get { return _Codigo; }

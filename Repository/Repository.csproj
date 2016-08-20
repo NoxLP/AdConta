@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comunidad.cs" />
     <Compile Include="Repositories.cs" />
     <Compile Include="iAppRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
