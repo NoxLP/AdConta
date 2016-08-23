@@ -30,7 +30,9 @@ namespace AdConta
     /// </summary>
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
 
-    public enum Situacion_Recibo_Cobro_EntaCta : int { Normal = 0, Devuelto}
+    public enum SituacionReciboCobroEntaCta : int { Normal = 0, Devuelto}
+
+    public enum TipoRepartoPresupuesto : int { Lineal = 0, SoloCoeficientes, CoeficientesYGrupos}
     #endregion
 
     #region accounting specific

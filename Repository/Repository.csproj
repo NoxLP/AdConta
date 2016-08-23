@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comunidad.cs" />
+    <Compile Include="ObjModels\GrupoGasto.cs" />
+    <Compile Include="ObjModels\Presupuesto.cs" />
     <Compile Include="Repositories.cs" />
     <Compile Include="iAppRepositories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

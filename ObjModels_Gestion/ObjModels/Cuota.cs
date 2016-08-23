@@ -22,7 +22,7 @@ namespace ModuloGestion.ObjModels
             Date caducidad,
             decimal importeTotal,
             CobrosDict cobros = null,
-            Situacion_Recibo_Cobro_EntaCta situacion = Situacion_Recibo_Cobro_EntaCta.Normal,
+            SituacionReciboCobroEntaCta situacion = SituacionReciboCobroEntaCta.Normal,
             IngresosDevueltosList devoluciones = null)
         {
             this._Id = id;
@@ -53,7 +53,7 @@ namespace ModuloGestion.ObjModels
         private decimal _ImporteTotal;
 
         private CobrosDict _Cobros;
-        private Situacion_Recibo_Cobro_EntaCta _Situacion;
+        private SituacionReciboCobroEntaCta _Situacion;
         private IngresosDevueltosList _Devoluciones;        
         #endregion
 
@@ -71,7 +71,7 @@ namespace ModuloGestion.ObjModels
         public decimal ImporteTotal { get { return this._ImporteTotal; } }
 
         public CobrosDict Cobros { get { return this._Cobros; } }
-        public Situacion_Recibo_Cobro_EntaCta Situacion { get { return this._Situacion; } }
+        public SituacionReciboCobroEntaCta Situacion { get { return this._Situacion; } }
         public IngresosDevueltosList Devoluciones { get { return this._Devoluciones; } }
         #endregion
 

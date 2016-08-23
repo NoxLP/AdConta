@@ -154,10 +154,10 @@ namespace ModuloContabilidad.ObjModels
             this._GastosFra = gastos;
             this._PagosFra = pagos;
             this._Pendiente = pendiente;
-
+            
             return true;
         }
-        public bool TryAddNewPago(Pago pago)
+        public bool TryAddPago(Pago pago)
         {
             if (pago.Importe > this.Pendiente) return false;
 

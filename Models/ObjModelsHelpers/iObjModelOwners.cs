@@ -50,4 +50,14 @@ namespace AdConta.Models
     {
         int IdOwnerDevolucion { get; }
     }
+
+    public interface iOwnerPresupuesto
+    {
+        int IdOwnerPresupuesto { get; }
+    }
+
+    public interface iOwnerGrupoGasto
+    {
+        int IdOwnerGrupoGasto { get; }
+    }
 }

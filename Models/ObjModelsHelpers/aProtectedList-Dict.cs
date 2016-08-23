@@ -27,7 +27,7 @@ namespace AdConta
             get
             {
                 T i = this._List[index];
-                return i; //return struct as value
+                return i;
             }
 
         }
@@ -75,7 +75,7 @@ namespace AdConta
             get
             {
                 T i = this._List[index];
-                return i; //return struct as value
+                return i;
             }
 
         }
@@ -90,7 +90,7 @@ namespace AdConta
     }
 
 
-    public abstract class aProtectedDict<R,T>
+    public abstract class aProtectedDict<R,T> where T : iShallowCloneable
     {
         public aProtectedDict()
         {
@@ -117,7 +117,7 @@ namespace AdConta
             get
             {
                 T i = this._Dict[key];
-                return i; //return struct as value
+                return i;
             }
 
         }

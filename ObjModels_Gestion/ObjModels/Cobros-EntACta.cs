@@ -13,7 +13,7 @@ namespace ModuloGestion.ObjModels
         int Id { get; }
         Date Fecha { get; }
         decimal Importe { get; }
-        Situacion_Recibo_Cobro_EntaCta Situacion { get; }
+        SituacionReciboCobroEntaCta Situacion { get; }
     }
 
     public class Cobro : iObjModelBase, iIngresoPropietario, iOwnerCuota
@@ -25,10 +25,10 @@ namespace ModuloGestion.ObjModels
         public Date Fecha { get; private set; }
         public bool Total { get; private set; }
         public decimal Importe { get; private set; }
-        public Situacion_Recibo_Cobro_EntaCta Situacion { get; private set; }
+        public SituacionReciboCobroEntaCta Situacion { get; private set; }
 
         public Cobro(int id, int idrecibo, int idcuota, decimal importe, Date fecha, int idPersona, 
-            bool total = true, Situacion_Recibo_Cobro_EntaCta situacion = Situacion_Recibo_Cobro_EntaCta.Normal)
+            bool total = true, SituacionReciboCobroEntaCta situacion = SituacionReciboCobroEntaCta.Normal)
         {
             if (id < 0 || idrecibo < 0 || idcuota < 0) throw new System.Exception("sCobro's Ids have to be > 0");
             
@@ -51,10 +51,10 @@ namespace ModuloGestion.ObjModels
         public int IdOwnerFinca { get; private set; }
         public Date Fecha { get; private set; }
         public decimal Importe { get; private set; }
-        public Situacion_Recibo_Cobro_EntaCta Situacion { get; private set; }
+        public SituacionReciboCobroEntaCta Situacion { get; private set; }
 
         public EntACta(int id, int idrecibo, int idfinca, decimal importe, Date fecha, int idPersona,
-            Situacion_Recibo_Cobro_EntaCta situacion = Situacion_Recibo_Cobro_EntaCta.Normal)
+            SituacionReciboCobroEntaCta situacion = SituacionReciboCobroEntaCta.Normal)
         {
             if (id < 0 || idrecibo < 0) throw new System.Exception("sEntACta's Ids have to be > 0");
 
