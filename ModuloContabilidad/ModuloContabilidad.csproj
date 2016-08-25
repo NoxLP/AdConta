@@ -53,9 +53,22 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjModels\Asiento.cs" />
+    <Compile Include="ObjModels\AsientoComplejo.cs" />
     <Compile Include="Models\Asientos\AsientosDBConnection.cs" />
+    <Compile Include="ObjModels\AsientoSimple.cs" />
     <Compile Include="Models\aMayor_DBConnectionBase.cs" />
+    <Compile Include="ObjModels\ComunidadContabilidad.cs" />
+    <Compile Include="ObjModels\Factura.cs" />
+    <Compile Include="ObjModels\Gasto.cs" />
+    <Compile Include="ObjModels\GastosPagosBase.cs" />
+    <Compile Include="Helpers\GastosPagosLists.cs" />
+    <Compile Include="ObjModels\GruposCuentas.cs" />
+    <Compile Include="ObjModels\LedgeAccount.cs" />
     <Compile Include="Models\TabMayorDBConnection.cs" />
+    <Compile Include="ObjModels\Pago.cs" />
+    <Compile Include="ObjModels\Proveedor.cs" />
+    <Compile Include="ObjModels\sImporteCuenta.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Diario.cs" />
     <Compile Include="TabbedExpanderTabs\TabbedExpanderFiller_Mayor.cs" />
     <Compile Include="TabbedExpanderTabs\TabExpTabBuscarUC.xaml.cs">
@@ -175,14 +188,6 @@
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{941a90cb-1636-48bb-9a7b-bc560ea30ba9}</Project>
       <Name>Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ObjModels_Contabilidad\ObjModels_Contabilidad.csproj">
-      <Project>{d4ac8b21-1ffc-4b13-ad1c-ca3d7cb5c497}</Project>
-      <Name>ObjModels_Contabilidad</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Repository\Repository.csproj">
-      <Project>{441f08bb-c1e9-484a-8ecb-f661004bf47f}</Project>
-      <Name>Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\TabbedExpanderCustomControl\TabbedExpanderCustomControl.csproj">
       <Project>{e11c702f-ebbc-4d3a-beb7-7fb951db254d}</Project>

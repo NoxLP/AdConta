@@ -30,7 +30,8 @@ namespace ModuloContabilidad.Models
         public override string CreateCmd
         {
             get { return this._CreateCmd; }
-        }        
+        }
+        
         #endregion
 
         #region database connection methods
@@ -55,7 +56,7 @@ namespace ModuloContabilidad.Models
 
         #region helpers
         //TODO cuando se crea un record en la tabla de cuentas contables hay que terminar de rellenar datos (importante: nombres de las cuentas)
-        public override void CreateTable(string tableName, string cod, CuentaMayor acc)
+        public override void CreateTable(string tableName, string cod, LedgeAccount acc)
         {
             //Create account table
             string command = this.CreateCmd;
@@ -80,7 +81,7 @@ namespace ModuloContabilidad.Models
             //TODO faltan nombres de las cuentas
             this.ExecuteNonQuery(string.Format("INSERT INTO {0} (CodigoCuenta, Grupo, Subgrupo, Sufijo, Nombre) VALUES ({1},{2},{3},{4},'{5}')",
                 accountsTable,
-                acc.Id,
+                acc.iCodigo,
                 acc.Grupo,
                 acc.Subgrupo,
                 acc.Sufijo,

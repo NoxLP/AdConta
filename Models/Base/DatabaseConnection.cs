@@ -310,11 +310,6 @@ namespace AdConta.Models
         public abstract string CreateCmd { get; }
         #endregion
 
-        #region repositories
-        protected abstract T Repository_Get<T>(int id);
-
-        #endregion
-
         #region database connection methods
         /// <summary>
         /// Using settings's connection string, set DataTable by provided SQL command and re-initialize class, 

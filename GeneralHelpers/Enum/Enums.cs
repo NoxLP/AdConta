@@ -30,9 +30,7 @@ namespace AdConta
     /// </summary>
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
 
-    public enum SituacionReciboCobroEntaCta : int { Normal = 0, Devuelto}
-
-    public enum TipoRepartoPresupuesto : int { Lineal = 0, SoloCoeficientes, CoeficientesYGrupos}
+    public enum Situacion_Recibo_Cobro_EntaCta : int { Normal = 0, Devuelto}
     #endregion
 
     #region accounting specific
@@ -84,10 +82,5 @@ namespace AdConta
     public enum TabExpWhich : byte { Top = 0, Bottom}
 
     public enum ErrorSettingReciboDicts : int { None = 0, ImporteIncorrecto, VariasEACaMismaFinca}
-    /// <summary>
-    /// Enum of error trying to add/remove a range of objects to repository or/and DB:
-    /// 
-    /// </summary>
-    public enum ErrorTryingDBRange : int { None = 0, DB_ObjectsEnumerableError, DB_Other, Repo_ObjectsEnumerableError, Repo_Other}
     #endregion
 }
