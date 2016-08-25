@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
-    public class Persona
+    public class Persona : iObjModelBase
     {
-        public Persona(int id, string nif, bool forceInvalidNIF = false)
+        public Persona(int id, string nif, string nombre, bool forceInvalidNIF = false)
         {
             this._Id = id;
             this._NIF = new NIFModel(nif);
+            this.Nombre = nombre;
 
             if (!this._NIF.IsValid && forceInvalidNIF)
                 this._NIF.ForceInvalidNIF(ref nif);
@@ -21,7 +23,7 @@ namespace AdConta.Models
         private int _Id;
         private NIFModel _NIF;
 
-        private BankAccount _CuentaBancaria;
+        private CuentaBancaria _CuentaBancaria;
         #endregion
 
         #region properties
@@ -33,9 +35,9 @@ namespace AdConta.Models
         public bool EsPagador { get; set; }
         public bool EsCopropietario { get; set; }
 
-        public sDireccionPostal Direccion { get; set; }
+        public DireccionPostal Direccion { get; set; }
 
-        public BankAccount CuentaBancaria
+        public CuentaBancaria CuentaBancaria
         {
             get { return this._CuentaBancaria; }
             set { this._CuentaBancaria = value; }
@@ -49,10 +51,17 @@ namespace AdConta.Models
         public string Notas { get; set; }
         #endregion
 
-        #region helpers
-        #endregion
-
-        #region public methods
+        #region copy
+        public void CopyProtectedOrWorseToThis(ref Persona objToCopy)
+        {
+            this._Id = objToCopy.Id;
+            this._NIF = objToCopy.NIF;
+            this.Nombre = objToCopy.Nombre;
+        }
+        public void CopyId(ref Persona objToCopy)
+        {
+            this._Id = objToCopy.Id;
+        }
         #endregion
     }
 

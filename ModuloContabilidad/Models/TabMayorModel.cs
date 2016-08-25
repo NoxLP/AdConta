@@ -17,7 +17,7 @@ namespace ModuloContabilidad.Models
             string tableName = string.Format("C{0}Cuen{1}",
                 cod.ToString(),
                 GlobalSettings.Properties.Settings.Default.CUENTADEFAULT);
-            this._CurrentAccount = new LedgeAccount(GlobalSettings.Properties.Settings.Default.CUENTADEFAULT);
+            this._CurrentAccount = new CuentaMayor(GlobalSettings.Properties.Settings.Default.CUENTADEFAULT);
 
             if (!base.ExistsTableInDB(tableName))
                 base.CreateTable(tableName, cod.ToString(), this.CurrentAccount);
@@ -34,7 +34,7 @@ namespace ModuloContabilidad.Models
         #region fields
         private DataTable _DTable;
         private DataView _DView;
-        private LedgeAccount _CurrentAccount;
+        private CuentaMayor _CurrentAccount;
         private int _MaxAcc;
         private int _MinAcc;
         #endregion
@@ -50,7 +50,7 @@ namespace ModuloContabilidad.Models
             get { return this._DView; }
             set { this._DView = value; }
         }
-        public LedgeAccount CurrentAccount
+        public CuentaMayor CurrentAccount
         {
             get { return this._CurrentAccount; }
             protected set

@@ -14,8 +14,8 @@ namespace AdConta.ModelControl
         public Comunidad(int id)
         {
             this._Id = id;
-            this._Ejercicios = new Dictionary<int, sEjercicio>();
-            this.Ejercicios = new ReadOnlyDictionary<int, sEjercicio>(this._Ejercicios);
+            this._Ejercicios = new Dictionary<int, Ejercicio>();
+            this.Ejercicios = new ReadOnlyDictionary<int, Ejercicio>(this._Ejercicios);
 
 #if (MCONTABILIDAD)
             InitContabilidad();
@@ -37,14 +37,14 @@ namespace AdConta.ModelControl
 
         #region fields
         private int _Id;
-        internal Dictionary<int, sEjercicio> _Ejercicios;
+        internal Dictionary<int, Ejercicio> _Ejercicios;
         //internal Dictionary<int, Presupuesto> _Presupuestos;
         internal List<int> prueba;
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
-        public ReadOnlyDictionary<int, sEjercicio> Ejercicios { get; set; }
+        public ReadOnlyDictionary<int, Ejercicio> Ejercicios { get; set; }
         #endregion
 
         #region helpers

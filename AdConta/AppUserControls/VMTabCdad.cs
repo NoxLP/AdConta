@@ -27,10 +27,10 @@ namespace AdConta
             this.Type = TabType.Cdad;
             base.InitializeComcod((App.Current.MainWindow.DataContext as VMMain).LastComCod);
             this._model = new TabCdadModel(this.TabComCod);
-            this._model.CuentaBancaria = new BankAccount();
+            this._model.CuentaBancaria = new CuentaBancaria();
             this._model.CuentaBancaria.AccountNumber = GetValueFromTable<string>("Cuenta");
             this._TabPanelWidth = 10;
-
+            
             this._ModifyCommand = new Command_ModifyButtonClick(this);
             this._SaveCommand = new Command_SaveButtonClick(this);
             this._CopyAccount = new Command_CopyAccount(this);

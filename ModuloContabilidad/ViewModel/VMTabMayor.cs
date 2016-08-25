@@ -34,7 +34,7 @@ namespace ModuloContabilidad
             this._model = new TabMayorModel(base.TabComCod);
             this._StatusGridSource = new DataTable();
             this.PopulateStatusGrid();
-
+            
             this.TopTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
             this.BottomTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
 
