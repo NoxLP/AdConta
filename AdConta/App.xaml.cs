@@ -8,14 +8,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using AdConta.Models;
 
 namespace AdConta
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application, iAppRepositories
+    public partial class App : Application
     {
         public App()
         {
@@ -26,12 +25,10 @@ namespace AdConta
                 DefaultValue = FindResource(typeof(Window))
             });
 
-            this.PersonasRepository = new PersonaRepository();
+            this._AppModelControl = new ModelControl.AppModelControl();
         }
 
-        #region repositories
-        public PersonaRepository PersonasRepository { get; private set; }
-        #endregion
+        private ModelControl.AppModelControl _AppModelControl;
 
         protected override void OnStartup(StartupEventArgs e)
         {
