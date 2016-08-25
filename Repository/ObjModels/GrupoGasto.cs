@@ -15,16 +15,16 @@ namespace AdConta.Models
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
 
-    public interface iGrupoGasto : iObjModelBase, iOwnerComunidad, iOwnerPresupuesto
+    public interface iGrupoGastos : iObjModelBase, iOwnerComunidad, iOwnerPresupuesto
     {
         bool CoeficientesCustom { get; }
         decimal Importe { get; }
     }
 
-    public class GrupoGasto : iGrupoGasto
+    public class GrupoGastos : iGrupoGastos
     {
-        private GrupoGasto() { }
-        public GrupoGasto(
+        private GrupoGastos() { }
+        public GrupoGastos(
             int id, 
             int idComunidad, 
             int idPresupuesto, 
@@ -75,6 +75,7 @@ namespace AdConta.Models
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerPresupuesto { get { return this._IdOwnerPresupuesto; } }
+        public string Nombre { get; set; }
 
         public ReadOnlyDictionary<Finca, double> FincasCoeficientes { get { return new ReadOnlyDictionary<Finca, double>(this._FincasCoeficientes); } }
         public List<Cuota> Cuotas { get; set; }
@@ -184,12 +185,12 @@ namespace AdConta.Models
         /// <param name="LastCuotasId"></param>
         /// <param name="ImportesPorFinca"></param>
         /// <returns></returns>
-        public GrupoGastoAceptado AsAceptado(int lastFId, int lastCuentasId, int LastCuotasId, Dictionary<Finca, decimal> ImportesPorFinca)
+        public GrupoGastosAceptado AsAceptado(int lastFId, int lastCuentasId, int LastCuotasId, Dictionary<Finca, decimal> ImportesPorFinca)
         {
-            List<GrupoGastoAceptado.DatosFincaGGAceptado> listFincas = new List<GrupoGastoAceptado.DatosFincaGGAceptado>();
+            List<GrupoGastosAceptado.sDatosFincaGGAceptado> listFincas = new List<GrupoGastosAceptado.sDatosFincaGGAceptado>();
             foreach(KeyValuePair<Finca, double> kvp in this.FincasCoeficientes)
             {
-                listFincas.Add(new GrupoGastoAceptado.DatosFincaGGAceptado(
+                listFincas.Add(new GrupoGastosAceptado.sDatosFincaGGAceptado(
                     lastFId,
                     kvp.Key.Id,
                     this.Id,
@@ -201,10 +202,10 @@ namespace AdConta.Models
                 lastFId++;
             }
 
-            List<GrupoGastoAceptado.DatosCuentaGGAceptado> listCuentas = new List<GrupoGastoAceptado.DatosCuentaGGAceptado>();
+            List<GrupoGastosAceptado.sDatosCuentaGGAceptado> listCuentas = new List<GrupoGastosAceptado.sDatosCuentaGGAceptado>();
             foreach(CuentaParaPresupuesto cuenta in this.Cuentas)
             {
-                listCuentas.Add(new GrupoGastoAceptado.DatosCuentaGGAceptado(
+                listCuentas.Add(new GrupoGastosAceptado.sDatosCuentaGGAceptado(
                     lastCuentasId,
                     cuenta.Cuenta.Id,
                     this.Id,
@@ -214,10 +215,10 @@ namespace AdConta.Models
                 lastCuentasId++;
             }
 
-            List<GrupoGastoAceptado.DatosCuotaGGAceptado> listCuotas = new List<GrupoGastoAceptado.DatosCuotaGGAceptado>();
+            List<GrupoGastosAceptado.sDatosCuotaGGAceptado> listCuotas = new List<GrupoGastosAceptado.sDatosCuotaGGAceptado>();
             foreach(Cuota cuota in this.Cuotas)
             {
-                listCuotas.Add(new GrupoGastoAceptado.DatosCuotaGGAceptado(
+                listCuotas.Add(new GrupoGastosAceptado.sDatosCuotaGGAceptado(
                     LastCuotasId,
                     cuota.Id,
                     this.Id,
@@ -225,7 +226,7 @@ namespace AdConta.Models
                 LastCuotasId++;
             }
 
-            GrupoGastoAceptado ggA = new GrupoGastoAceptado(
+            GrupoGastosAceptado ggA = new GrupoGastosAceptado(
                 this.Id, 
                 this.IdOwnerComunidad,
                 this.IdOwnerPresupuesto,
@@ -240,16 +241,16 @@ namespace AdConta.Models
         #endregion
     }
     
-    public class GrupoGastoAceptado : iGrupoGasto
+    public class GrupoGastosAceptado : iGrupoGastos
     {
-        private GrupoGastoAceptado() { }
-        public GrupoGastoAceptado(
+        private GrupoGastosAceptado() { }
+        public GrupoGastosAceptado(
             int id,
             int idComunidad,
             int idPresupuesto,
-            List<DatosFincaGGAceptado> fincas,
-            List<DatosCuentaGGAceptado> cuentas,
-            List<DatosCuotaGGAceptado> cuotas,
+            List<sDatosFincaGGAceptado> fincas,
+            List<sDatosCuentaGGAceptado> cuentas,
+            List<sDatosCuotaGGAceptado> cuotas,
             bool coeficientes,
             decimal importe)
         {
@@ -266,7 +267,7 @@ namespace AdConta.Models
         }
 
         #region data structs
-        public struct DatosFincaGGAceptado : iOwnerFinca, iOwnerGrupoGasto
+        public struct sDatosFincaGGAceptado : iOwnerFinca, iOwnerGrupoGasto
         {
             public int Id { get; private set; }
             public int IdOwnerFinca { get; private set; }
@@ -278,7 +279,7 @@ namespace AdConta.Models
             public string NombrePropietario { get; private set; }
             public int CodigoFinca { get; private set; }
 
-            public DatosFincaGGAceptado(int id, int idFinca, int idGG, double coef, decimal importe, string nombreF, string nombreP, int codigoF)
+            public sDatosFincaGGAceptado(int id, int idFinca, int idGG, double coef, decimal importe, string nombreF, string nombreP, int codigoF)
             {
                 this.Id = id;
                 this.IdOwnerFinca = idFinca;
@@ -290,7 +291,7 @@ namespace AdConta.Models
                 this.CodigoFinca = codigoF;
             }
         }
-        public struct DatosCuotaGGAceptado : iOwnerGrupoGasto, iOwnerCuota
+        public struct sDatosCuotaGGAceptado : iOwnerGrupoGasto, iOwnerCuota
         {
             public int Id { get; private set; }
             public int IdOwnerGrupoGasto { get; private set; }
@@ -298,7 +299,7 @@ namespace AdConta.Models
 
             public string Concepto { get; private set; }
 
-            public DatosCuotaGGAceptado(int id, int idCuota, int idGG, string concepto)
+            public sDatosCuotaGGAceptado(int id, int idCuota, int idGG, string concepto)
             {
                 this.Id = id;
                 this.IdOwnerCuota = idCuota;
@@ -306,7 +307,7 @@ namespace AdConta.Models
                 this.Concepto = concepto;
             }
         }
-        public struct DatosCuentaGGAceptado : iOwnerGrupoGasto
+        public struct sDatosCuentaGGAceptado : iOwnerGrupoGasto
         {
             public int Id { get; private set; }
             public int IdOwnerGrupoGasto { get; private set; }
@@ -316,7 +317,7 @@ namespace AdConta.Models
             public string NombreEnPresupuesto { get; private set; }
             public decimal SaldoAlAceptarPresupuesto { get; private set; }
 
-            public DatosCuentaGGAceptado(int id, int idCuenta, int idGG, string codigo, string nombre, decimal saldo)
+            public sDatosCuentaGGAceptado(int id, int idCuenta, int idGG, string codigo, string nombre, decimal saldo)
             {
                 this.Id = id;
                 this.IdCuenta = idCuenta;
@@ -332,10 +333,11 @@ namespace AdConta.Models
         private int _Id;
         private int _IdOwnerComunidad;
         private int _IdOwnerPresupuesto;
+        public string Nombre { get; set; }
 
-        private List<DatosFincaGGAceptado> _Fincas;
-        private List<DatosCuotaGGAceptado> _Cuotas;
-        private List<DatosCuentaGGAceptado> _Cuentas;
+        private List<sDatosFincaGGAceptado> _Fincas;
+        private List<sDatosCuotaGGAceptado> _Cuotas;
+        private List<sDatosCuentaGGAceptado> _Cuentas;
 
         private bool _CoeficientesCustom;
         private decimal _Importe;
@@ -346,9 +348,9 @@ namespace AdConta.Models
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerPresupuesto { get { return this._IdOwnerPresupuesto; } }
 
-        public ReadOnlyCollection<DatosFincaGGAceptado> Fincas { get { return this._Fincas.AsReadOnly(); } }
-        public ReadOnlyCollection<DatosCuotaGGAceptado> Cuotas { get { return this._Cuotas.AsReadOnly(); } }
-        public ReadOnlyCollection<DatosCuentaGGAceptado> Cuentas { get { return this._Cuentas.AsReadOnly(); } }
+        public ReadOnlyCollection<sDatosFincaGGAceptado> Fincas { get { return this._Fincas.AsReadOnly(); } }
+        public ReadOnlyCollection<sDatosCuotaGGAceptado> Cuotas { get { return this._Cuotas.AsReadOnly(); } }
+        public ReadOnlyCollection<sDatosCuentaGGAceptado> Cuentas { get { return this._Cuentas.AsReadOnly(); } }
 
         public bool CoeficientesCustom { get { return this._CoeficientesCustom; } }
         public decimal Importe { get { return this._Importe; } }
