@@ -54,6 +54,9 @@
     <StartupObject>AdConta.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DapperMapperQueryBuilder">
+      <HintPath>..\..\..\C#\DapperMapperQueryBuilder\DapperMapperQueryBuilder\obj\Release\DapperMapperQueryBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />

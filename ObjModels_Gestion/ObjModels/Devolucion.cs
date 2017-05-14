@@ -11,18 +11,27 @@ namespace ModuloGestion.ObjModels
 {
     public class IngresoDevuelto : iOwnerDevolucion
     {
-        private int _IdOwnerDevolucion;
-        public int IdOwnerDevolucion { get { return this._IdOwnerDevolucion; } }
-
-
+        public int Id { get; private set; }
         public int IdOwnerDevolucion { get; private set; }
         public Date Fecha { get; private set; }
         public iIngresoPropietario Devuelto { get; private set; }
         public bool Total { get; private set; }
         public decimal Importe { get; private set; }
         public decimal Gastos { get; private set; }
+
+        public IngresoDevuelto(int id, int idDevolucion, Date fecha, iIngresoPropietario devuelto, bool total, decimal importe, decimal gastos)
+        {
+            this.Id = id;
+            this.IdOwnerDevolucion = idDevolucion;
+            this.Fecha = fecha;
+            this.Devuelto = devuelto;
+            this.Total = total;
+            this.Importe = importe;
+            this.Gastos = gastos;
+        }
     }
 
+    //TODO: ¿¿¿¿¿¿no le hace falta ningun método??????
     public class Devolucion : iObjModelBase, iOwnerComunidad
     {
         private Devolucion() { }
@@ -32,7 +41,7 @@ namespace ModuloGestion.ObjModels
             this._IdOwnerComunidad = idComunidad;
             this._Fecha = fecha;
             this._IngresosDevueltos = devoluciones;
-
+            
             foreach(IngresoDevuelto ingreso in devoluciones)
             {
                 this._ImporteTotal += ingreso.Importe;
@@ -61,5 +70,7 @@ namespace ModuloGestion.ObjModels
         public decimal GastosTotal { get { return this._GastosTotal; } }
         public ReadOnlyCollection<IngresoDevuelto> IngresosDevueltos { get { return this._IngresosDevueltos.AsReadOnly(); } }
         #endregion
+
+
     }
 }

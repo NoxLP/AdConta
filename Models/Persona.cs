@@ -32,6 +32,7 @@ namespace AdConta.Models
         public string Nombre { get; protected set; }
 
         public bool EsPropietario { get; set; }
+        public bool EsProveedor { get; set; }
         public bool EsPagador { get; set; }
         public bool EsCopropietario { get; set; }
 

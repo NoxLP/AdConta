@@ -41,16 +41,15 @@ namespace AdConta
     /// </summary>
     public enum DebitCredit
     {
-        [Description("True")]
+        [DebitCreditAtttribute("False")]
         Debit = 0,
-        [Description("False")]
+        [DebitCreditAtttribute("True")]
         Credit
     }
-
     [AttributeUsage(AttributeTargets.All)]
     public class DebitCreditAtttribute : DescriptionAttribute
     {
-        public DebitCreditAtttribute(string description, string value)
+        public DebitCreditAtttribute(string description)
         {
             this.Description = bool.Parse(description);
         }
@@ -88,6 +87,46 @@ namespace AdConta
     /// Enum of error trying to add/remove a range of objects to repository or/and DB:
     /// 
     /// </summary>
-    public enum ErrorTryingDBRange : int { None = 0, DB_ObjectsEnumerableError, DB_Other, Repo_ObjectsEnumerableError, Repo_Other}
+    public enum ErrorTryingDBRange : int {
+        None = 0,
+        DB_ObjectsEnumerableError,
+        DB_NumberOfInsertedRows_LesserThanRange,
+        DB_Other,
+        Repo_ObjectsEnumerableError,
+        Repo_Other }
+
+    public enum ErrorCreatingObjModelInRepository : int { None = 0, ObjectAlreadyExistsInRepository, InsertToDBFails}
+
+    public enum ErrorCuadreFactura : int
+    {
+        None = 0,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe del impuesto IGIC/IVA no concuerda con los datos introducidos.")]
+        ErrorEnCalculoIGICIVA,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe del impuesto IRPF no concuerda con los datos introducidos.")]
+        ErrorEnCalculoIRPF,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe total de la factura no concuerda con los datos introducidos.")]
+        ErrorEnTotal,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe de los gastos introducidos para contabilizar no coincide con el subtotal de la factura.")]
+        GastosNoCoincidenConSubtotal,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe de los pagos introducidos para contabilizar no coincide con el pendiente de la factura.")]
+        PendienteDescuadrado
+    }
+    [AttributeUsage(AttributeTargets.All)]
+    public class ErrorCuadreFacturaAtttribute : DescriptionAttribute
+    {
+        public ErrorCuadreFacturaAtttribute(string description)
+        {
+            this.Description = description;
+        }
+
+        public new string Description { get; set; }
+    }
+
+    public enum TipoGastoPago : int { Gasto = 0, Pago }
     #endregion
 }

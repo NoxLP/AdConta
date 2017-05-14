@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Finca : iObjModelBase, iOwnerComunidad
+    public class Finca : iObjModelBase, iObjModelConCodigo, iOwnerComunidad, iBaja//, iObjWithDLO<Finca.FincaDLO>
     {
         #region constructors
         private Finca() { }
@@ -17,12 +17,14 @@ namespace ModuloGestion.ObjModels
         public Finca(
             int id,
             int idOwnerComunidad,
+            bool baja,
             string nombre,
             double coeficiente,
             int codigo)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
+            this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
             this.Codigo = codigo;
@@ -30,14 +32,16 @@ namespace ModuloGestion.ObjModels
         public Finca(
             int id,
             int idOwnerComunidad,
+            bool baja,
             string nombre,
-            double coeficiente,,
+            double coeficiente,
             int codigo,
             Propietario propietarioActual,
-            Dictionary<Date,int> historicoProps)
+            Dictionary<DateTime,int> historicoProps)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
+            this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
             this.Codigo = codigo;
@@ -47,17 +51,19 @@ namespace ModuloGestion.ObjModels
         public Finca(
             int id,
             int idOwnerComunidad,
+            bool baja,
             string nombre,
             double coeficiente,
             int codigo,
             Propietario propietarioActual,
-            Dictionary<Date, int> historicoProps,
+            Dictionary<DateTime, int> historicoProps,
             Dictionary<int,Cuota> cuotas,
             EntACtaDict EAC = null,
             IngresosDevueltosList devoluciones = null)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
+            this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
             this.Codigo = codigo;
@@ -69,14 +75,54 @@ namespace ModuloGestion.ObjModels
         }
         #endregion
 
+        public class FincaDLO : iObjModelBase, iOwnerComunidad, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int idCdad,
+                bool baja,
+                string nombre,
+                int codigo,
+                string nombreProp,
+                string telefono,
+                string email,
+                int[] idAsociadas,
+                string notas)
+            {
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Baja = baja;
+                this.Nombre = nombre;
+                this.Codigo = codigo;
+                this.NombrePropietarioActual = nombreProp;
+                this.Telefono1 = telefono;
+                this.Email = email;
+                this.IdAsociadas = idAsociadas;
+                this.Notas = notas;
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public bool Baja { get; private set; }
+            public string Nombre { get; private set; }
+            public int Codigo { get; private set; }
+            public string NombrePropietarioActual { get; private set; }
+            public string Telefono1 { get; private set; }
+            public string Email { get; private set; }
+            public int[] IdAsociadas { get; private set; }
+            public string Notas { get; private set; }
+        }
+
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+        private bool _Baja;
         private string _Nombre;
         private double _Coeficiente;
         
         private Propietario _PropietarioActual;
-        private Dictionary<Date, int> _HistoricoPropietarios;
+        private Dictionary<DateTime, int> _HistoricoPropietarios;
 
         private int[] _IdCopropietarios = new int[3];
         private int[] _IdPagadores = new int[3];
@@ -86,23 +132,28 @@ namespace ModuloGestion.ObjModels
         private EntACtaDict _EntregasACuenta;
         private IngresosDevueltosList _Devoluciones;
         #endregion
-
+        
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
+        public bool Baja { get { return this._Baja; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
         public int Codigo { get; set; }
 
         public DireccionPostal Direccion { get; set; }
-        public DireccionPostal Direccion2 { get; set; }        
-        
+        public DireccionPostal Direccion2 { get; set; }
+        public TipoPagoCuotas DefaultTipoPagoCuotas { get; set; }
+
         public Propietario PropietarioActual { get { return this._PropietarioActual; } }
-        public ReadOnlyDictionary<Date,int> HistoricoPropietarios { get { return new ReadOnlyDictionary<Date, int>(this._HistoricoPropietarios); } }
+        public ReadOnlyDictionary<DateTime, int> HistoricoPropietarios { get { return new ReadOnlyDictionary<DateTime, int>(this._HistoricoPropietarios); } }
 
         public sTelefono Telefono1 { get; set; }
+        public TipoTelefono TipoTelefono1 { get; set; }
         public sTelefono Telefono2 { get; set; }
+        public TipoTelefono TipoTelefono2 { get; set; }
         public sTelefono Telefono3 { get; set; }
+        public TipoTelefono TipoTelefono3 { get; set; }
         public sTelefono Fax { get; set; }
         public string Email { get; set; }
         public int[] IdCopropietarios
@@ -115,7 +166,6 @@ namespace ModuloGestion.ObjModels
             get { return this._IdPagadores; }
             set { this._IdPagadores = value; }
         }
-
         public int[] IdAsociadas
         {
             get { return this._IdAsociadas; }
@@ -216,6 +266,7 @@ namespace ModuloGestion.ObjModels
         #region deuda methods
         public Dictionary<int,Cuota> GetCuotasImpagadas()
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             return this._Cuotas.Where(x => x.Value.GetDeuda() > 0) as Dictionary<int,Cuota>;
         }
         /// <summary>
@@ -224,6 +275,7 @@ namespace ModuloGestion.ObjModels
         /// <returns></returns>
         public decimal DeudaALaFecha()
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             return DeudaPorCuotasImpagadas() - this.EntregasACuenta.Total - Devoluciones.Total - Devoluciones.TotalGastos;
         }
         /// <summary>
@@ -234,6 +286,7 @@ namespace ModuloGestion.ObjModels
         /// <returns></returns>
         public decimal DeudaALaFecha(Date fechaInicial, Date fechaFinal)
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             return DeudaPorCuotasImpagadas(fechaInicial, fechaFinal) - TotalEntregasACuentaAFecha(fechaInicial, fechaFinal);
         }
         /// <summary>
@@ -243,6 +296,7 @@ namespace ModuloGestion.ObjModels
         /// <returns></returns>
         public decimal DeudaALaFecha(Ejercicio ejercicio)
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             return DeudaPorCuotasImpagadas(ejercicio.FechaComienzo, ejercicio.FechaFinal) - 
                 TotalEntregasACuentaAFecha(ejercicio.FechaComienzo, ejercicio.FechaFinal);
         }
@@ -255,6 +309,7 @@ namespace ModuloGestion.ObjModels
         /// <returns></returns>
         public decimal DeudaALaFecha(Date fechaInicial, Date fechaFinal, Date fechaIngresos)
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             return DeudaPorCuotasImpagadas(fechaInicial, fechaFinal, fechaIngresos) - TotalEntregasACuentaAFecha(fechaInicial, fechaIngresos);
         }
         /// <summary>
@@ -263,10 +318,11 @@ namespace ModuloGestion.ObjModels
         /// </summary>
         /// <param name="deuda"></param>
         public void DeudaPorPropietario(ref Dictionary<int, List<Cuota>> deuda, Date primeraFecha)
-        {                        
-            IOrderedEnumerable<KeyValuePair<Date, int>> orderedHistorico = this.HistoricoPropietarios.OrderBy(x => x.Key);
+        {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
+            IOrderedEnumerable<KeyValuePair<DateTime, int>> orderedHistorico = this.HistoricoPropietarios.OrderBy(x => x.Key);
             
-            foreach (KeyValuePair<Date, int> kvp in orderedHistorico)
+            foreach (KeyValuePair<DateTime, int> kvp in orderedHistorico)
             {
                 deuda.Add(kvp.Value,
                     this.Cuotas.Where(x => x.Value.IdOwnerPropietario == kvp.Value && x.Value.GetDeuda() > 0)
@@ -278,18 +334,33 @@ namespace ModuloGestion.ObjModels
 
         public bool TryRemoveCuota(int key)
         {
-            if (!this._Cuotas.ContainsKey(key)) return false;
+            if (!this._Cuotas.ContainsKey(key) || Baja) return false;
 
             this._Cuotas.Remove(key);
             return true;
         }
         public bool TryAddCuota(int key, ref Cuota cuota)
         {
-            if (this._Cuotas.ContainsKey(key)) return false;
+            if (this._Cuotas.ContainsKey(key) || Baja) return false;
 
             this._Cuotas.Add(key, cuota);
             return true;
         }
+        /*public FincaDLO GetDLO()
+        {
+            FincaDLO dlo = new FincaDLO();
+            dlo.SetProperties(
+                this.Id,
+                this.IdOwnerComunidad,
+                this.Nombre,
+                this.Codigo,
+                this.PropietarioActual.Nombre,
+                this.Telefono1.Numero,
+                this.Email,
+                this.IdAsociadas,
+                this.Notas);
+            return dlo;
+        }*/
 
         #region propietario methods
         /// <summary>
@@ -304,13 +375,15 @@ namespace ModuloGestion.ObjModels
         /// <param name="fechaFinal"></param>
         public void CambioPropietario(ref List<Cuota> cuotas, ref Propietario newPropietario, Date fechaInicial, Date fechaFinal)
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             this.PropietarioActual.RemoveCuotas(ref cuotas, fechaInicial, fechaFinal);
             newPropietario.AddCuotas(ref cuotas);
-            this._HistoricoPropietarios.Add(fechaFinal, newPropietario.Id);
+            this._HistoricoPropietarios.Add(fechaFinal.GetDateTime(), newPropietario.Id);
             this._PropietarioActual = newPropietario;
         }
         public string CambioNIFPropietario(string nif, bool forceNIF = false)
         {
+            if (Baja) return "La finca está dada de baja.";
             string invalidMsg = this.PropietarioActual.NIF.TryModifyNIF(ref nif);
 
             if(invalidMsg != null && forceNIF)
@@ -320,7 +393,25 @@ namespace ModuloGestion.ObjModels
         }
         public void CambioNombrePropietario(string nombre)
         {
+            if (Baja) throw new CustomException_ObjModels("La finca está dada de baja");
             this.PropietarioActual.CambioNombrePropietario(nombre);
+        }
+        public bool DarDeBaja()
+        {
+            if (Baja) return false;
+            this._Baja = true;
+            return true;
+        }
+        public bool RecuperarBaja()
+        {
+            if (!Baja) return false;
+            this._Baja = false;
+            return true;
+        }
+
+        public bool TrySetCodigo(int codigo, ref List<int> codigos)
+        {
+            throw new NotImplementedException();
         }
         #endregion
         #endregion

@@ -12,6 +12,10 @@ namespace AdConta
         {
             this._List = new List<T>();
         }
+        public aProtectedList(List<T> items)
+        {
+            this._List = items;
+        }
 
         #region fields
         protected List<T> _List;
@@ -34,6 +38,7 @@ namespace AdConta
         #endregion
 
         #region public methods
+        
         public abstract void Add(T item);
         public abstract void RemoveAt(int index);
         public abstract void Clear();
@@ -44,6 +49,14 @@ namespace AdConta
         public virtual void RemoveRange(int index, int count)
         {
             throw new NotImplementedException();
+        }
+        public virtual aReadOnlyProtectedList<T> AsReadOnly()
+        {
+            throw new NotImplementedException();
+        }
+        public int IndexOf(T item)
+        {
+            return this._List.IndexOf(item);
         }
         public IEnumerable<T> GetEnumerable()
         {
@@ -82,6 +95,10 @@ namespace AdConta
         #endregion
 
         #region public methods
+        public virtual int IndexOf(T item)
+        {
+            return this._List.IndexOf(item);
+        }
         public IEnumerable<T> GetEnumerable()
         {
             return this._List.AsReadOnly().AsEnumerable<T>();
@@ -90,7 +107,7 @@ namespace AdConta
     }
 
 
-    public abstract class aProtectedDict<R,T> where T : iShallowCloneable
+    public abstract class aProtectedDict<R,T>
     {
         public aProtectedDict()
         {

@@ -11,16 +11,97 @@ namespace ModuloContabilidad.ObjModels
 {
     public class Factura : iObjModelBase, iOwnerProveedor, iOwnerComunidad
     {
-        public Factura()
+        #region constructors
+        private Factura() { }
+
+        public Factura(
+            int id, 
+            int idCdad, 
+            int? idProv, 
+            string nFactura, 
+            DateTime? fecha,
+            bool autoCalc,
+            decimal subtotal,
+            double puIi,
+            double puIrpf,
+            decimal ii,
+            decimal irpf,
+            decimal pendiente,
+            string concepto,
+            TipoPagoFacturas tipoPago = TipoPagoFacturas.Cheque,
+            GastosPagosList<Gasto> gastos = null,
+            GastosPagosList<Pago> pagos = null)
         {
-            this._GastosFra = new GastosPagosList<Gasto>();
-            this._PagosFra = new GastosPagosList<Pago>();
-            this.AutoCalc = false;
+            decimal II = subtotal.MultiplyDouble(puIi);
+            decimal Irpf = subtotal.MultiplyDouble(puIrpf);
+
+            if (ii != II || irpf != Irpf)
+                throw new CustomException_ObjModels("Error al intentar crear objeto Factura en constructor. Factura no cuadrada");
+
+            decimal total = subtotal + ii - irpf;
+
+            if((gastos != null && gastos.Total != subtotal) ||
+                (pagos != null && (total - pagos.Total) != pendiente))
+                throw new CustomException_ObjModels("Error al intentar crear objeto Factura en constructor. Factura no cuadrada");
+
+            this._Id = id;
+            this._IdOwnerComunidad = idCdad;
+            this._IdOwnerProveedor = idProv;
+            this._NFactura = nFactura;
+            this.Fecha = (DateTime) (fecha ?? DateTime.Today);
+            this.AutoCalc = autoCalc;
+            this._Subtotal = subtotal;
+            this._PerUnitIGICIVA = puIi;
+            this._IGICIVA = ii;
+            this._PerUnitIRPF = puIrpf;
+            this._IRPF = irpf;
+            this._Pendiente = pendiente;
+            this.Concepto = concepto;
+            this.TipoPago = tipoPago;
+            this._GastosFra = gastos;
+            this._PagosFra = pagos;
+        }
+        #endregion
+
+        public class FacturaDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int? idProv,
+                int idCdad,
+                string nFactura,
+                DateTime fecha,
+                string concepto,
+                decimal total,
+                decimal pendiente,
+                TipoPagoFacturas tipoPago)
+            {
+                this.Id = id;
+                this.IdOwnerProveedor = idProv;
+                this.IdOwnerComunidad = idCdad;
+                this.NFactura = nFactura;
+                this.Fecha = fecha;
+                this.Concepto = concepto;
+                this.Total = total;
+                this.Pendiente = pendiente;
+                this.TipoPago = tipoPago;
+            }
+
+            public int Id { get; private set; }
+            public int? IdOwnerProveedor { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public string NFactura { get; private set; }
+            public DateTime Fecha { get; private set; }
+            public string Concepto { get; private set; }
+            public decimal Total { get; private set; }
+            public decimal Pendiente { get; private set; }
+            public TipoPagoFacturas TipoPago { get; private set; }
         }
 
         #region fields
         private int _Id;
-        private int _IdOwnerProveedor;
+        private int? _IdOwnerProveedor;
         private int _IdOwnerComunidad;
         private string _NFactura;
 
@@ -32,13 +113,13 @@ namespace ModuloContabilidad.ObjModels
         private decimal _IGICIVA;
         private double _PerUnitIRPF;
         private decimal _IRPF;
-        private decimal _APagar;
+        private decimal _Total;
         private decimal _Pendiente;
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
-        public int IdOwnerProveedor { get { return this._IdOwnerProveedor; } }
+        public int? IdOwnerProveedor { get { return this._IdOwnerProveedor; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
 
         public string NFactura { get { return this._NFactura; } }
@@ -46,110 +127,83 @@ namespace ModuloContabilidad.ObjModels
         public ReadOnlyGastosPagosList<Gasto> GastosFra { get { return this._GastosFra.AsReadOnly(); } }
         public ReadOnlyGastosPagosList<Pago> PagosFra { get { return this._PagosFra.AsReadOnly(); } }
 
-        public Date Fecha { get; set; }
+        public DateTime Fecha { get; set; }
 
         public bool AutoCalc { get; set; }
-        public decimal Subtotal
-        {
-            get { return this._Subtotal; }
-            set
-            {
-                if(this.AutoCalc)
-                {
-                    this._Subtotal = value;
-                    ReCalculate();
-                }
-                else if (Cuadrado(value, this.PerUnitIGICIVA, this.IGICIVA, this.PerUnitIRPF, this.IRPF))
-                    this._Subtotal = value;
-            }
-        }
-        public double PerUnitIGICIVA
-        {
-            get { return this._PerUnitIGICIVA; }
-            set
-            {
-                if (this.AutoCalc)
-                {
-                    this._PerUnitIGICIVA = value;
-                    ReCalculate();
-                }
-                if (Cuadrado(this.Subtotal, value, this.IGICIVA, this.PerUnitIRPF, this.IRPF))
-                    this._PerUnitIGICIVA = value;
-            }
-        }
-        public decimal IGICIVA
-        {
-            get { return this._IGICIVA; }
-            set
-            {
-                if (this.AutoCalc)
-                {
-                    this._IGICIVA = value;
-                    ReCalculate();
-                }
-                if (Cuadrado(this.Subtotal, this.PerUnitIGICIVA, value, this.PerUnitIRPF, this.IRPF))
-                    this._IGICIVA = value;
-            }
-        }
-        public double PerUnitIRPF
-        {
-            get { return this._PerUnitIRPF; }
-            set
-            {
-                if (this.AutoCalc)
-                {
-                    this._PerUnitIRPF = value;
-                    ReCalculate();
-                }
-                if (Cuadrado(this.Subtotal, this.PerUnitIGICIVA, this.IGICIVA, value, this.IRPF))
-                    this._PerUnitIRPF = value;
-            }
-        }
-        public decimal IRPF
-        {
-            get { return this._IRPF; }
-            set
-            {
-                if (this.AutoCalc)
-                {
-                    this._IRPF = value;
-                    ReCalculate();
-                }
-                if (Cuadrado(this.Subtotal, this.PerUnitIGICIVA, this.IGICIVA, this.PerUnitIRPF, value))
-                    this._IRPF = value;
-            }
-        }
-
-        public decimal APagar { get { return this._APagar; } }
+        public decimal Subtotal { get { return this._Subtotal; } }
+        public double PerUnitIGICIVA { get { return this._PerUnitIGICIVA; } }
+        public decimal IGICIVA { get { return this._IGICIVA; } }
+        public double PerUnitIRPF { get { return this._PerUnitIRPF; } }
+        public decimal IRPF { get { return this._IRPF; } }
+        public decimal TotalImpuestos { get { return this.IGICIVA - this.IRPF; } }
+        
+        public decimal Total { get { return (this.Subtotal + IGICIVA - IRPF); } }
         public decimal Pendiente { get { return this._Pendiente; } }
         
         public string Concepto { get; set; }
         public TipoPagoFacturas TipoPago { get; set; }
         #endregion
 
-        #region helpers
-        public bool Cuadrado(decimal subtotal, double perUnitII, decimal igiciva, double perUnitIRPF, decimal irpf)
+        /*#region helpers        
+        public bool FacturaLiteralCuadrada(decimal subtotal, double perUnitII, double perUnitIRPF)
         {
             decimal II = subtotal.MultiplyDouble(perUnitII);
             decimal Irpf = subtotal.MultiplyDouble(perUnitIRPF);
 
-            return (subtotal + igiciva - irpf) == this.APagar;
+            return (subtotal + II - Irpf) == this.Total;
         }
-        public void ReCalculate()
+        public bool FacturaLiteralCuadrada(decimal subtotal, decimal igiciva, decimal irpf)
+        {
+            return (subtotal + igiciva - irpf) == this.Total;
+        }
+        public bool GastosCuadranFactura(decimal gastos, decimal subtotal, double perUnitII, double perUnitIRPF)
+        {
+            decimal II = subtotal.MultiplyDouble(perUnitII);
+            decimal Irpf = subtotal.MultiplyDouble(perUnitIRPF);
+
+            return (subtotal + II - Irpf) == this.Total;
+        }
+
+        private void ReCalculate()
         {
             this._IGICIVA = this.Subtotal.MultiplyDouble(this.PerUnitIGICIVA);
             this._IRPF = this.Subtotal.MultiplyDouble(this.PerUnitIRPF);
-            this._APagar = this.Subtotal + this.IGICIVA - this.IRPF;
-            this._Pendiente = this.APagar - this.PagosFra.Total;
+            this._Total = this.Subtotal + this.IGICIVA - this.IRPF;
+            this._Pendiente = this.Total - this.PagosFra.Total;
         }
-        #endregion
+        #endregion*/
 
         #region public methods
+        public ErrorCuadreFactura FacturaCuadrada(
+            decimal subtotal, 
+            double perUnitIGICIVA, 
+            decimal igiciva, 
+            double perUnitIRPF, 
+            decimal irpf,
+            decimal total,
+            decimal pendiente,
+            GastosPagosList<Gasto> gastos, 
+            GastosPagosList<Pago> pagos)
+        {
+            decimal II = subtotal.MultiplyDouble(perUnitIGICIVA);
+            decimal Irpf = subtotal.MultiplyDouble(perUnitIRPF);
+
+            if (igiciva != II) return ErrorCuadreFactura.ErrorEnCalculoIGICIVA;
+            else if (irpf != Irpf) return ErrorCuadreFactura.ErrorEnCalculoIRPF;
+
+            decimal Total = subtotal + igiciva - irpf;
+
+            if (total != Total) return ErrorCuadreFactura.ErrorEnTotal;
+            else if (gastos != null && gastos.Total != subtotal) return ErrorCuadreFactura.GastosNoCoincidenConSubtotal;
+            else if (pagos != null && (total - pagos.Total) != pendiente) return ErrorCuadreFactura.PendienteDescuadrado;
+            
+            return ErrorCuadreFactura.None;
+        }
         public bool TrySetGastosPagos(GastosPagosList<Gasto> gastos, GastosPagosList<Pago> pagos)
         {
             decimal pendiente = gastos.Total - pagos.Total;
 
-            if (this._Pendiente == pendiente || gastos.Total != this.APagar) return false;
+            if (this._Pendiente == pendiente || (gastos.Total + this.TotalImpuestos) != this.Total) return false;
 
             this._GastosFra = gastos;
             this._PagosFra = pagos;
@@ -167,5 +221,4 @@ namespace ModuloContabilidad.ObjModels
         }
         #endregion
     }
-
 }

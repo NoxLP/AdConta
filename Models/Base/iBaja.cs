@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace AdConta.Models
 {
-    public interface iRepository
+    public interface iBaja
     {
+        bool Baja { get; }
 
+        bool DarDeBaja();
+        bool RecuperarBaja();
     }
 }

@@ -164,6 +164,7 @@ namespace AdConta.Models
             }
             try
             {
+                this.InvalidMessage = null;
                 Int32 sumaPar = default(Int32);
                 Int32 sumaImpar = default(Int32);
                 // A continuación, la cadena debe tener 7 dígitos + el dígito de control. 
@@ -238,7 +239,7 @@ namespace AdConta.Models
             }
             catch (Exception)
             {
-                // Cualquier excepción producida, devolverá false. 
+                // Cualquier excepción producida, devolverá false.
                 return false;
             }
         }
@@ -300,7 +301,7 @@ namespace AdConta.Models
             return true;
         }
         /// <summary>
-        /// Instead of setting the NIF number by the property, try to set the it and return a string with an invalid message 
+        /// Instead of setting the NIF number by the property, try to set it and return a string with an invalid message 
         /// if the number is invalid, and null if the number is valid.
         /// </summary>
         /// <param name="nif"></param>

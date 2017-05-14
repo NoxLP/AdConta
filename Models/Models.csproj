@@ -38,6 +38,13 @@
       <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DapperMapperQueryBuilder">
+      <HintPath>..\..\..\C#\DapperMapperQueryBuilder\DapperMapperQueryBuilder\obj\Release\DapperMapperQueryBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -52,10 +59,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBWrappers\GeneralDBWrappers.cs" />
-    <Compile Include="DBWrappers\DBWrapper.cs" />
-    <Compile Include="ObjModelsHelpers\iShallowCloneable.cs" />
-    <Compile Include="_CuentaBancaria.cs" />
+    <Compile Include="Base\iBaja.cs" />
+    <Compile Include="Comunidad.cs" />
+    <Compile Include="ObjModelsHelpers\iDataListObject.cs" />
+    <Compile Include="CuentaBancaria.cs" />
     <Compile Include="Base\iObjModelBase.cs" />
     <Compile Include="ObjModelsHelpers\aProtectedList-Dict.cs" />
     <Compile Include="ObjModelsHelpers\iObjModelOwners.cs" />
@@ -63,8 +70,8 @@
     <Compile Include="Concepto.cs" />
     <Compile Include="Base\DatabaseConnection.cs" />
     <Compile Include="Persona.cs" />
-    <Compile Include="_sDireccionPostal.cs" />
-    <Compile Include="_NIF.cs" />
+    <Compile Include="DireccionPostal.cs" />
+    <Compile Include="NIF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_sTelefono.cs" />
   </ItemGroup>
@@ -82,6 +89,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

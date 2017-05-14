@@ -14,4 +14,11 @@ namespace AdConta.Models
     {
         int Id { get; }
     }
+
+    public interface iObjModelConCodigo
+    {
+        int Codigo { get; }
+
+        bool TrySetCodigo(int codigo, ref List<int> codigos);
+    }
 }

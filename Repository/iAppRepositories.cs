@@ -13,8 +13,7 @@ namespace AdConta
     public interface iAppRepositories
     {
         #region general
-        PersonaRepository PersonasRepository { get; }
-        Repository<Concepto> ConceptosRepository { get; }
+        /*Repository<Concepto> ConceptosRepository { get; }
         Repository<Ejercicio> EjerciciosRepository { get; }
         #endregion
         #region gestion
@@ -34,7 +33,7 @@ namespace AdConta
         Repository<Gasto> GastosRepository { get; }
         Repository<GruposCuentas> GruposCuentasRepository { get; }
         Repository<CuentaMayor> CuentasMayorRepository { get; }
-        Repository<Pago> PagosRepository { get; }
+        Repository<Pago> PagosRepository { get; }*/
         #endregion
     }
 }

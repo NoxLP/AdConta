@@ -61,6 +61,9 @@ namespace ModuloGestion.ObjModels
         public int Id { get { return this._Id; } }
         public int IdOwnerFinca { get { return this._IdOwnerFinca; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
+        /// <summary>
+        /// OJO ¿Id propietario de la finca, o del que tiene que pagar la cuota(pagadores)?
+        /// </summary>
         public int IdOwnerPropietario { get { return this._IdOwnerPropietario; } }
         public Ejercicio Ejercicio { get { return this._Ejercicio; } }
 

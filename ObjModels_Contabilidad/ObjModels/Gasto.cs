@@ -9,12 +9,10 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Gasto : GastosPagosBase, iOwnerProveedor
+    public class Gasto : GastosPagosBase
     {
-        public Gasto(int id, int idComunidad, int idProveedor, Date fecha) : base(id, idComunidad, fecha)
-        {
-            this._IdOwnerProveedor = idProveedor;
-        }
+        public Gasto(int id, int idComunidad, int idProveedor, int? idFactura, DateTime? fecha) : base(id, idComunidad, idProveedor, idFactura, fecha)
+        { }
 
         /*public Gasto(
             int id,
@@ -28,12 +26,6 @@ namespace ModuloContabilidad.ObjModels
             this._IdOwnerProveedor = idProveedor;
         }*/
 
-        #region fields
-        private int _IdOwnerProveedor;
-        #endregion
-
-        #region properties
-        public int IdOwnerProveedor { get { return this._IdOwnerProveedor; } }
-        #endregion
+        
     }
 }

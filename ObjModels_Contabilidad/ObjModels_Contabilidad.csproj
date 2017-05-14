@@ -51,19 +51,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ObservableApuntesList.cs" />
     <Compile Include="Helpers\GastosPagosLists.cs" />
-    <Compile Include="ObjModels\Asiento.cs" />
+    <Compile Include="ObjModels\ApunteAsiento.cs" />
+    <Compile Include="ObjModels\sGrupoSubgrupoContable.cs" />
     <Compile Include="ObjModels\_AsientoComplejo.cs" />
     <Compile Include="ObjModels\_AsientoSimple.cs" />
     <Compile Include="ObjModels\_ComunidadContabilidad.cs" />
     <Compile Include="ObjModels\Factura.cs" />
     <Compile Include="ObjModels\Gasto.cs" />
     <Compile Include="ObjModels\GastosPagosBase.cs" />
-    <Compile Include="ObjModels\GruposCuentas.cs" />
+    <Compile Include="ObjModels\GrupoCuentas.cs" />
     <Compile Include="ObjModels\CuentaMayor.cs" />
     <Compile Include="ObjModels\Pago.cs" />
     <Compile Include="ObjModels\Proveedor.cs" />
-    <Compile Include="ObjModels\_sImporteCuenta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +85,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DapperWrappers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

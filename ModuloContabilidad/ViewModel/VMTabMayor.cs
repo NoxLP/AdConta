@@ -170,7 +170,7 @@ namespace ModuloContabilidad
         }
         private void GetMaxFromColumn(string column, out int maxResult)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
             {
                 maxResult = 0;
                 return;
@@ -189,7 +189,7 @@ namespace ModuloContabilidad
         }
         private void GetMaxFromColumn(string column, out DateTime maxResult)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
             {
                 maxResult = new DateTime(DateTime.Today.Year, 1, 1);
                 return;
@@ -208,7 +208,7 @@ namespace ModuloContabilidad
         }
         private decimal GetColumnSum(string column)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
                 return 0;
 
             int sum = 0;
@@ -220,7 +220,7 @@ namespace ModuloContabilidad
         }
         private decimal GetSaldoPunteado()
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
                 return 0;
 
             int sum = 0;

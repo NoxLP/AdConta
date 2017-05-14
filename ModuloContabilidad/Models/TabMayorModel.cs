@@ -17,7 +17,7 @@ namespace ModuloContabilidad.Models
             string tableName = string.Format("C{0}Cuen{1}",
                 cod.ToString(),
                 GlobalSettings.Properties.Settings.Default.CUENTADEFAULT);
-            this._CurrentAccount = new CuentaMayor(GlobalSettings.Properties.Settings.Default.CUENTADEFAULT);
+            this._CurrentAccount = CuentaMayor.GetCuentaDefault();
 
             if (!base.ExistsTableInDB(tableName))
                 base.CreateTable(tableName, cod.ToString(), this.CurrentAccount);
@@ -86,7 +86,7 @@ namespace ModuloContabilidad.Models
 
             if (!base.ExistsTableInDB(tableName))
             {
-                this.CurrentAccount.IsFakeAccount = true;
+                this.CurrentAccount.CuentaFalsa = true;
                 return false;
             }
             else

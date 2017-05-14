@@ -16,7 +16,7 @@ namespace AdConta.ModelControl
             this._Id = id;
             this._Ejercicios = new Dictionary<int, Ejercicio>();
             this.Ejercicios = new ReadOnlyDictionary<int, Ejercicio>(this._Ejercicios);
-
+/*
 #if (MCONTABILIDAD)
             InitContabilidad();
 #endif

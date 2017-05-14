@@ -11,6 +11,16 @@ namespace AdConta.Models
         int IdOwnerComunidad { get; }
     }
 
+    public interface iOwnerComunidadNullable
+    {
+        int? IdOwnerComunidad { get; }
+    }
+
+    public interface iOwnerEjercicio
+    {
+        int IdOwnerEjercicio { get; }
+    }
+
     public interface iOwnerPersona
     {
         int IdOwnerPersona { get; }
@@ -23,7 +33,7 @@ namespace AdConta.Models
 
     public interface iOwnerProveedor
     {
-        int IdOwnerProveedor { get; }
+        int? IdOwnerProveedor { get; }
     }
 
     public interface iOwnerPropietario
@@ -43,7 +53,7 @@ namespace AdConta.Models
 
     public interface iOwnerFactura
     {
-        int IdOwnerFactura { get; }
+        int? IdOwnerFactura { get; }
     }
 
     public interface iOwnerDevolucion

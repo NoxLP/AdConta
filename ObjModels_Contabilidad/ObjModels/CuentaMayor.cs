@@ -8,117 +8,108 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public struct GrupoContable
-    {
-        public int Digits { get; private set; }
-
-        public GrupoContable(string accountNumber)
-        {
-            this.Digits = int.Parse(accountNumber.Substring(0, 1)) * 100;
-        }
-        public GrupoContable(int accountNumber)
-        {
-            //Get total default digits
-            int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
-            //Get first digit
-            this.Digits = (int)Math.Truncate(accountNumber / Math.Pow(10, digits)) * 100;
-        }
-
-        public void SetGrupoByAccNumber(string accountNumber)
-        {
-            this.Digits = int.Parse(accountNumber.Substring(0, 1)) * 100;
-        }
-        public void SetGrupoByAccNumber(int accountNumber)
-        {
-            //Get total default digits
-            int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
-            //Get first digit
-            this.Digits = (int)Math.Truncate(accountNumber / Math.Pow(10, digits)) * 100;
-        }
-        
-        /// <summary>
-        /// Carefull, this method don't check if the string provided is a correct ledge account number
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static int GetGrupoDigitsFromString(ref string s)
-        {
-            return int.Parse(s.Substring(0, 1)) * 100;
-        }
-    }
-    public struct SubgrupoContable
-    {
-        public int Digits { get; private set; }
-
-        public SubgrupoContable(string accountNumber)
-        {
-            this.Digits = int.Parse(accountNumber.Substring(1, 2));
-        }
-        public SubgrupoContable(int accountNumber)
-        {
-            //Get total default digits
-            int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
-            //Get second and third digit
-            this.Digits = (int)Math.Truncate(accountNumber / Math.Pow(10, digits - 2)) % 100;
-        }
-
-        public void SetSubgrupoByAccNumber(string accountNumber)
-        {
-            this.Digits = int.Parse(accountNumber.Substring(1, 2));
-        }
-        public void SetSubgrupoByAccNumber(int accountNumber)
-        {
-            //Get total default digits
-            int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
-            //Get second and third digit
-            this.Digits = (int)Math.Truncate(accountNumber / Math.Pow(10, digits - 2)) % 100;
-        }
-
-        /// <summary>
-        /// Carefull, this method don't check if the string provided is a correct ledge account number
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public static int GetSubgrupoDigitsFromString(ref string s)
-        {
-            return int.Parse(s.Substring(1, 2));
-        }
-    }
-
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class CuentaMayor : iObjModelBase, iOwnerComunidad
+    public class CuentaMayor : iObjModelBase, iOwnerComunidad, iOwnerEjercicio
     {
-        public CuentaMayor(string accountNumber)
+        public CuentaMayor(string accountNumber, int id, int idComunidad, int idEjercicio, string nombre, bool cuentaFalsa = false)
         {
             this.Codigo = accountNumber;
-            this.IsFakeAccount = false;
+            this._IdOwnerComunidad = idComunidad;
+            this._IdOwnerEjercicio = idEjercicio;
+            this.CuentaFalsa = cuentaFalsa;
+            this.Nombre = nombre;
+
+            this._Grupo = new sGrupoContable(accountNumber);
+            this._Subgrupo = new sSubgrupoContable(accountNumber);
+        }
+
+        public class CuentaMayorDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new AdConta.CustomException_DataListObjects(); }
+            public void SetProperties(
+                int accountNumber,
+                int id,
+                int idCdad,
+                string nombre,
+                int grupo,
+                int subgrupo,
+                int sufijo,
+                bool cuentaFalsa)
+            {
+                if (cuentaFalsa) throw new AdConta.CustomException_DataListObjects(
+                     "Error creando DLO de CuentaMayor. No se puede crear objeto DLO con una cuenta falsa.");
+
+                this.NumCuenta = accountNumber;
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Nombre = nombre;
+                this.Grupo = grupo;
+                this.Subgrupo = subgrupo;
+                this.Sufijo = sufijo;
+            }
+            public void SetProperties(
+                int accountNumber,
+                int id,
+                int idCdad,
+                string nombre)
+            {
+                this.NumCuenta = accountNumber;
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Nombre = nombre;                
+
+                var grupo = new sGrupoContable();
+                var sgrupo = new sSubgrupoContable();
+                grupo.SetGrupoByAccNumber(accountNumber);
+                sgrupo.SetSubgrupoByAccNumber(accountNumber);
+                this.Grupo = grupo.Digits;
+                this.Subgrupo = sgrupo.Digits;
+                //Get total default digits
+                int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
+                //Get the rest of the digits as a whole number
+                this.Sufijo = accountNumber - (int)Math.Truncate((this.Grupo + this.Subgrupo) * Math.Pow(10, digits - 2));
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public int NumCuenta { get; private set; }
+            public string Nombre { get; private set; }
+            public int Grupo { get; private set; }
+            public int Subgrupo { get; private set; }
+            public int Sufijo { get; private set; }
         }
 
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+        private int _IdOwnerEjercicio;
+        private int _NumCuenta;
         private string _Codigo;
-        private GrupoContable _Grupo;
-        private SubgrupoContable _Subgrupo;
+        private sGrupoContable _Grupo;
+        private sSubgrupoContable _Subgrupo;
         private int _Sufijo;
         #endregion
 
         #region properties
-        public int Id
+        public int Id { get { return this._Id; } }
+        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
+        public int IdOwnerEjercicio { get { return this._IdOwnerEjercicio; } }
+        public int NumCuenta
         {
-            get { return _Id; }
+            get { return _NumCuenta; }
             set
             {
-                if (value == this._Id ||
+                if (value == this._NumCuenta ||
                     value < GlobalSettings.Properties.Settings.Default.MINCODCUENTAS ||
                     value > GlobalSettings.Properties.Settings.Default.MAXCODCUENTAS)
-                    return;
-                
-                this._Id = value;
-                this._Grupo = new GrupoContable();
-                this._Subgrupo = new SubgrupoContable();
+                    throw new AdConta.CustomException_ObjModels("Código de cuenta contable erróneo al intentar dar valor a Id en el objecto CuentaMayor");
+
+                this._NumCuenta = value;
+                this._Codigo = value.ToString();
+                this._Grupo = new sGrupoContable();
+                this._Subgrupo = new sSubgrupoContable();
                 this._Grupo.SetGrupoByAccNumber(value);
                 this._Subgrupo.SetSubgrupoByAccNumber(value);
                 //Get total default digits
@@ -133,7 +124,6 @@ namespace ModuloContabilidad.ObjModels
                 */
             }
         }
-        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public string Codigo
         {
             get { return _Codigo; }
@@ -147,13 +137,14 @@ namespace ModuloContabilidad.ObjModels
                     !int.TryParse(value, out account) ||
                     value.Substring(0, 1) == "0")
                 {
-                    MessageBox.Show("Número de cuenta contable incorrecto");
-                    return;
+                    throw new AdConta.CustomException_ObjModels("Código de cuenta contable erróneo al intentar dar valor a Codigo en el objecto CuentaMayor");
+                    //MessageBox.Show("Número de cuenta contable incorrecto");
+                    //return;
                 }
 
                 this._Codigo = value;
-                this._Grupo = new GrupoContable();
-                this._Subgrupo = new SubgrupoContable();
+                this._Grupo = new sGrupoContable();
+                this._Subgrupo = new sSubgrupoContable();
                 this._Grupo.SetGrupoByAccNumber(value);
                 this._Subgrupo.SetSubgrupoByAccNumber(value);
                 /*
@@ -163,14 +154,14 @@ namespace ModuloContabilidad.ObjModels
 
                 int sufDigits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 3;
                 sufDigits = (int)Math.Truncate(Math.Pow(10, sufDigits));
-                this._Id = (this.Grupo + this.Subgrupo) * sufDigits + this.Sufijo;                
+                this._NumCuenta = (this.Grupo + this.Subgrupo) * sufDigits + this.Sufijo;                
             }
         }
         public string Nombre { get; set; }
         public int Grupo { get { return this._Grupo.Digits; } }
         public int Subgrupo { get { return this._Subgrupo.Digits; } }
         public int Sufijo { get { return this._Sufijo; } }
-        public bool IsFakeAccount { get; set; }
+        public bool CuentaFalsa { get; set; }
         #endregion
 
         #region public methods
@@ -182,12 +173,16 @@ namespace ModuloContabilidad.ObjModels
         {
             return this.Id == GlobalSettings.Properties.Settings.Default.MINCODCUENTAS;
         }
-        public bool IsProveedor_Propietario(List<GruposCuentas> cuentasProveedores_Cobros)
+        public bool IsProveedor_Propietario(List<GrupoCuentas> cuentasProveedores_Cobros)
         {
-            foreach (GruposCuentas gc in cuentasProveedores_Cobros)
+            foreach (GrupoCuentas gc in cuentasProveedores_Cobros)
                 if (gc.Contains(this)) return true;
 
             return false;
+        }
+        public static CuentaMayor GetCuentaDefault()
+        {
+            return new CuentaMayor(GlobalSettings.Properties.Settings.Default.CUENTADEFAULT, 0, 0, true);
         }
         #endregion
     }

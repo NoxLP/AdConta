@@ -14,21 +14,52 @@ namespace AdConta.Models
     //Si se cambia el GrupoGasto original, cuando se abra el presupuesto debería haber un mensaje de advertencia, pidiendo si se quiere
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
-    public class Presupuesto : iObjModelBase, iOwnerComunidad
+    public class Presupuesto : iObjModelBase, iObjModelConCodigo, iOwnerComunidad, iOwnerEjercicio
     {
         private Presupuesto() { }
-        public Presupuesto(int id, int idComunidad, bool aceptado = false, TipoRepartoPresupuesto tipo = TipoRepartoPresupuesto.CoeficientesYGrupos)
+        public Presupuesto(int id, int idComunidad, int idEjercicio, int codigo, bool aceptado = false, TipoRepartoPresupuesto tipo = TipoRepartoPresupuesto.CoeficientesYGrupos)
         {
             this._Id = id;
             this._IdOwnerComunidad = idComunidad;
+            this._IdOwnerEjercicio = idEjercicio;
+            this._Codigo = codigo;
             this._Aceptado = aceptado;
             this._TipoReparto = tipo;
             this._GruposDeGasto = new List<iGrupoGastos>();
         }
 
+        public class PresupuestoDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int idCdad,
+                string titulo,
+                decimal total,
+                bool aceptado,
+                TipoRepartoPresupuesto tipoReparto)
+            {
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Titulo = titulo;
+                this.Total = total;
+                this.Aceptado = aceptado;
+                this.TipoReparto = tipoReparto;
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public string Titulo { get; private set; }
+            public decimal Total { get; private set; }
+            public bool Aceptado { get; private set; }
+            public TipoRepartoPresupuesto TipoReparto { get; private set; }
+        }
+
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+        private int _IdOwnerEjercicio;
+        private int _Codigo;
 
         private decimal _Total;
         private bool _Aceptado;
@@ -40,6 +71,8 @@ namespace AdConta.Models
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
+        public int IdOwnerEjercicio { get { return this._IdOwnerEjercicio; } }
+        public int Codigo { get { return this._Codigo; } }
 
         public string Titulo { get; set; }
         public decimal Total { get { return this._Total; } }
@@ -50,9 +83,14 @@ namespace AdConta.Models
         #endregion
 
         #region public methods
+        /// <summary>
+        /// No añade (y devuelve false) si el presupuesto está aceptado o grupo ya está añadido a this presupuesto
+        /// </summary>
+        /// <param name="grupo"></param>
+        /// <returns></returns>
         public bool TryAddGrupoDeGasto(ref GrupoGastos grupo)
         {
-            if (this.Aceptado) return false;
+            if (this.Aceptado || GruposDeGasto.Contains(grupo)) return false;
 
             this._GruposDeGasto.Add(grupo);
             this._Total += grupo.Importe;
@@ -66,11 +104,16 @@ namespace AdConta.Models
             this._Total -= grupo.Importe;
             return true;
         }
+        /// <summary>
+        /// Aplica Distinct a grupos antes de guardarlo
+        /// </summary>
+        /// <param name="grupos"></param>
+        /// <returns></returns>
         public bool TrySetGruposDeGasto(ref IEnumerable<GrupoGastos> grupos)
         {
             if (this.Aceptado) return false;
 
-            this._GruposDeGasto = (List<iGrupoGastos>)grupos;
+            this._GruposDeGasto = (List<iGrupoGastos>)grupos.Distinct();
             this._Total = grupos.Select(x => x.Importe).Sum();
             return true;
         }
@@ -91,6 +134,12 @@ namespace AdConta.Models
                 ((GrupoGastos)x).AsAceptado(lastFId, lastCuentasId, LastCuotasId, ImportesPorFinca) as iGrupoGastos
                 );
         }
+
+        public bool TrySetCodigo(int codigo, ref List<int> codigos)
+        {
+            throw new NotImplementedException();
+        }
+        //TODO: ¿¿Reparto??
         #endregion
     }
 

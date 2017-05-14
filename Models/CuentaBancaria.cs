@@ -9,6 +9,12 @@ namespace AdConta.Models
     #region bank account class
     public class CuentaBancaria
     {
+        public CuentaBancaria() { }
+        public CuentaBancaria(string cuenta)
+        {
+            AccountNumber = cuenta;
+        }
+
         #region fields
         private string _account;
         private readonly int[] _InitIndex = new int[] { 0, 4, 8, 12, 14 };
@@ -48,7 +54,7 @@ namespace AdConta.Models
                 if (IsAnAccount(value, out acc))
                     this._account = acc;
                 else
-                    throw new Exception(string.Format("La cuenta \"{0}\" no es una cuenta de banco correcta y no se ha podido guardar.",
+                    throw new CustomException_ObjModels(string.Format("La cuenta \"{0}\" no es una cuenta de banco correcta y no se ha podido guardar.",
                         value));
                 /*throw new Exception(string.Format("String \"{0}\" is NOT an account number, can not set it as BankAccount.AccountNumber property",
                     value));*/

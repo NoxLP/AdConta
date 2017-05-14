@@ -10,7 +10,7 @@ using ModuloGestion.ObjModels;
 namespace AdConta.Models
 {
     //--------------------TODO---------------------------
-    //HECHO OK - Falta un objecto nuevo para GrupoGasto que sea protegido, para crearlo cuando un presupuesto se guarde.
+    //HECHO OK - Falta un objeto nuevo para GrupoGasto que sea protegido, para crearlo cuando un presupuesto se guarde.
     //Si se cambia el GrupoGasto original, cuando se abra el presupuesto debería haber un mensaje de advertencia, pidiendo si se quiere
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
@@ -42,6 +42,33 @@ namespace AdConta.Models
 
             SetCoeficientesCustom();
             this._Importe = this.Cuentas.Select(x => x.SaldoAlAñadirLaCuenta).Sum();
+        }
+
+        public class GrupoGastosDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int idCdad,
+                int idPpto,
+                string nombre,
+                bool coefCustom,
+                decimal importe)
+            {
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.IdOwnerPresupuesto = idPpto;
+                this.Nombre = nombre;
+                this.CoeficientesCustom = coefCustom;
+                this.Importe = importe;
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public int IdOwnerPresupuesto { get; private set; }
+            public string Nombre { get; private set; }
+            public bool CoeficientesCustom { get; private set; }
+            public decimal Importe { get; private set; }
         }
 
         public class CuentaParaPresupuesto
@@ -333,7 +360,6 @@ namespace AdConta.Models
         private int _Id;
         private int _IdOwnerComunidad;
         private int _IdOwnerPresupuesto;
-        public string Nombre { get; set; }
 
         private List<sDatosFincaGGAceptado> _Fincas;
         private List<sDatosCuotaGGAceptado> _Cuotas;
@@ -347,6 +373,7 @@ namespace AdConta.Models
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerPresupuesto { get { return this._IdOwnerPresupuesto; } }
+        public string Nombre { get; set; }
 
         public ReadOnlyCollection<sDatosFincaGGAceptado> Fincas { get { return this._Fincas.AsReadOnly(); } }
         public ReadOnlyCollection<sDatosCuotaGGAceptado> Cuotas { get { return this._Cuotas.AsReadOnly(); } }

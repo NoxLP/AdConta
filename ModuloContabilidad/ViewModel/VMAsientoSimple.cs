@@ -23,17 +23,17 @@ namespace ModuloContabilidad
             base.IsWindowed = GlobalSettings.Properties.Settings.Default.ASIENTOSIMPLE_WINDOWED;
             base.Fecha = DateTime.Today;
             base.TabExpType = TabExpTabType.Simple;
-            this._model = new AsientoSimpleModel(base.TabComCod, true);
+            //this._model = new AsientoSimpleModel(base.TabComCod, true);
             this._MoveAsientoToWindow = new Command_MoveAsientoToWindow(this);
         }
 
         #region fields
-        private AsientoSimpleModel _model;
+        //private AsientoSimpleModel _model;
         #endregion
 
         #region properties
         public Visibility PinButtonVisibility { get; set; }
-        public ObservableCollection<Apunte> VMApuntes { get { return this._model.Asiento.Apuntes; } }
+        //public ObservableCollection<Apunte> VMApuntes { get { return this._model.Asiento.Apuntes; } }
         #endregion
 
         #region commands

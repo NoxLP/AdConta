@@ -11,23 +11,52 @@ namespace ModuloGestion.ObjModels
 {
     public class Propietario : Persona, iOwnerComunidad
     {
-        public Propietario(int id, int idPropietario, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
+        public Propietario(int id, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
             : base(id, nif, nombre, forceInvalidNIF)
         {
             this._Cuotas = new Dictionary<int, Cuota>();
-            this._IdPropietario = IdPropietario;
             this._IdOwnerComunidad = idComunidad;
         }
 
+        public class PropietarioDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int idCdad,
+                string nombre,
+                string nIF,
+                string direccion,
+                string cuentaBancaria,
+                string telefono,
+                string email)
+            {
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Nombre = nombre;
+                this.NIF = nIF;
+                this.Direccion = direccion;
+                this.CuentaBancaria = cuentaBancaria;
+                this.Telefono = telefono;
+                this.Email = email;
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public string Nombre { get; private set; }
+            public string NIF { get; private set; }
+            public string Direccion { get; private set; }
+            public string CuentaBancaria { get; private set; }
+            public string Telefono { get; private set; }
+            public string Email { get; private set; }
+        }
 
         #region fields
-        private int _IdPropietario;
         private int _IdOwnerComunidad;        
         private Dictionary<int, Cuota> _Cuotas;
         #endregion
 
         #region properties
-        public int IdPropietario { get { return this._IdPropietario; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
         #endregion

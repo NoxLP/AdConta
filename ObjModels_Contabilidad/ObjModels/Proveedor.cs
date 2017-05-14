@@ -8,21 +8,20 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Proveedor : Persona, iOwnerComunidad
+    public class Proveedor : Persona
     {
-        public Proveedor(int id, int idPersona, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
+        #region constructors
+        public Proveedor(int id, int idPersona, string nif, string nombre, bool forceInvalidNIF = false) 
             : base(idPersona, nif, nombre, forceInvalidNIF)
         {
             this._IdProveedor = id;
-            this._IdOwnerComunidad = idComunidad;
         }
 
         public Proveedor(
             CuentaMayor CuentaContProveedor, 
             CuentaMayor CuentaContGasto,
             CuentaMayor CuentaContPago,
-            int id, 
-            int idComunidad,
+            int id,
             string Razon,
             double IGICIVA,
             double IRPF,
@@ -33,16 +32,60 @@ namespace ModuloContabilidad.ObjModels
             this._CuentaContableGasto = CuentaContGasto;
             this._CuentaContablePago = CuentaContPago;
             this._IdProveedor = id;
-            this._IdOwnerComunidad = idComunidad;
             this.RazonSocial = Razon;
             this.IGICIVAPercent = IGICIVA;
             this.IRPFPercent = IRPF;
             this.DefaultTipoPagoFacturas = DefTPagoFacturas;
         }
+        #endregion
+
+        public class ProveedorDLO : iObjModelBase, iDataListObject
+        {
+            public void SetProperties() { throw new CustomException_DataListObjects(); }
+            public void SetProperties(
+                int id,
+                int idCdad,
+                string nombre,
+                string nIF,
+                string direccion,
+                string cuentaBancaria,
+                string telefono,
+                string email,
+                string razonSocial,
+                string cuentaGasto,
+                string cuentaPago,
+                string cuentaProveedor)
+            {
+                this.Id = id;
+                this.IdOwnerComunidad = idCdad;
+                this.Nombre = nombre;
+                this.NIF = nIF;
+                this.Direccion = direccion;
+                this.CuentaBancaria = cuentaBancaria;
+                this.Telefono = telefono;
+                this.Email = email;
+                this.RazonSocial = razonSocial;
+                this.CuentaGasto = cuentaGasto;
+                this.CuentaPago = cuentaPago;
+                this.CuentaProveedor = cuentaProveedor;
+            }
+
+            public int Id { get; private set; }
+            public int IdOwnerComunidad { get; private set; }
+            public string Nombre { get; private set; }
+            public string NIF { get; private set; }
+            public string Direccion { get; private set; }
+            public string CuentaBancaria { get; private set; }
+            public string Telefono { get; private set; }
+            public string Email { get; private set; }
+            public string RazonSocial { get; private set; }
+            public string CuentaGasto { get; private set; }
+            public string CuentaPago { get; private set; }
+            public string CuentaProveedor { get; private set; }
+        }
 
         #region fields
         private int _IdProveedor;
-        private int _IdOwnerComunidad;
         
         private CuentaMayor _CuentaContableGasto;
         private CuentaMayor _CuentaContablePago;
@@ -51,7 +94,6 @@ namespace ModuloContabilidad.ObjModels
 
         #region properties
         public int IdProveedor { get { return this._IdProveedor; } }
-        public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public string RazonSocial { get; set; }
 
         public CuentaMayor CuentaContableGasto { get { return this._CuentaContableGasto; } }

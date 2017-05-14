@@ -9,13 +9,37 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class GastosPagosBase : iObjModelBase, iOwnerComunidad
+    public class GastosPagosBase : iObjModelBase, iOwnerComunidad, iOwnerProveedor
     {
-        public GastosPagosBase(int id, int idComunidad, Date fecha)
+        public GastosPagosBase(int id, int idComunidad, int? idProveedor, int? idFactura, DateTime? fecha)
         {
             this._Id = id;
-            this._Fecha = fecha;
+            this._Fecha = (DateTime) fecha;
             this._IdOwnerComunidad = idComunidad;
+            this._IdOwnerProveedor = idProveedor;
+            this._IdOwnerFactura = idFactura;
+        }
+
+        public struct sImporteCuenta
+        {
+            public sImporteCuenta(int id, decimal importe, string cuenta, string concepto, bool cuentaActiva = true)
+            {
+                this.Importe = importe;
+                this.Cuenta = cuenta;
+                this.Concepto = concepto;
+                this.Id = id;
+                this.CuentaActiva = cuentaActiva;
+            }
+
+            public int Id { get; set; }
+            public decimal Importe { get; set; }
+            public string Cuenta { get; set; }
+            public string Concepto { get; set; }
+            //TODO: Hay que hacer algo con esta variable: GastosPagosBase debe actuar con ella de alguna forma => usuario debe resolver
+            /// <summary>
+            /// False si la cuenta ha sido borrada en la Comunidad y ejercicio
+            /// </summary>
+            public bool CuentaActiva { get; set; }
         }
 
         /*public GastosPagosBase(
@@ -39,45 +63,48 @@ namespace ModuloContabilidad.ObjModels
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+        private int? _IdOwnerProveedor;
+        private int? _IdOwnerFactura;
 
-        private List<sImporteCuenta> _CuentasAcreedoras;
-        private List<sImporteCuenta> _CuentasDeudoras;
+        private List<sImporteCuenta> _CuentasAcreedoras = new List<sImporteCuenta>();
+        private List<sImporteCuenta> _CuentasDeudoras = new List<sImporteCuenta>();
 
-        private Date _Fecha;
+        private DateTime _Fecha;
         private decimal _Importe;
         #endregion
 
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
+        public int? IdOwnerProveedor { get { return this._IdOwnerProveedor; } }
+        public int? IdOwnerFactura { get { return this._IdOwnerFactura; } }
 
         public ReadOnlyCollection<sImporteCuenta> CuentasAcreedoras
         {
-            get { return new ReadOnlyCollection<sImporteCuenta>(this._CuentasAcreedoras.AsReadOnly()); }
+            get { return this._CuentasAcreedoras.AsReadOnly(); }
         }
         public ReadOnlyCollection<sImporteCuenta> CuentasDeudoras
         {
-            get { return new ReadOnlyCollection<sImporteCuenta>(this._CuentasDeudoras.AsReadOnly()); }
+            get { return this._CuentasDeudoras.AsReadOnly(); }
         }
 
-        public Date Fecha { get { return this._Fecha; } }
-        public string Concepto { get; set; }
+        public DateTime Fecha { get { return this._Fecha; } }
         public decimal Importe { get { return this._Importe; } }
         #endregion
 
         #region helpers
-        private bool CalculateTotal(ref List<sImporteCuenta> deudoras, ref List<sImporteCuenta> acreedoras)
+        private bool CalculaTotal(ref List<sImporteCuenta> deudoras, ref List<sImporteCuenta> acreedoras)
         {
             decimal SaldoDeudor = 0;
             decimal SaldoAcreedor = 0;
-            foreach (sImporteCuenta gc in deudoras)
-            {
-                SaldoDeudor += gc.Importe;
-            }
-            foreach (sImporteCuenta gc in acreedoras)
-            {
-                SaldoAcreedor += gc.Importe;
-            }
+
+            if(deudoras != null)
+                foreach (sImporteCuenta gc in deudoras)
+                    SaldoDeudor += gc.Importe;
+
+            if(acreedoras != null)
+                foreach (sImporteCuenta gc in acreedoras)
+                    SaldoAcreedor += gc.Importe;
 
             if (SaldoDeudor != SaldoAcreedor) return false;
 
@@ -87,9 +114,9 @@ namespace ModuloContabilidad.ObjModels
         #endregion
 
         #region public methods
-        public bool SetCuentasImportes(List<sImporteCuenta> deudores, List<sImporteCuenta> acreedores)
+        public bool SetImportesCuentas(List<sImporteCuenta> deudores, List<sImporteCuenta> acreedores)
         {
-            if (!this.CalculateTotal(ref deudores, ref acreedores)) return false;
+            if (!this.CalculaTotal(ref deudores, ref acreedores)) return false;
 
             this._CuentasDeudoras = deudores;
             this._CuentasAcreedoras = acreedores;
@@ -157,5 +184,4 @@ namespace ModuloContabilidad.ObjModels
         #endregion
 
     }
-
 }

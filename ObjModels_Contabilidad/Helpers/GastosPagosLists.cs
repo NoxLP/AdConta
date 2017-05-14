@@ -12,6 +12,10 @@ namespace ModuloContabilidad.ObjModels
         public GastosPagosList()
         {
             this._Total = 0;
+        }
+        public GastosPagosList(List<T> items) : base(items)
+        {
+            this._Total = 0;
             foreach (T item in this._List) this._Total += item.Importe;
         }
 

@@ -7,7 +7,6 @@ using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
-    [Table("conceptocuotas")]
     public class Concepto : iObjModelBase
     {
         public Concepto(int id)
