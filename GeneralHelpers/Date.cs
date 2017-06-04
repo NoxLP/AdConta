@@ -201,6 +201,17 @@ namespace AdConta
             DateTime dt = d.GetDateTime();
             return dt;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Date) return (Date)obj == this;
+            else return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class ReadOnlyDate

@@ -23,7 +23,7 @@ namespace ModuloGestion.ObjModels
             decimal importeTotal,
             CobrosDict cobros = null,
             SituacionReciboCobroEntaCta situacion = SituacionReciboCobroEntaCta.Normal,
-            IngresosDevueltosList devoluciones = null)
+            DevolucionesList devoluciones = null)
         {
             this._Id = id;
             this._IdOwnerFinca = idOwnerFinca;
@@ -54,7 +54,7 @@ namespace ModuloGestion.ObjModels
 
         private CobrosDict _Cobros;
         private SituacionReciboCobroEntaCta _Situacion;
-        private IngresosDevueltosList _Devoluciones;        
+        private DevolucionesList _Devoluciones;        
         #endregion
 
         #region properties
@@ -75,7 +75,7 @@ namespace ModuloGestion.ObjModels
 
         public CobrosDict Cobros { get { return this._Cobros; } }
         public SituacionReciboCobroEntaCta Situacion { get { return this._Situacion; } }
-        public IngresosDevueltosList Devoluciones { get { return this._Devoluciones; } }
+        public DevolucionesList Devoluciones { get { return this._Devoluciones; } }
         #endregion
 
         #region public methods

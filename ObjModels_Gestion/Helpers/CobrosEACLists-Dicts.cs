@@ -13,7 +13,7 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class CobrosList : aProtectedList<Cobro>
     {
-        public CobrosList()
+        public CobrosList(List<Cobro> lista) : base(lista)
         {
             this._Total = 0;
             foreach(Cobro cobro in this._List) this._Total += cobro.Importe;
@@ -76,7 +76,7 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class EntACtaList : aProtectedList<EntACta>
     {
-        public EntACtaList()
+        public EntACtaList(List<EntACta> lista) : base(lista)
         {
             this._Total = 0;
             foreach (EntACta EAC in this._List) this._Total += EAC.Importe;
@@ -139,10 +139,11 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class CobrosDict : aProtectedDict<int, Cobro>
     {
-        public CobrosDict()
+        public CobrosDict(Dictionary<int, Cobro> dict) : base (dict)
         {
             this._Total = 0;
-            foreach (KeyValuePair<int, Cobro> kvp in this._Dict) this._Total += kvp.Value.Importe;
+            base._Dict = dict;
+            foreach (KeyValuePair<int, Cobro> kvp in base._Dict) this._Total += kvp.Value.Importe;
         }
 
         #region fields
@@ -184,10 +185,11 @@ namespace ModuloGestion.ObjModels
     /// </summary>
     public class EntACtaDict : aProtectedDict<int, EntACta>
     {
-        public EntACtaDict()
+        public EntACtaDict(Dictionary<int, EntACta> dict) : base(dict)
         {
             this._Total = 0;
-            foreach (KeyValuePair<int, EntACta> kvp in this._Dict) this._Total += kvp.Value.Importe;
+            base._Dict = dict;
+            foreach (KeyValuePair<int, EntACta> kvp in base._Dict) this._Total += kvp.Value.Importe;
         }
 
         #region fields

@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\CobrosEACLists-Dicts.cs" />
-    <Compile Include="Helpers\IngresosDevueltosList-Dict.cs" />
+    <Compile Include="Helpers\DevolucionList-Dict.cs" />
     <Compile Include="ObjModels\_ComunidadGestion.cs" />
     <Compile Include="ObjModels\Cuota.cs" />
     <Compile Include="ObjModels\Devolucion.cs" />

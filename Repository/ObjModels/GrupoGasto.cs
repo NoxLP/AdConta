@@ -225,7 +225,7 @@ namespace AdConta.Models
                     ImportesPorFinca[kvp.Key],
                     kvp.Key.Nombre,
                     kvp.Key.PropietarioActual.Nombre,
-                    kvp.Key.Codigo));
+                    kvp.Key.Codigo.CurrentCodigo));
                 lastFId++;
             }
 

@@ -29,13 +29,25 @@ namespace AdConta
                 DefaultValue = FindResource(typeof(Window))
             });
 
+            //*************************TODO: pide usuario y rellena propiedad
+            this.UsuarioLogueado = new Usuario("yo", 0);
+            //*************************
+
+            this.ACData = new AutoCodigoData(this.UsuarioLogueado);
             ConfigMappers();
             //Genera lista de objModels en excel
+            //Propietario p = new Propietario(0, 1, "0", "hola", true);
             //NameSpaceObjectsList.NamespaceObjectsList objsList = new NameSpaceObjectsList.NamespaceObjectsList(
             //    new string[] { "ModuloContabilidad.ObjModels", "ModuloGestion.ObjModels", "AdConta.Models" });
-            //objsList.PrintTypesWithPropsFields(@"E:\GoogleDrive\Conta\_Diseño\ListaObjetosAutoGenerada2.xlsx", false, false, false);
+            //    new string[] { "ModuloGestion.ObjModels" });
+            //objsList.PrintTypesWithPropsFields(@"E:\GoogleDrive\Conta\_Diseño\ListaObjetosAutoGenerada3SoloGestion.xlsx", false, false, false);
             //this.PersonasRepository = new PersonaRepository();
         }
+
+        #region properties
+        public AutoCodigoData ACData { get; private set; }
+        public Usuario UsuarioLogueado { get; private set; }
+        #endregion
 
         #region repositories
         //public PersonaRepository PersonasRepository { get; private set; }
@@ -51,6 +63,7 @@ namespace AdConta
             base.OnStartup(e);
         }
 
+        #region helpers
         private void ConfigMappers()
         {
             string[] namespaces = new string[] { "ModuloContabilidad.ObjModels", "ModuloGestion.ObjModels", "AdConta.Models"};
@@ -59,7 +72,7 @@ namespace AdConta
             //Configuracion de todos los mappers:
             //Comunidad
             mConfig
-                .AddConstructor<Comunidad>(x => new Comunidad(x.Id, x.CIF, x.Baja, x.Nombre, true))
+                .AddConstructor<Comunidad>(x => new Comunidad(x.Id, x.CIF, x.Baja, x.Nombre, x.Codigo, this.ACData, true))
                 .AddMemberCreator<Comunidad>("_CuentaBancaria1", x => new CuentaBancaria(x.CuentaBancaria))
                 .AddMemberCreator<Comunidad>("_CuentaBancaria2", x => new CuentaBancaria(x.CuentaBancaria2))
                 .AddMemberCreator<Comunidad>("_CuentaBancaria3", x => new CuentaBancaria(x.CuentaBancaria3))
@@ -139,14 +152,14 @@ namespace AdConta
             //Presupuesto
             mConfig
                 .AddConstructor<Presupuesto>(x => 
-                    new Presupuesto(x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Codigo, x.Aceptado, (TipoRepartoPresupuesto)x.TipoReparto))
+                    new Presupuesto(x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Codigo, this.ACData, x.Aceptado, (TipoRepartoPresupuesto)x.TipoReparto))
                 .AddNestedProperty<Presupuesto>(true, "_GruposDeGasto")
                 .EndConfig<Presupuesto>();
             mConfig
                 .AddConstructor<Presupuesto.PresupuestoDLO>(x =>
                 {
                     Presupuesto.PresupuestoDLO instance = new Presupuesto.PresupuestoDLO();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Titulo, x.Total, x.Aceptado, (TipoRepartoPresupuesto)x.TipoReparto);
+                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Titulo, x.Total, x.Aceptado, (TipoRepartoPresupuesto)x.TipoReparto, x.Codigo);
                     return instance;
                 })
                 .MapOnlyConstructor<Presupuesto.PresupuestoDLO>()
@@ -170,7 +183,7 @@ namespace AdConta
                 .EndConfig<Apunte>();
             //Asiento
             mConfig
-                .AddConstructor<Asiento>(x => new Asiento(x.Id, x.IdOwnerComunidad, x.FechaValor))
+                .AddConstructor<Asiento>(x => new Asiento(x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Codigo, this.ACData, x.FechaValor))
                 .AddNestedProperty<Asiento, ObservableApuntesList>(false, x => x.Apuntes)
                 .AddIgnoreProperty<Asiento>("Item")
                 .EndConfig<Asiento>();
@@ -313,7 +326,7 @@ namespace AdConta
                 .AddNestedProperty<Proveedor>(false, "_CuentaContableGasto")
                 .AddNestedProperty<Proveedor>(false, "_CuentaContablePago")
                 .AddNestedProperty<Proveedor>(false, "_CuentaContableProveedor")
-                .AddMemberCreator<Proveedor, TipoPagoFacturas>(x => (TipoPagoFacturas)x.DefaultTipoPagoFacturas, x => (TipoPagoFacturas)x.DefaultTipoPagoFacturas)
+                .AddMemberCreator<Proveedor, TipoPagoFacturas>(x => x.DefaultTipoPagoFacturas, x => (TipoPagoFacturas)x.DefaultTipoPagoFacturas)
                 .EndConfig<Proveedor>();
             mConfig
                 .AddConstructor<Proveedor.ProveedorDLO>(x =>
@@ -325,8 +338,199 @@ namespace AdConta
                 })
                 .MapOnlyConstructor<Proveedor.ProveedorDLO>()
                 .EndConfig<Proveedor.ProveedorDLO>();
+            //Cobros-EntACta-iIngresoPropietario
+            mConfig
+                .AddInterfaceToObjectCondition<iIngresoPropietario>(x =>
+                {
+                    var dict = x as IDictionary<string, object>;
+                    return dict.ContainsKey("IdOwnerCuota");
+                },
+                typeof(Cobro))
+                .AddInterfaceToObjectCondition<iIngresoPropietario>(x =>
+                {
+                    var dict = x as IDictionary<string, object>;
+                    return dict.ContainsKey("IdOwnerFinca");
+                },
+                typeof(EntACta))
+                .EndConfig<iIngresoPropietario>();
+            mConfig
+                .AddConstructor<Cobro>(x => new Cobro(
+                    x.Id, x.IdOwnerRecibo, x.IdOwnerCuota, x.Importe, x.Fecha, x.IdOwnerPersona, x.Total, (SituacionReciboCobroEntaCta)x.Situacion))
+                .AddPrefixes<Cobro>(new string[1] { "cobro" })
+                .MapOnlyConstructor<Cobro>()
+                .EndConfig<Cobro>();
+            mConfig
+                .AddConstructor<EntACta>(x => new EntACta(
+                    x.Id, x.IdOwnerRecibo, x.IdOwnerFinca, x.Importe, x.Fecha, x.IdOwnerPersona, (SituacionReciboCobroEntaCta)x.Situacion))
+                .AddPrefixes<EntACtaDict>(new string[1] { "eacta" })
+                .MapOnlyConstructor<Cobro>()
+                .EndConfig<EntACta>();
+            //Cobros/EntACta - List/Dict
+            mConfig
+                .AddConstructor<CobrosList>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<Cobro> mapper = (DapperMapper<Cobro>)store.GetMapper(typeof(Cobro));
+                    List<Cobro> lista = mapper.Map<List<Cobro>>(x, "Id", false);
 
+                    return new CobrosList(lista);
+                })
+                .MapOnlyConstructor<CobrosList>()
+                .EndConfig<EntACtaList>();
+            mConfig
+                .AddConstructor<CobrosDict>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<Cobro> mapper = (DapperMapper<Cobro>)store.GetMapper(typeof(Cobro));
+                    IEnumerable<Cobro> lista = mapper.Map<IEnumerable<Cobro>>(x);
+
+                    return new CobrosDict(lista.ToDictionary(c => (int)c.Id, c => c));
+                })
+                .MapOnlyConstructor<CobrosDict>()
+                .EndConfig<CobrosDict>();
+            mConfig
+                .AddConstructor<EntACtaList>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<EntACta> mapper = (DapperMapper<EntACta>)store.GetMapper(typeof(EntACta));
+                    List<EntACta> lista = mapper.Map<List<EntACta>>(x, "Id", false);
+
+                    return new EntACtaList(lista);
+                })
+                .MapOnlyConstructor<EntACtaList>()
+                .EndConfig<EntACtaList>();
+            mConfig
+                .AddConstructor<EntACtaDict>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<EntACta> mapper = (DapperMapper<EntACta>)store.GetMapper(typeof(EntACta));
+                    IEnumerable<EntACta> lista = mapper.Map<IEnumerable<EntACta>>(x);
+
+                    return new EntACtaDict(lista.ToDictionary(c => (int)c.Id, c => c));
+                })
+                .MapOnlyConstructor<EntACtaDict>()
+                .EndConfig<EntACtaDict>();
+            //IngresoDevuelto
+            mConfig
+                .AddConstructor<IngresoDevuelto>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<iIngresoPropietario> mapper = (DapperMapper<iIngresoPropietario>)store.GetMapper(typeof(iIngresoPropietario));
+                    var ingreso = mapper.Map(x);
+                    return new IngresoDevuelto(x.Id, x.IdOwnerDevolucion, x.Fecha, ingreso, x.Total, x.Importe, x.Gastos);
+                })
+                .MapOnlyConstructor<IngresoDevuelto>()
+                .EndConfig<IngresoDevuelto>();
+            //Devolucion-List
+            mConfig
+                .AddConstructor<Devolucion>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<IngresoDevuelto> mapper = (DapperMapper<IngresoDevuelto>)store.GetMapper(typeof(IngresoDevuelto));
+                    List<IngresoDevuelto> lista = mapper.Map<List<IngresoDevuelto>>(x);
+
+                    return new Devolucion(x.Id, x.IdOwnerComunidad, x.Fecha, lista);
+                })
+                .MapOnlyConstructor<Devolucion>()
+                .EndConfig<Devolucion>();
+            mConfig
+                .AddConstructor<DevolucionesList>(x =>
+                {
+                    MapperStore store = new MapperStore();
+                    DapperMapper<Devolucion> mapper = (DapperMapper<Devolucion>)store.GetMapper(typeof(Devolucion));
+                    IEnumerable<Devolucion> lista = mapper.Map<IEnumerable<Devolucion>>(x);
+
+                    return new DevolucionesList(lista.ToList());
+                })
+                .MapOnlyConstructor<DevolucionesList>()
+                .EndConfig<DevolucionesList>();
+            //Cuota
+            mConfig
+                .AddNestedProperty<Cuota, Ejercicio>(false, x => x.Ejercicio)
+                .AddNestedProperty<Cuota, Concepto>(false, x => x.Concepto)
+                .AddNestedProperty<Cuota, CobrosDict>(false, x => x.Cobros)
+                .AddMemberCreator<Cuota, SituacionReciboCobroEntaCta>(x => x.Situacion, x => (SituacionReciboCobroEntaCta)x.Situacion)
+                .AddNestedProperty<Cuota, DevolucionesList>(false, x => x.Devoluciones)
+                .AddPrefixes<Cuota>(new string[1] { "cuota" })
+                .EndConfig<Cuota>();
+            //Propietario
+            mConfig
+                .AddConstructor<Propietario>(x => new Propietario(x.Id, x.IdOwnerComunidad, x.NIF, x.Nombre, true))
+                .AddNestedProperty<Propietario>(false, "_Cuotas")
+                .AddDictionary<Propietario>("_Cuotas", new string[2] { "cuotaId", "Cuota" })
+                .EndConfig<Propietario>();
+            mConfig
+                .AddConstructor<Propietario.PropietarioDLO>(x =>
+                {
+                    Propietario.PropietarioDLO instance = new Propietario.PropietarioDLO();
+                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Nombre, x.NIF, x.Direccion, x.CuentaBancaria, x.Telefono, x.Email);
+                    return instance;
+                })
+                .MapOnlyConstructor<Propietario.PropietarioDLO>()
+                .EndConfig<Propietario.PropietarioDLO>();
+            //Finca
+            mConfig
+                .AddConstructor<Finca>(x => new Finca(x.Id, x.IdOwnerComunidad, x.Baja, x.Nombre, x.Coeficiente, x.Codigo, this.ACData))
+                .AddNestedProperty<Finca>(false, "_PropietarioActual")
+                .AddDictionary<Finca>("_HistoricoPropietarios", new string[2] { "FechaFinal", "IdPropietario" })
+                .AddNestedProperty<Finca>(false, "_Cuotas")
+                .AddDictionary<Finca>("_Cuotas", new string[2] { "cuotaId", "Cuota" })
+                .AddNestedProperty<Finca>(false, "_EntregasACuenta")
+                .AddNestedProperty<Finca>(false, "_Devoluciones")
+                .AddNestedProperty<Finca, DireccionPostal>(false, x => x.Direccion)
+                .AddMemberCreator<Finca, DireccionPostal>(x => x.Direccion2,
+                    x => new DireccionPostal(x.TipoVia2, x.Direccion2, x.CP2, x.Localidad2, x.Provincia2))
+                .AddMemberCreator<Finca, TipoPagoCuotas>(x => x.DefaultTipoPagoCuotas, x => (TipoPagoCuotas)x.DefaultTipoPagoCuotas)
+                .AddMemberCreator<Finca, sTelefono>(x => x.Telefono1, x => new sTelefono(x.Telefono, x.TipoTelefono))
+                .AddMemberCreator<Finca, sTelefono>(x => x.Telefono2, x => new sTelefono(x.Telefono2, x.TipoTelefono2))
+                .AddMemberCreator<Finca, sTelefono>(x => x.Telefono3, x => new sTelefono(x.Telefono3, x.TipoTelefono3))
+                .AddMemberCreator<Finca, sTelefono>(x => x.Fax, x => new sTelefono(x.Fax, TipoTelefono.Fax))
+                .AddMemberCreator<Finca, int[]>(x=>x.IdAsociadas, x=>
+                {
+                    IEnumerable<dynamic> ex = (IEnumerable<dynamic>)x;
+                    return ex
+                        .Select(dyn => dyn.IdFincaAsociada)
+                        .Distinct()
+                        .ToArray();
+                })
+                .AddMemberCreator<Finca>("_IdCopropietarios", x =>
+                {
+                    IEnumerable<dynamic> ex = (IEnumerable<dynamic>)x;
+                    return ex
+                        .Select(dyn => dyn.IdPersonaCoProp)
+                        .Distinct()
+                        .ToArray();
+                })
+                .AddMemberCreator<Finca>("_IdPagadores", x =>
+                {
+                    IEnumerable<dynamic> ex = (IEnumerable<dynamic>)x;
+                    return ex
+                        .Select(dyn => new Tuple<int, TipoPagoCuotas>(dyn.IdPersonaCoPag, (TipoPagoCuotas)dyn.TipoPagoCuotas))
+                        .Distinct()
+                        .ToArray();
+                })
+                .EndConfig<Finca>();
+            mConfig
+                .AddConstructor<Finca.FincaDLO>(x =>
+                {
+                    Finca.FincaDLO instance = new Finca.FincaDLO();
+                    IEnumerable<dynamic> ex = (IEnumerable<dynamic>)x;
+                    int[] asociadas = ex
+                        .Select(dyn => (int)dyn.IdFincaAsociada)
+                        .Distinct()
+                        .ToArray();
+                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Baja, x.Nombre, x.Codigo, x.NombreProp, x.Telefono, x.Email, asociadas, x.Notas);
+                    return instance;
+                })
+                .MapOnlyConstructor<Finca.FincaDLO>()
+                .EndConfig<Finca.FincaDLO>();
+            //Recibo
+            mConfig
+                .AddNestedProperty<Recibo>(false, "_Cobros")
+                .AddNestedProperty<Recibo>(false, "_EntregasACuenta")
+                .EndConfig<Recibo>();
         }
+        #endregion
 
         /*protected override void OnExit(ExitEventArgs e)
         {

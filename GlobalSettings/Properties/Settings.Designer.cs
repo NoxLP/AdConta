@@ -186,5 +186,17 @@ namespace GlobalSettings.Properties {
                 return ((string)(this["ORDERCDADES"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Banco")]
+        public string NOMBRECUENTADEFAULT {
+            get {
+                return ((string)(this["NOMBRECUENTADEFAULT"]));
+            }
+            set {
+                this["NOMBRECUENTADEFAULT"] = value;
+            }
+        }
     }
 }

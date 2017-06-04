@@ -33,6 +33,14 @@ namespace AdConta
     public enum SituacionReciboCobroEntaCta : int { Normal = 0, Devuelto}
 
     public enum TipoRepartoPresupuesto : int { Lineal = 0, SoloCoeficientes, CoeficientesYGrupos}
+    /// <summary>
+    /// Tipo de mensaje SQL para la clase AutoCodigo.
+    /// </summary>
+    public enum ACodigoSQLType { Next, Deleted, Check }
+    /// <summary>
+    /// Tipo de objeto en el que se realiza el chequeo de consistencia.
+    /// </summary>
+    public enum ACodigoCCheckType : int { All = 0, Comunidad, Fincas, Pptos, Asientos }
     #endregion
 
     #region accounting specific

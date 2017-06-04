@@ -11,15 +11,15 @@ namespace ModuloGestion.ObjModels
     public class Recibo : iObjModelBase, iOwnerComunidad
     {
         private Recibo() { }
-        public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto)
+        public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto, List<Cobro> cobros, List<EntACta> entACtas)
         {
             this._Id = id;
             this._IdOwnerComunidad = idCdad;
             this._Importe = importe;
             this.Fecha = fecha;
             this.Concepto = concepto;
-            this._Cobros = new CobrosDict();
-            this._EntregasACuenta = new EntACtaDict();
+            this._Cobros = new CobrosDict(cobros.ToDictionary(c => c.Id, c => c));
+            this._EntregasACuenta = new EntACtaDict(entACtas.ToDictionary(e => e.Id, e => e));
         }
 
         #region fields

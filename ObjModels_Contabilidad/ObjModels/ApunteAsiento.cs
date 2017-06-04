@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using AdConta;
 using AdConta.Models;
+using System.Windows;
 
 namespace ModuloContabilidad.ObjModels
 {
@@ -73,26 +74,32 @@ namespace ModuloContabilidad.ObjModels
         #endregion
     }
 
-    public class Asiento : iObjModelBase, iObjModelConCodigo, iOwnerComunidad
+    public class Asiento : iObjModelBase, iObjModelConCodigoConComunidadYEjercicio, iOwnerComunidad, iOwnerEjercicio 
+        //<- owners Incluidos en iObjModelConCodigoConComunidad
     {
-        public Asiento(int id, int idComunidad)
+        public Asiento(int id, int idComunidad, int idEjercicio, int codigo, AutoCodigoData ACData)
         {
             this._Id = id;
             this._IdOwnerComunidad = idComunidad;
+            this._IdOwnerEjercicio = idEjercicio;
             _Abierto = false;
             FechaValor = DateTime.Today;
+            this.Codigo = new AutoCodigoOwnerCdEj<Asiento>(ACData, codigo);
         }
-        public Asiento(int id, int idComunidad, DateTime fechaValor)
+        public Asiento(int id, int idComunidad, int idEjercicio, int codigo, AutoCodigoData ACData, DateTime fechaValor)
         {
             this._Id = id;
             this._IdOwnerComunidad = idComunidad;
+            this._IdOwnerEjercicio = idEjercicio;
             _Abierto = false;
             FechaValor = FechaValor;
+            this.Codigo = new AutoCodigoOwnerCdEj<Asiento>(ACData, codigo);
         }
 
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+        private int _IdOwnerEjercicio;
         private decimal _Saldo;
         private bool _Abierto;
         #endregion
@@ -100,7 +107,8 @@ namespace ModuloContabilidad.ObjModels
         #region properties
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
-        public int Codigo { get; private set; }
+        public int IdOwnerEjercicio { get { return this._IdOwnerEjercicio; } }
+        public aAutoCodigoBase Codigo { get; private set; }
         public ObservableApuntesList Apuntes { get; set; }
         public DateTime Fecha { get; set; }
         public DateTime FechaValor { get; private set; }
@@ -226,6 +234,11 @@ namespace ModuloContabilidad.ObjModels
         public bool TrySetCodigo(int codigo, ref List<int> codigos)
         {
             return false;
+        }
+
+        public Tuple<int, int> GetOwnersIds()
+        {
+            return new Tuple<int, int>(this.IdOwnerComunidad, this.IdOwnerEjercicio);
         }
         #endregion
     }

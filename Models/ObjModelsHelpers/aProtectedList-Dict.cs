@@ -112,7 +112,11 @@ namespace AdConta
         public aProtectedDict()
         {
             this._Dict = new Dictionary<R,T>();
-            
+        }
+
+        public aProtectedDict(Dictionary<R,T> dict)
+        {
+            this._Dict = dict;
         }
 
         #region fields

@@ -9,25 +9,20 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Finca : iObjModelBase, iObjModelConCodigo, iOwnerComunidad, iBaja//, iObjWithDLO<Finca.FincaDLO>
+    public class Finca : 
+        iObjModelBase, iObjModelConCodigoConComunidad, iOwnerComunidad /*<- owner Incluido en iObjModelConCodigoConComunidad*/, iBaja//, iObjWithDLO<Finca.FincaDLO>
     {
         #region constructors
         private Finca() { }
 
-        public Finca(
-            int id,
-            int idOwnerComunidad,
-            bool baja,
-            string nombre,
-            double coeficiente,
-            int codigo)
+        public Finca(int id, int idOwnerComunidad, bool baja, string nombre, double coeficiente, int codigo, AutoCodigoData ACData)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
             this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
-            this.Codigo = codigo;
+            this.Codigo = new AutoCodigoOwnerCdad<Finca>(ACData, ACodigoCCheckType.Fincas, codigo);
         }
         public Finca(
             int id,
@@ -36,6 +31,7 @@ namespace ModuloGestion.ObjModels
             string nombre,
             double coeficiente,
             int codigo,
+            AutoCodigoData ACData,
             Propietario propietarioActual,
             Dictionary<DateTime,int> historicoProps)
         {
@@ -44,7 +40,7 @@ namespace ModuloGestion.ObjModels
             this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
-            this.Codigo = codigo;
+            this.Codigo = new AutoCodigoOwnerCdad<Finca>(ACData, ACodigoCCheckType.Fincas, codigo);
             this._PropietarioActual = propietarioActual;
             this._HistoricoPropietarios = historicoProps;
         }
@@ -55,18 +51,19 @@ namespace ModuloGestion.ObjModels
             string nombre,
             double coeficiente,
             int codigo,
+            AutoCodigoData ACData,
             Propietario propietarioActual,
             Dictionary<DateTime, int> historicoProps,
             Dictionary<int,Cuota> cuotas,
             EntACtaDict EAC = null,
-            IngresosDevueltosList devoluciones = null)
+            DevolucionesList devoluciones = null)
         {
             this._Id = id;
             this._IdOwnerComunidad = idOwnerComunidad;
             this._Baja = baja;
             this._Nombre = nombre;
             this._Coeficiente = coeficiente;
-            this.Codigo = codigo;
+            this.Codigo = new AutoCodigoOwnerCdad<Finca>(ACData, ACodigoCCheckType.Fincas, codigo);
             this._PropietarioActual = propietarioActual;
             this._HistoricoPropietarios = historicoProps;
             this._Cuotas = cuotas;
@@ -125,12 +122,10 @@ namespace ModuloGestion.ObjModels
         private Dictionary<DateTime, int> _HistoricoPropietarios;
 
         private int[] _IdCopropietarios = new int[3];
-        private int[] _IdPagadores = new int[3];
-
-        private int[] _IdAsociadas;
+        private Tuple<int, TipoPagoCuotas>[] _IdPagadores = new Tuple<int, TipoPagoCuotas>[3];
         private Dictionary<int, Cuota> _Cuotas;
         private EntACtaDict _EntregasACuenta;
-        private IngresosDevueltosList _Devoluciones;
+        private DevolucionesList _Devoluciones;
         #endregion
         
         #region properties
@@ -139,7 +134,7 @@ namespace ModuloGestion.ObjModels
         public bool Baja { get { return this._Baja; } }
         public string Nombre { get { return this._Nombre; } }
         public double Coeficiente { get { return this._Coeficiente; } }
-        public int Codigo { get; set; }
+        public aAutoCodigoBase Codigo { get; private set; }
 
         public DireccionPostal Direccion { get; set; }
         public DireccionPostal Direccion2 { get; set; }
@@ -149,11 +144,8 @@ namespace ModuloGestion.ObjModels
         public ReadOnlyDictionary<DateTime, int> HistoricoPropietarios { get { return new ReadOnlyDictionary<DateTime, int>(this._HistoricoPropietarios); } }
 
         public sTelefono Telefono1 { get; set; }
-        public TipoTelefono TipoTelefono1 { get; set; }
         public sTelefono Telefono2 { get; set; }
-        public TipoTelefono TipoTelefono2 { get; set; }
         public sTelefono Telefono3 { get; set; }
-        public TipoTelefono TipoTelefono3 { get; set; }
         public sTelefono Fax { get; set; }
         public string Email { get; set; }
         public int[] IdCopropietarios
@@ -161,19 +153,15 @@ namespace ModuloGestion.ObjModels
             get { return this._IdCopropietarios; }
             set { this._IdCopropietarios = value; }
         }
-        public int[] IdPagadores
+        public Tuple<int, TipoPagoCuotas>[] IdPagadores
         {
             get { return this._IdPagadores; }
             set { this._IdPagadores = value; }
         }
-        public int[] IdAsociadas
-        {
-            get { return this._IdAsociadas; }
-            set { this._IdAsociadas = value; }
-        }
+        public int[] IdAsociadas { get; set; }
         public ReadOnlyDictionary<int, Cuota> Cuotas { get { return new ReadOnlyDictionary<int, Cuota>(this._Cuotas); } }
         public EntACtaDict EntregasACuenta { get { return this._EntregasACuenta; } }
-        public IngresosDevueltosList Devoluciones { get { return this._Devoluciones; } }
+        public DevolucionesList Devoluciones { get { return this._Devoluciones; } }
 
         public string Notas { get; set; }
         #endregion
@@ -414,6 +402,11 @@ namespace ModuloGestion.ObjModels
             throw new NotImplementedException();
         }
         #endregion
+
+        public int GetOwnerId()
+        {
+            return this.IdOwnerComunidad;
+        }
         #endregion
     }
 }

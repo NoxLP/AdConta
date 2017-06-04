@@ -182,7 +182,8 @@ namespace ModuloContabilidad.ObjModels
         }
         public static CuentaMayor GetCuentaDefault()
         {
-            return new CuentaMayor(GlobalSettings.Properties.Settings.Default.CUENTADEFAULT, 0, 0, true);
+            return new CuentaMayor(
+                GlobalSettings.Properties.Settings.Default.CUENTADEFAULT, 0, 0, 0, GlobalSettings.Properties.Settings.Default.NOMBRECUENTADEFAULT, true);
         }
         #endregion
     }

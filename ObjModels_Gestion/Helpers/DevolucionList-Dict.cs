@@ -7,12 +7,13 @@ using AdConta;
 
 namespace ModuloGestion.ObjModels
 {
-    public class IngresosDevueltosList : aProtectedList<Devolucion>
+    public class DevolucionesList : aProtectedList<Devolucion>
     {
-        public IngresosDevueltosList()
+        public DevolucionesList(List<Devolucion> lista)
         {
             this._Total = 0;
             this._TotalGastos = 0;
+            this._List = lista;
 
             foreach(Devolucion dev in this._List)
             {

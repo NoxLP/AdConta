@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoCodigo.cs" />
     <Compile Include="iRepository.cs" />
     <Compile Include="ObjModels\GrupoGasto.cs" />
     <Compile Include="ObjModels\Presupuesto.cs" />

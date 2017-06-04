@@ -10,7 +10,6 @@ namespace ModuloGestion.ObjModels
 {
     public interface iIngresoPropietario : iObjModelBase, iOwnerPersona, iOwnerRecibo
     {
-        int Id { get; }
         Date Fecha { get; }
         decimal Importe { get; }
         SituacionReciboCobroEntaCta Situacion { get; }

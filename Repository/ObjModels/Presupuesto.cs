@@ -14,15 +14,16 @@ namespace AdConta.Models
     //Si se cambia el GrupoGasto original, cuando se abra el presupuesto debería haber un mensaje de advertencia, pidiendo si se quiere
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
-    public class Presupuesto : iObjModelBase, iObjModelConCodigo, iOwnerComunidad, iOwnerEjercicio
+    public class Presupuesto : iObjModelBase, iObjModelConCodigoConComunidad, iOwnerEjercicio, iOwnerComunidad //<- ownerComunidad Incluido en iObjModelConCodigoConComunidad
     {
         private Presupuesto() { }
-        public Presupuesto(int id, int idComunidad, int idEjercicio, int codigo, bool aceptado = false, TipoRepartoPresupuesto tipo = TipoRepartoPresupuesto.CoeficientesYGrupos)
+        public Presupuesto(
+            int id, int idComunidad, int idEjercicio, int codigo, AutoCodigoData ACData, bool aceptado = false, TipoRepartoPresupuesto tipo = TipoRepartoPresupuesto.CoeficientesYGrupos)
         {
             this._Id = id;
             this._IdOwnerComunidad = idComunidad;
             this._IdOwnerEjercicio = idEjercicio;
-            this._Codigo = codigo;
+            this.Codigo = new AutoCodigoOwnerCdad<Presupuesto>(ACData, ACodigoCCheckType.Pptos, codigo);
             this._Aceptado = aceptado;
             this._TipoReparto = tipo;
             this._GruposDeGasto = new List<iGrupoGastos>();
@@ -37,7 +38,8 @@ namespace AdConta.Models
                 string titulo,
                 decimal total,
                 bool aceptado,
-                TipoRepartoPresupuesto tipoReparto)
+                TipoRepartoPresupuesto tipoReparto,
+                int codigo)
             {
                 this.Id = id;
                 this.IdOwnerComunidad = idCdad;
@@ -45,6 +47,7 @@ namespace AdConta.Models
                 this.Total = total;
                 this.Aceptado = aceptado;
                 this.TipoReparto = tipoReparto;
+                this.Codigo = codigo;
             }
 
             public int Id { get; private set; }
@@ -53,13 +56,13 @@ namespace AdConta.Models
             public decimal Total { get; private set; }
             public bool Aceptado { get; private set; }
             public TipoRepartoPresupuesto TipoReparto { get; private set; }
+            public int Codigo { get; private set; }
         }
 
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
         private int _IdOwnerEjercicio;
-        private int _Codigo;
 
         private decimal _Total;
         private bool _Aceptado;
@@ -72,7 +75,7 @@ namespace AdConta.Models
         public int Id { get { return this._Id; } }
         public int IdOwnerComunidad { get { return this._IdOwnerComunidad; } }
         public int IdOwnerEjercicio { get { return this._IdOwnerEjercicio; } }
-        public int Codigo { get { return this._Codigo; } }
+        public aAutoCodigoBase Codigo { get; private set; }
 
         public string Titulo { get; set; }
         public decimal Total { get { return this._Total; } }
@@ -138,6 +141,11 @@ namespace AdConta.Models
         public bool TrySetCodigo(int codigo, ref List<int> codigos)
         {
             throw new NotImplementedException();
+        }
+
+        public int GetOwnerId()
+        {
+            return this.IdOwnerComunidad;
         }
         //TODO: ¿¿Reparto??
         #endregion
