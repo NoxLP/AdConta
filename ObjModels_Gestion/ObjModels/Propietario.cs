@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Propietario : Persona, IOwnerComunidad
+    public class Propietario : Persona, IOwnerComunidad, IObjWithDLO<PropietarioDLO>
     {
         public Propietario(int id, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
             : base(id, nif, nombre, forceInvalidNIF)
@@ -17,40 +17,7 @@ namespace ModuloGestion.ObjModels
             this._Cuotas = new Dictionary<int, Cuota>();
             this._IdOwnerComunidad = idComunidad;
         }
-
-        public class PropietarioDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int idCdad,
-                string nombre,
-                string nIF,
-                string direccion,
-                string cuentaBancaria,
-                string telefono,
-                string email)
-            {
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Nombre = nombre;
-                this.NIF = nIF;
-                this.Direccion = direccion;
-                this.CuentaBancaria = cuentaBancaria;
-                this.Telefono = telefono;
-                this.Email = email;
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public string Nombre { get; private set; }
-            public string NIF { get; private set; }
-            public string Direccion { get; private set; }
-            public string CuentaBancaria { get; private set; }
-            public string Telefono { get; private set; }
-            public string Email { get; private set; }
-        }
-
+        
         #region fields
         private int _IdOwnerComunidad;        
         private Dictionary<int, Cuota> _Cuotas;
@@ -81,6 +48,46 @@ namespace ModuloGestion.ObjModels
             this._Cuotas.Union(cuotasToAdd.ToDictionary(x => x.Id)); //Ya hace distinct => no es necesario comprobar si tiene las id
         }
         #endregion
+
+        #region DLO
+        public PropietarioDLO GetDLO()
+        {
+            return new PropietarioDLO(Id, IdOwnerComunidad, Nombre, NIF.NIF, Direccion.GetDireccionSinCP(), CuentaBancaria.AccountNumber,
+                Telefono1.Numero, Email);
+        }
+        #endregion
     }
 
+    public class PropietarioDLO : IObjModelBase, IDataListObject
+    {
+        public PropietarioDLO() { }
+        public PropietarioDLO(
+            int id,
+            int idCdad,
+            string nombre,
+            string nIF,
+            string direccion,
+            string cuentaBancaria,
+            string telefono,
+            string email)
+        {
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.Nombre = nombre;
+            this.NIF = nIF;
+            this.Direccion = direccion;
+            this.CuentaBancaria = cuentaBancaria;
+            this.Telefono = telefono;
+            this.Email = email;
+        }
+
+        public int Id { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public string Nombre { get; private set; }
+        public string NIF { get; private set; }
+        public string Direccion { get; private set; }
+        public string CuentaBancaria { get; private set; }
+        public string Telefono { get; private set; }
+        public string Email { get; private set; }
+    }
 }

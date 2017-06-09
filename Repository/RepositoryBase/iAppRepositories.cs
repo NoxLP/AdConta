@@ -14,6 +14,7 @@ namespace Repository
     {
         #region general
         PersonaRepository PersonaRepo { get; }
+
         /*Repository<Concepto> ConceptosRepository { get; }
         Repository<Ejercicio> EjerciciosRepository { get; }
         #endregion
@@ -35,6 +36,12 @@ namespace Repository
         Repository<GruposCuentas> GruposCuentasRepository { get; }
         Repository<CuentaMayor> CuentasMayorRepository { get; }
         Repository<Pago> PagosRepository { get; }*/
+        #endregion
+
+        #region contabilidad
+        #endregion
+
+        #region gestion
         #endregion
     }
 }

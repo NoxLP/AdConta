@@ -10,7 +10,8 @@ using AdConta.Models;
 namespace ModuloGestion.ObjModels
 {
     public class Finca : 
-        IObjModelBase, IObjModelConCodigoConComunidad, IOwnerComunidad /*<- owner Incluido en iObjModelConCodigoConComunidad*/, IBaja//, iObjWithDLO<Finca.FincaDLO>
+        IObjModelBase, IObjModelConCodigoConComunidad, IOwnerComunidad, //<- owner Incluido en iObjModelConCodigoConComunidad
+        IBaja, IObjWithDLO<FincaDLO>
     {
         #region constructors
         private Finca() { }
@@ -71,46 +72,7 @@ namespace ModuloGestion.ObjModels
             this._Devoluciones = devoluciones;
         }
         #endregion
-
-        public class FincaDLO : IObjModelBase, IOwnerComunidad, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int idCdad,
-                bool baja,
-                string nombre,
-                int codigo,
-                string nombreProp,
-                string telefono,
-                string email,
-                int[] idAsociadas,
-                string notas)
-            {
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Baja = baja;
-                this.Nombre = nombre;
-                this.Codigo = codigo;
-                this.NombrePropietarioActual = nombreProp;
-                this.Telefono1 = telefono;
-                this.Email = email;
-                this.IdAsociadas = idAsociadas;
-                this.Notas = notas;
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public bool Baja { get; private set; }
-            public string Nombre { get; private set; }
-            public int Codigo { get; private set; }
-            public string NombrePropietarioActual { get; private set; }
-            public string Telefono1 { get; private set; }
-            public string Email { get; private set; }
-            public int[] IdAsociadas { get; private set; }
-            public string Notas { get; private set; }
-        }
-
+        
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
@@ -333,22 +295,7 @@ namespace ModuloGestion.ObjModels
 
             this._Cuotas.Add(key, cuota);
             return true;
-        }
-        /*public FincaDLO GetDLO()
-        {
-            FincaDLO dlo = new FincaDLO();
-            dlo.SetProperties(
-                this.Id,
-                this.IdOwnerComunidad,
-                this.Nombre,
-                this.Codigo,
-                this.PropietarioActual.Nombre,
-                this.Telefono1.Numero,
-                this.Email,
-                this.IdAsociadas,
-                this.Notas);
-            return dlo;
-        }*/
+        }        
 
         #region propietario methods
         /// <summary>
@@ -408,5 +355,52 @@ namespace ModuloGestion.ObjModels
             return this.IdOwnerComunidad;
         }
         #endregion
+
+        #region DLO
+        public FincaDLO GetDLO()
+        {
+            return new FincaDLO(Id, IdOwnerComunidad, Baja, Nombre, Codigo.CurrentCodigo, PropietarioActual.Nombre, Telefono1.Numero, Email,
+                IdAsociadas, Notas);
+        }
+        #endregion
+    }
+
+    public class FincaDLO : IObjModelBase, IOwnerComunidad, IDataListObject
+    {
+        public FincaDLO() { }
+        public FincaDLO(
+            int id,
+            int idCdad,
+            bool baja,
+            string nombre,
+            int codigo,
+            string nombreProp,
+            string telefono,
+            string email,
+            int[] idAsociadas,
+            string notas)
+        {
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.Baja = baja;
+            this.Nombre = nombre;
+            this.Codigo = codigo;
+            this.NombrePropietarioActual = nombreProp;
+            this.Telefono1 = telefono;
+            this.Email = email;
+            this.IdAsociadas = idAsociadas;
+            this.Notas = notas;
+        }
+
+        public int Id { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public bool Baja { get; private set; }
+        public string Nombre { get; private set; }
+        public int Codigo { get; private set; }
+        public string NombrePropietarioActual { get; private set; }
+        public string Telefono1 { get; private set; }
+        public string Email { get; private set; }
+        public int[] IdAsociadas { get; private set; }
+        public string Notas { get; private set; }
     }
 }

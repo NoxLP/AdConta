@@ -11,7 +11,7 @@ namespace ModuloContabilidad.ObjModels
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class CuentaMayor : IObjModelBase, IOwnerComunidad, IOwnerEjercicio
+    public class CuentaMayor : IObjModelBase, IOwnerComunidad, IOwnerEjercicio, IObjWithDLO<CuentaMayorDLO>
     {
         public CuentaMayor(string accountNumber, int id, int idComunidad, int idEjercicio, string nombre, bool cuentaFalsa = false)
         {
@@ -24,63 +24,7 @@ namespace ModuloContabilidad.ObjModels
             this._Grupo = new sGrupoContable(accountNumber);
             this._Subgrupo = new sSubgrupoContable(accountNumber);
         }
-
-        public class CuentaMayorDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new AdConta.CustomException_DataListObjects(); }
-            public void SetProperties(
-                int accountNumber,
-                int id,
-                int idCdad,
-                string nombre,
-                int grupo,
-                int subgrupo,
-                int sufijo,
-                bool cuentaFalsa)
-            {
-                if (cuentaFalsa) throw new AdConta.CustomException_DataListObjects(
-                     "Error creando DLO de CuentaMayor. No se puede crear objeto DLO con una cuenta falsa.");
-
-                this.NumCuenta = accountNumber;
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Nombre = nombre;
-                this.Grupo = grupo;
-                this.Subgrupo = subgrupo;
-                this.Sufijo = sufijo;
-            }
-            public void SetProperties(
-                int accountNumber,
-                int id,
-                int idCdad,
-                string nombre)
-            {
-                this.NumCuenta = accountNumber;
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Nombre = nombre;                
-
-                var grupo = new sGrupoContable();
-                var sgrupo = new sSubgrupoContable();
-                grupo.SetGrupoByAccNumber(accountNumber);
-                sgrupo.SetSubgrupoByAccNumber(accountNumber);
-                this.Grupo = grupo.Digits;
-                this.Subgrupo = sgrupo.Digits;
-                //Get total default digits
-                int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
-                //Get the rest of the digits as a whole number
-                this.Sufijo = accountNumber - (int)Math.Truncate((this.Grupo + this.Subgrupo) * Math.Pow(10, digits - 2));
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public int NumCuenta { get; private set; }
-            public string Nombre { get; private set; }
-            public int Grupo { get; private set; }
-            public int Subgrupo { get; private set; }
-            public int Sufijo { get; private set; }
-        }
-
+        
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
@@ -186,5 +130,73 @@ namespace ModuloContabilidad.ObjModels
                 GlobalSettings.Properties.Settings.Default.CUENTADEFAULT, 0, 0, 0, GlobalSettings.Properties.Settings.Default.NOMBRECUENTADEFAULT, true);
         }
         #endregion
+
+        #region DLO
+        public CuentaMayorDLO GetDLO()
+        {
+            return new CuentaMayorDLO(NumCuenta, Id, IdOwnerComunidad, IdOwnerEjercicio, Nombre, Grupo, Subgrupo, Sufijo, CuentaFalsa);
+        }
+        #endregion
+    }
+
+    public class CuentaMayorDLO : IObjModelBase, IDataListObject
+    {
+        public CuentaMayorDLO() { }
+        public CuentaMayorDLO(
+            int accountNumber,
+            int id,
+            int idCdad,
+            int idEjer,
+            string nombre,
+            int grupo,
+            int subgrupo,
+            int sufijo,
+            bool cuentaFalsa)
+        {
+            if (cuentaFalsa) throw new AdConta.CustomException_DataListObjects(
+                 "Error creando DLO de CuentaMayor. No se puede crear objeto DLO con una cuenta falsa.");
+
+            this.NumCuenta = accountNumber;
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.IdOwnerEjercicio = idEjer;
+            this.Nombre = nombre;
+            this.Grupo = grupo;
+            this.Subgrupo = subgrupo;
+            this.Sufijo = sufijo;
+        }
+        public CuentaMayorDLO(
+            int accountNumber,
+            int id,
+            int idCdad,
+            int idEjer,
+            string nombre)
+        {
+            this.NumCuenta = accountNumber;
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.IdOwnerEjercicio = idEjer;
+            this.Nombre = nombre;
+
+            var grupo = new sGrupoContable();
+            var sgrupo = new sSubgrupoContable();
+            grupo.SetGrupoByAccNumber(accountNumber);
+            sgrupo.SetSubgrupoByAccNumber(accountNumber);
+            this.Grupo = grupo.Digits;
+            this.Subgrupo = sgrupo.Digits;
+            //Get total default digits
+            int digits = GlobalSettings.Properties.Settings.Default.DIGITOSCUENTAS - 1;
+            //Get the rest of the digits as a whole number
+            this.Sufijo = accountNumber - (int)Math.Truncate((this.Grupo + this.Subgrupo) * Math.Pow(10, digits - 2));
+        }
+
+        public int Id { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public int IdOwnerEjercicio { get; private set; }
+        public int NumCuenta { get; private set; }
+        public string Nombre { get; private set; }
+        public int Grupo { get; private set; }
+        public int Subgrupo { get; private set; }
+        public int Sufijo { get; private set; }
     }
 }

@@ -8,7 +8,7 @@ using AdConta;
 
 namespace AdConta.Models
 {
-    public class Ejercicio : IObjModelBase, IOwnerComunidad//, iObjWithDLO<Ejercicio.EjercicioDLO>
+    public class Ejercicio : IObjModelBase, IOwnerComunidad, IObjWithDLO<EjercicioDLO>
     {
         #region constructors
         private Ejercicio() { }
@@ -41,25 +41,6 @@ namespace AdConta.Models
         }*/
         #endregion
 
-        public class EjercicioDLO : IObjModelBase, IOwnerComunidad, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado)
-            {
-                this.Id = id;
-                this.FechaComienzo = fechaComienzo.ToString();
-                this.FechaFinal = fechaFinal.ToString();
-                this.IdOwnerComunidad = idOwnerComunidad;
-                this.Cerrado = cerrado;
-            }
-
-            public int Id { get; private set; }
-            public string FechaComienzo { get; private set; }
-            public string FechaFinal { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public bool Cerrado { get; private set; }
-        }
-
         #region properties
         public int Id { get; private set; }
         public Date FechaComienzo { get; private set; }
@@ -77,17 +58,37 @@ namespace AdConta.Models
 
             return false;
         }
-        /*public EjercicioDLO GetDLO()
+        #endregion
+
+        #region DLO
+        public EjercicioDLO GetDLO()
         {
-            EjercicioDLO dlo = new EjercicioDLO();
-            dlo.SetProperties(
+            return new EjercicioDLO(
                 this.Id,
                 this.FechaComienzo,
                 this.FechaFinal,
                 this.IdOwnerComunidad,
                 this.Cerrado);
-            return dlo;
-        }*/
+        }
         #endregion
+    }
+
+    public class EjercicioDLO : IObjModelBase, IOwnerComunidad, IDataListObject
+    {
+        public EjercicioDLO() { }
+        public EjercicioDLO(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado)
+        {
+            this.Id = id;
+            this.FechaComienzo = fechaComienzo.ToString();
+            this.FechaFinal = fechaFinal.ToString();
+            this.IdOwnerComunidad = idOwnerComunidad;
+            this.Cerrado = cerrado;
+        }
+
+        public int Id { get; private set; }
+        public string FechaComienzo { get; private set; }
+        public string FechaFinal { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public bool Cerrado { get; private set; }
     }
 }

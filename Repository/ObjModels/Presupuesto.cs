@@ -14,7 +14,7 @@ namespace AdConta.Models
     //Si se cambia el GrupoGasto original, cuando se abra el presupuesto debería haber un mensaje de advertencia, pidiendo si se quiere
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
-    public class Presupuesto : IObjModelBase, IObjModelConCodigoConComunidad, IOwnerEjercicio, IOwnerComunidad //<- ownerComunidad Incluido en iObjModelConCodigoConComunidad
+    public class Presupuesto : IObjModelBase, IObjModelConCodigoConComunidad, IOwnerEjercicio, IOwnerComunidad, IObjWithDLO<PresupuestoDLO> //<- ownerComunidad Incluido en iObjModelConCodigoConComunidad
     {
         private Presupuesto() { }
         public Presupuesto(
@@ -28,37 +28,7 @@ namespace AdConta.Models
             this._TipoReparto = tipo;
             this._GruposDeGasto = new List<iGrupoGastos>();
         }
-
-        public class PresupuestoDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int idCdad,
-                string titulo,
-                decimal total,
-                bool aceptado,
-                TipoRepartoPresupuesto tipoReparto,
-                int codigo)
-            {
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Titulo = titulo;
-                this.Total = total;
-                this.Aceptado = aceptado;
-                this.TipoReparto = tipoReparto;
-                this.Codigo = codigo;
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public string Titulo { get; private set; }
-            public decimal Total { get; private set; }
-            public bool Aceptado { get; private set; }
-            public TipoRepartoPresupuesto TipoReparto { get; private set; }
-            public int Codigo { get; private set; }
-        }
-
+                
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
@@ -149,6 +119,42 @@ namespace AdConta.Models
         }
         //TODO: ¿¿Reparto??
         #endregion
+
+        #region DLO
+        public PresupuestoDLO GetDLO()
+        {
+            return new PresupuestoDLO(Id, IdOwnerComunidad, Titulo, Total, Aceptado, TipoReparto, Codigo.CurrentCodigo);
+        }
+        #endregion
     }
 
+    public class PresupuestoDLO : IObjModelBase, IDataListObject
+    {
+        public PresupuestoDLO() { }
+        public PresupuestoDLO(
+            int id,
+            int idCdad,
+            string titulo,
+            decimal total,
+            bool aceptado,
+            TipoRepartoPresupuesto tipoReparto,
+            int codigo)
+        {
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.Titulo = titulo;
+            this.Total = total;
+            this.Aceptado = aceptado;
+            this.TipoReparto = tipoReparto;
+            this.Codigo = codigo;
+        }
+
+        public int Id { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public string Titulo { get; private set; }
+        public decimal Total { get; private set; }
+        public bool Aceptado { get; private set; }
+        public TipoRepartoPresupuesto TipoReparto { get; private set; }
+        public int Codigo { get; private set; }
+    }
 }

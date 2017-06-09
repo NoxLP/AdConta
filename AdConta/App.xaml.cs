@@ -83,27 +83,17 @@ namespace AdConta
                 .AddNestedProperty<Comunidad, Ejercicio>(false, x => x.EjercicioActivo)
                 .EndConfig<Comunidad>();
             mConfig
-                .AddConstructor<ComunidadDLO>(x =>
-                {
-                    ComunidadDLO instance = new ComunidadDLO();
-                    instance.SetProperties(x.Id, x.Codigo, new NIFModel(x.CIF), x.Baja, x.Nombre, x.TipoVia + x.Direccion, x.CuentaBancaria,
-                        x.CuentaBancaria2, x.CuentaBancaria3, x.NombrePresidente, x.NombreSecretario, x.NombreTesorero, x.FechaPunteo,
-                        x.UltimaFechaBanco);
-                    return instance;
-                })
+                .AddConstructor<ComunidadDLO>(x => new ComunidadDLO(x.Id, x.Codigo, new NIFModel(x.CIF), x.Baja, x.Nombre, x.TipoVia + x.Direccion, 
+                    x.CuentaBancaria, x.CuentaBancaria2, x.CuentaBancaria3, x.NombrePresidente, x.NombreSecretario, x.NombreTesorero, x.FechaPunteo,
+                    x.UltimaFechaBanco))
                 .MapOnlyConstructor<ComunidadDLO>()
                 .EndConfig<ComunidadDLO>();
             //Ejercicio
             mConfig.EndConfig<Ejercicio>();
             mConfig
-                .AddConstructor<Ejercicio.EjercicioDLO>(x =>
-                {
-                    Ejercicio.EjercicioDLO instance = new Ejercicio.EjercicioDLO();
-                    instance.SetProperties(x.Id, x.FechaComienzo, x.FechaFinal, x.IdOwnerComunidad, x.Cerrado);
-                    return instance;
-                })
-                .MapOnlyConstructor<Ejercicio.EjercicioDLO>()
-                .EndConfig<Ejercicio.EjercicioDLO>();
+                .AddConstructor<EjercicioDLO>(x =>  new EjercicioDLO(x.Id, x.FechaComienzo, x.FechaFinal, x.IdOwnerComunidad, x.Cerrado))
+                .MapOnlyConstructor<EjercicioDLO>()
+                .EndConfig<EjercicioDLO>();
             //Persona
             mConfig
                 .AddConstructor<Persona>(x => new Persona(x.Id, x.NIF, x.Nombre, true))
@@ -129,14 +119,10 @@ namespace AdConta
                 .AddNestedProperty<GrupoGastos>(false, "_Cuentas")
                 .EndConfig<GrupoGastos>();
             mConfig
-                .AddConstructor<GrupoGastos.GrupoGastosDLO>(x =>
-                {
-                    GrupoGastos.GrupoGastosDLO instance = new GrupoGastos.GrupoGastosDLO();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.IdPresupuesto, x.Nombre, x.CoeficientesCustom, x.Importe);
-                    return instance;
-                })
-                .MapOnlyConstructor<GrupoGastos.GrupoGastosDLO>()
-                .EndConfig<GrupoGastos.GrupoGastosDLO>();
+                .AddConstructor<GrupoGastosDLO>(x => new GrupoGastosDLO(x.Id, x.IdOwnerComunidad, x.IdPresupuesto, x.Nombre, 
+                    x.CoeficientesCustom, x.Importe))
+                .MapOnlyConstructor<GrupoGastosDLO>()
+                .EndConfig<GrupoGastosDLO>();
             //GrupoGastosAceptado y structs
             mConfig.EndConfig<GrupoGastosAceptado.sDatosFincaGGAceptado>();
             mConfig.EndConfig<GrupoGastosAceptado.sDatosCuotaGGAceptado>();
@@ -157,14 +143,10 @@ namespace AdConta
                 .AddNestedProperty<Presupuesto>(true, "_GruposDeGasto")
                 .EndConfig<Presupuesto>();
             mConfig
-                .AddConstructor<Presupuesto.PresupuestoDLO>(x =>
-                {
-                    Presupuesto.PresupuestoDLO instance = new Presupuesto.PresupuestoDLO();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Titulo, x.Total, x.Aceptado, (TipoRepartoPresupuesto)x.TipoReparto, x.Codigo);
-                    return instance;
-                })
-                .MapOnlyConstructor<Presupuesto.PresupuestoDLO>()
-                .EndConfig<Presupuesto.PresupuestoDLO>();
+                .AddConstructor<PresupuestoDLO>(x => new PresupuestoDLO(x.Id, x.IdOwnerComunidad, x.Titulo, x.Total, x.Aceptado, 
+                    (TipoRepartoPresupuesto)x.TipoReparto, x.Codigo))
+                .MapOnlyConstructor<PresupuestoDLO>()
+                .EndConfig<PresupuestoDLO>();
             //ObservableApuntesList
             mConfig
                 .AddConstructor<ObservableApuntesList>(x =>
@@ -182,6 +164,11 @@ namespace AdConta
                 .AddNestedProperty<Apunte>(false, "_Asiento")
                 .AddMemberCreator<Apunte>("_DebeHaber", x => (DebitCredit)x.DebeHaber)
                 .EndConfig<Apunte>();
+            mConfig
+                .AddConstructor<ApunteDLO>(x => new ApunteDLO(x.Id, x.IdOwnerComunidad, x.OrdenEnAsiento, x.Asiento, x.Concepto, x.DebeHaber,
+                    x.Importe, x.IdCuenta, x.Punteo, x.Factura))
+                .MapOnlyConstructor<ApunteDLO>()
+                .EndConfig<ApunteDLO>();
             //Asiento
             mConfig
                 .AddConstructor<Asiento>(x => new Asiento(x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Codigo, this.ACData, x.FechaValor))
@@ -299,28 +286,19 @@ namespace AdConta
                 .AddIgnoreProperty<Factura, decimal>(x => x.TotalImpuestos)
                 .EndConfig<Factura>();
             mConfig
-                .AddConstructor<Factura.FacturaDLO>(x =>
-                {
-                    Factura.FacturaDLO instance = new Factura.FacturaDLO();
-                    instance.SetProperties(x.Id, x.IdProveedor, x.IdOwnerComunidad, x.NFactura, x.Fecha, x.Concepto, x.Total, x.Pendiente, (TipoPagoFacturas)x.TipoPago);
-                    return instance;
-                })
-                .MapOnlyConstructor<Presupuesto.PresupuestoDLO>()
-                .EndConfig<Presupuesto.PresupuestoDLO>();
+                .AddConstructor<FacturaDLO>(x => new FacturaDLO(x.Id, x.IdProveedor, x.IdOwnerComunidad, x.NFactura, x.Fecha, x.Concepto, x.Total, 
+                    x.Pendiente, (TipoPagoFacturas)x.TipoPago))
+                .MapOnlyConstructor<FacturaDLO>()
+                .EndConfig<FacturaDLO>();
             //CuentaMayor
             mConfig
                 .AddConstructor<CuentaMayor>(x => new CuentaMayor(x.Codigo, x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Nombre))
                 .MapOnlyConstructor<CuentaMayor>()
                 .EndConfig<CuentaMayor>();
             mConfig
-                .AddConstructor<CuentaMayor.CuentaMayorDLO>(x =>
-                {
-                    CuentaMayor.CuentaMayorDLO instance = new CuentaMayor.CuentaMayorDLO();
-                    instance.SetProperties(int.Parse(x.Codigo), x.Id, x.IdOwnerComunidad, x.Nombre);
-                    return instance;
-                })
-                .MapOnlyConstructor<CuentaMayor.CuentaMayorDLO>()
-                .EndConfig<CuentaMayor.CuentaMayorDLO>();
+                .AddConstructor<CuentaMayorDLO>(x => new CuentaMayorDLO(int.Parse(x.Codigo), x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Nombre))
+                .MapOnlyConstructor<CuentaMayorDLO>()
+                .EndConfig<CuentaMayorDLO>();
             //Proveedor
             mConfig
                 .AddConstructor<Proveedor>(x => new Proveedor(x.Id, x.IdPersona, x.NIF, x.Nombre, true))
@@ -330,15 +308,11 @@ namespace AdConta
                 .AddMemberCreator<Proveedor, TipoPagoFacturas>(x => x.DefaultTipoPagoFacturas, x => (TipoPagoFacturas)x.DefaultTipoPagoFacturas)
                 .EndConfig<Proveedor>();
             mConfig
-                .AddConstructor<Proveedor.ProveedorDLO>(x =>
-                {
-                    Proveedor.ProveedorDLO instance = new Proveedor.ProveedorDLO();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Nombre, x.NIF, string.Concat(x.TipoVia, " ", x.Direccion), x.CuentaBancaria,
-                        x.Telefono, x.Email, x.RazonSocial, x.CuentaContableGasto, x.CuentaContablePago, x.CuentaContableProveedor);
-                    return instance;
-                })
-                .MapOnlyConstructor<Proveedor.ProveedorDLO>()
-                .EndConfig<Proveedor.ProveedorDLO>();
+                .AddConstructor<ProveedorDLO>(x => new ProveedorDLO(x.Id, x.Nombre, x.NIF, string.Concat(x.TipoVia, " ", 
+                    x.Direccion), x.CuentaBancaria, x.Telefono, x.Email, x.RazonSocial, x.CuentaContableGasto, x.CuentaContablePago, 
+                    x.CuentaContableProveedor))
+                .MapOnlyConstructor<ProveedorDLO>()
+                .EndConfig<ProveedorDLO>();
             //Cobros-EntACta-iIngresoPropietario
             mConfig
                 .AddInterfaceToObjectCondition<iIngresoPropietario>(x =>
@@ -461,14 +435,10 @@ namespace AdConta
                 .AddDictionary<Propietario>("_Cuotas", new string[2] { "cuotaId", "Cuota" })
                 .EndConfig<Propietario>();
             mConfig
-                .AddConstructor<Propietario.PropietarioDLO>(x =>
-                {
-                    Propietario.PropietarioDLO instance = new Propietario.PropietarioDLO();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Nombre, x.NIF, x.Direccion, x.CuentaBancaria, x.Telefono, x.Email);
-                    return instance;
-                })
-                .MapOnlyConstructor<Propietario.PropietarioDLO>()
-                .EndConfig<Propietario.PropietarioDLO>();
+                .AddConstructor<PropietarioDLO>(x => new PropietarioDLO(x.Id, x.IdOwnerComunidad, x.Nombre, x.NIF, x.Direccion, x.CuentaBancaria, 
+                    x.Telefono, x.Email))
+                .MapOnlyConstructor<PropietarioDLO>()
+                .EndConfig<PropietarioDLO>();
             //Finca
             mConfig
                 .AddConstructor<Finca>(x => new Finca(x.Id, x.IdOwnerComunidad, x.Baja, x.Nombre, x.Coeficiente, x.Codigo, this.ACData))
@@ -512,19 +482,19 @@ namespace AdConta
                 })
                 .EndConfig<Finca>();
             mConfig
-                .AddConstructor<Finca.FincaDLO>(x =>
+                .AddConstructor<FincaDLO>(x =>
                 {
-                    Finca.FincaDLO instance = new Finca.FincaDLO();
                     IEnumerable<dynamic> ex = (IEnumerable<dynamic>)x;
                     int[] asociadas = ex
                         .Select(dyn => (int)dyn.IdFincaAsociada)
                         .Distinct()
                         .ToArray();
-                    instance.SetProperties(x.Id, x.IdOwnerComunidad, x.Baja, x.Nombre, x.Codigo, x.NombreProp, x.Telefono, x.Email, asociadas, x.Notas);
+                    FincaDLO instance = new FincaDLO(x.Id, x.IdOwnerComunidad, x.Baja, x.Nombre, x.Codigo, x.NombreProp, x.Telefono, x.Email, 
+                        asociadas, x.Notas);
                     return instance;
                 })
-                .MapOnlyConstructor<Finca.FincaDLO>()
-                .EndConfig<Finca.FincaDLO>();
+                .MapOnlyConstructor<FincaDLO>()
+                .EndConfig<FincaDLO>();
             //Recibo
             mConfig
                 .AddNestedProperty<Recibo>(false, "_Cobros")

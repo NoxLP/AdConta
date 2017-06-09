@@ -8,7 +8,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Proveedor : Persona
+    public class Proveedor : Persona, IObjWithDLO<ProveedorDLO>
     {
         #region constructors
         public Proveedor(int id, int idPersona, string nif, string nombre, bool forceInvalidNIF = false) 
@@ -38,52 +38,7 @@ namespace ModuloContabilidad.ObjModels
             this.DefaultTipoPagoFacturas = DefTPagoFacturas;
         }
         #endregion
-
-        public class ProveedorDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int idCdad,
-                string nombre,
-                string nIF,
-                string direccion,
-                string cuentaBancaria,
-                string telefono,
-                string email,
-                string razonSocial,
-                string cuentaGasto,
-                string cuentaPago,
-                string cuentaProveedor)
-            {
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.Nombre = nombre;
-                this.NIF = nIF;
-                this.Direccion = direccion;
-                this.CuentaBancaria = cuentaBancaria;
-                this.Telefono = telefono;
-                this.Email = email;
-                this.RazonSocial = razonSocial;
-                this.CuentaGasto = cuentaGasto;
-                this.CuentaPago = cuentaPago;
-                this.CuentaProveedor = cuentaProveedor;
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public string Nombre { get; private set; }
-            public string NIF { get; private set; }
-            public string Direccion { get; private set; }
-            public string CuentaBancaria { get; private set; }
-            public string Telefono { get; private set; }
-            public string Email { get; private set; }
-            public string RazonSocial { get; private set; }
-            public string CuentaGasto { get; private set; }
-            public string CuentaPago { get; private set; }
-            public string CuentaProveedor { get; private set; }
-        }
-
+        
         #region fields
         private int _IdProveedor;
         
@@ -104,6 +59,55 @@ namespace ModuloContabilidad.ObjModels
         public double IRPFPercent { get; set; }
         public TipoPagoFacturas DefaultTipoPagoFacturas { get; set; }
         #endregion
+
+        #region DLO
+        public ProveedorDLO GetDLO()
+        {
+            return new ProveedorDLO(Id, Nombre, NIF.NIF, Direccion.GetDireccionSinCP(), CuentaBancaria.AccountNumber, Telefono1.Numero, Email, RazonSocial,
+                CuentaContableGasto.NumCuenta.ToString(), CuentacontablePago.NumCuenta.ToString(), CuentaContableProveedor.NumCuenta.ToString());
+        }
+        #endregion
     }
 
+    public class ProveedorDLO : IObjModelBase, IDataListObject
+    {
+        public ProveedorDLO() { }
+        public ProveedorDLO(
+            int id,
+            string nombre,
+            string nIF,
+            string direccion,
+            string cuentaBancaria,
+            string telefono,
+            string email,
+            string razonSocial,
+            string cuentaGasto,
+            string cuentaPago,
+            string cuentaProveedor)
+        {
+            this.Id = id;
+            this.Nombre = nombre;
+            this.NIF = nIF;
+            this.Direccion = direccion;
+            this.CuentaBancaria = cuentaBancaria;
+            this.Telefono = telefono;
+            this.Email = email;
+            this.RazonSocial = razonSocial;
+            this.CuentaGasto = cuentaGasto;
+            this.CuentaPago = cuentaPago;
+            this.CuentaProveedor = cuentaProveedor;
+        }
+
+        public int Id { get; private set; }
+        public string Nombre { get; private set; }
+        public string NIF { get; private set; }
+        public string Direccion { get; private set; }
+        public string CuentaBancaria { get; private set; }
+        public string Telefono { get; private set; }
+        public string Email { get; private set; }
+        public string RazonSocial { get; private set; }
+        public string CuentaGasto { get; private set; }
+        public string CuentaPago { get; private set; }
+        public string CuentaProveedor { get; private set; }
+    }
 }

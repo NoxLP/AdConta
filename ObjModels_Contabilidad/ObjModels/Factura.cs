@@ -9,7 +9,7 @@ using Extensions;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Factura : IObjModelBase, IOwnerProveedor, IOwnerComunidad
+    public class Factura : IObjModelBase, IOwnerProveedor, IOwnerComunidad, IObjWithDLO<FacturaDLO>
     {
         #region constructors
         private Factura() { }
@@ -62,43 +62,7 @@ namespace ModuloContabilidad.ObjModels
             this._PagosFra = pagos;
         }
         #endregion
-
-        public class FacturaDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int? idProv,
-                int idCdad,
-                string nFactura,
-                DateTime fecha,
-                string concepto,
-                decimal total,
-                decimal pendiente,
-                TipoPagoFacturas tipoPago)
-            {
-                this.Id = id;
-                this.IdOwnerProveedor = idProv;
-                this.IdOwnerComunidad = idCdad;
-                this.NFactura = nFactura;
-                this.Fecha = fecha;
-                this.Concepto = concepto;
-                this.Total = total;
-                this.Pendiente = pendiente;
-                this.TipoPago = tipoPago;
-            }
-
-            public int Id { get; private set; }
-            public int? IdOwnerProveedor { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public string NFactura { get; private set; }
-            public DateTime Fecha { get; private set; }
-            public string Concepto { get; private set; }
-            public decimal Total { get; private set; }
-            public decimal Pendiente { get; private set; }
-            public TipoPagoFacturas TipoPago { get; private set; }
-        }
-
+        
         #region fields
         private int _Id;
         private int? _IdOwnerProveedor;
@@ -220,5 +184,48 @@ namespace ModuloContabilidad.ObjModels
             return true;
         }
         #endregion
+
+        #region DLO
+        public FacturaDLO GetDLO()
+        {
+            return new FacturaDLO(Id, IdOwnerProveedor, IdOwnerComunidad, NFactura, Fecha, Concepto, Total, Pendiente, TipoPago);
+        }
+        #endregion
+    }
+
+    public class FacturaDLO : IObjModelBase, IDataListObject
+    {
+        public FacturaDLO() { }
+        public FacturaDLO(
+            int id,
+            int? idProv,
+            int idCdad,
+            string nFactura,
+            DateTime fecha,
+            string concepto,
+            decimal total,
+            decimal pendiente,
+            TipoPagoFacturas tipoPago)
+        {
+            this.Id = id;
+            this.IdOwnerProveedor = idProv;
+            this.IdOwnerComunidad = idCdad;
+            this.NFactura = nFactura;
+            this.Fecha = fecha;
+            this.Concepto = concepto;
+            this.Total = total;
+            this.Pendiente = pendiente;
+            this.TipoPago = tipoPago;
+        }
+
+        public int Id { get; private set; }
+        public int? IdOwnerProveedor { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public string NFactura { get; private set; }
+        public DateTime Fecha { get; private set; }
+        public string Concepto { get; private set; }
+        public decimal Total { get; private set; }
+        public decimal Pendiente { get; private set; }
+        public TipoPagoFacturas TipoPago { get; private set; }
     }
 }

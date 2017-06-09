@@ -21,7 +21,34 @@ namespace AdConta.Models
         decimal Importe { get; }
     }
 
-    public class GrupoGastos : iGrupoGastos
+    public class GrupoGastosDLO : IObjModelBase, IDataListObject
+    {
+        public GrupoGastosDLO() { }
+        public GrupoGastosDLO(
+            int id,
+            int idCdad,
+            int idPpto,
+            string nombre,
+            bool coefCustom,
+            decimal importe)
+        {
+            this.Id = id;
+            this.IdOwnerComunidad = idCdad;
+            this.IdOwnerPresupuesto = idPpto;
+            this.Nombre = nombre;
+            this.CoeficientesCustom = coefCustom;
+            this.Importe = importe;
+        }
+
+        public int Id { get; private set; }
+        public int IdOwnerComunidad { get; private set; }
+        public int IdOwnerPresupuesto { get; private set; }
+        public string Nombre { get; private set; }
+        public bool CoeficientesCustom { get; private set; }
+        public decimal Importe { get; private set; }
+    }
+
+    public class GrupoGastos : iGrupoGastos, IObjWithDLO<GrupoGastosDLO>
     {
         private GrupoGastos() { }
         public GrupoGastos(
@@ -42,34 +69,7 @@ namespace AdConta.Models
 
             SetCoeficientesCustom();
             this._Importe = this.Cuentas.Select(x => x.SaldoAlAñadirLaCuenta).Sum();
-        }
-
-        public class GrupoGastosDLO : IObjModelBase, IDataListObject
-        {
-            public void SetProperties() { throw new CustomException_DataListObjects(); }
-            public void SetProperties(
-                int id,
-                int idCdad,
-                int idPpto,
-                string nombre,
-                bool coefCustom,
-                decimal importe)
-            {
-                this.Id = id;
-                this.IdOwnerComunidad = idCdad;
-                this.IdOwnerPresupuesto = idPpto;
-                this.Nombre = nombre;
-                this.CoeficientesCustom = coefCustom;
-                this.Importe = importe;
-            }
-
-            public int Id { get; private set; }
-            public int IdOwnerComunidad { get; private set; }
-            public int IdOwnerPresupuesto { get; private set; }
-            public string Nombre { get; private set; }
-            public bool CoeficientesCustom { get; private set; }
-            public decimal Importe { get; private set; }
-        }
+        }        
 
         public class CuentaParaPresupuesto
         {
@@ -266,8 +266,15 @@ namespace AdConta.Models
             return ggA;
         }
         #endregion
+
+        #region DLO
+        public GrupoGastosDLO GetDLO()
+        {
+            return new GrupoGastosDLO(Id, IdOwnerComunidad, IdOwnerPresupuesto, Nombre, CoeficientesCustom, Importe);
+        }
+        #endregion
     }
-    
+
     public class GrupoGastosAceptado : iGrupoGastos
     {
         private GrupoGastosAceptado() { }

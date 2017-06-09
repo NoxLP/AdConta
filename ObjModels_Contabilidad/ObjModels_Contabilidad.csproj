@@ -53,7 +53,8 @@
   <ItemGroup>
     <Compile Include="Helpers\ObservableApuntesList.cs" />
     <Compile Include="Helpers\GastosPagosLists.cs" />
-    <Compile Include="ObjModels\ApunteAsiento.cs" />
+    <Compile Include="ObjModels\Apunte.cs" />
+    <Compile Include="ObjModels\Asiento.cs" />
     <Compile Include="ObjModels\sGrupoSubgrupoContable.cs" />
     <Compile Include="ObjModels\_AsientoComplejo.cs" />
     <Compile Include="ObjModels\_AsientoSimple.cs" />
