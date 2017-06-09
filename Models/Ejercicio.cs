@@ -8,7 +8,7 @@ using AdConta;
 
 namespace AdConta.Models
 {
-    public class Ejercicio : iObjModelBase, iOwnerComunidad//, iObjWithDLO<Ejercicio.EjercicioDLO>
+    public class Ejercicio : IObjModelBase, IOwnerComunidad//, iObjWithDLO<Ejercicio.EjercicioDLO>
     {
         #region constructors
         private Ejercicio() { }
@@ -41,7 +41,7 @@ namespace AdConta.Models
         }*/
         #endregion
 
-        public class EjercicioDLO : iObjModelBase, iOwnerComunidad, iDataListObject
+        public class EjercicioDLO : IObjModelBase, IOwnerComunidad, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(int id, Date fechaComienzo, Date fechaFinal, int idOwnerComunidad, bool cerrado)

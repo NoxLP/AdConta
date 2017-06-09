@@ -18,7 +18,7 @@ namespace AdConta
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             App Application = App.Current as App;
-            VMTabBase tab = item as VMTabBase;
+            aVMTabBase tab = item as aVMTabBase;
 
             switch (tab.Type)
             {

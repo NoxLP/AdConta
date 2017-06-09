@@ -30,7 +30,7 @@ namespace Mapper
         /// </summary>
         /// <param name="t"></param>
         /// <param name="mapper"></param>
-        public void StoreMapper(Type t, iDapperMapper mapper)
+        public void StoreMapper(Type t, IDapperMapper mapper)
         {
             if (!_Mappers.ContainsKey(t)) _Mappers.Add(t, mapper);
         }
@@ -40,7 +40,7 @@ namespace Mapper
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public iDapperMapper GetMapper(Type t)
+        public IDapperMapper GetMapper(Type t)
         {
             if (_Mappers.ContainsKey(t))
                 return _Mappers[t];
@@ -48,7 +48,7 @@ namespace Mapper
             if (!_TypesToMap.Contains(t))
                 return null;
 
-            iDapperMapper mapper = (iDapperMapper)Activator.CreateInstance(typeof(DapperMapper<>).MakeGenericType(t), this);
+            IDapperMapper mapper = (IDapperMapper)Activator.CreateInstance(typeof(DapperMapper<>).MakeGenericType(t), this);
             StoreMapper(t, mapper);
             return mapper;
         }
@@ -60,7 +60,7 @@ namespace Mapper
         /// <param name="t"></param>
         /// <param name="mapper"></param>
         /// <returns></returns>
-        public bool GetMapper(Type t, out iDapperMapper mapper)
+        public bool GetMapper(Type t, out IDapperMapper mapper)
         {
             if (_Mappers.ContainsKey(t))
             {
@@ -74,7 +74,7 @@ namespace Mapper
                 return false;
             }
 
-            mapper = (iDapperMapper)Activator.CreateInstance(typeof(DapperMapper<>).MakeGenericType(t), this);
+            mapper = (IDapperMapper)Activator.CreateInstance(typeof(DapperMapper<>).MakeGenericType(t), this);
             StoreMapper(t, mapper);
             return false;
         }

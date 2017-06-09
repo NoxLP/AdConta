@@ -6,67 +6,67 @@ using System.Threading.Tasks;
 
 namespace AdConta.Models
 {
-    public interface iOwnerComunidad
+    public interface IOwnerComunidad
     {
         int IdOwnerComunidad { get; }
     }
 
-    public interface iOwnerComunidadNullable
+    public interface IOwnerComunidadNullable
     {
         int? IdOwnerComunidad { get; }
     }
 
-    public interface iOwnerEjercicio
+    public interface IOwnerEjercicio
     {
         int IdOwnerEjercicio { get; }
     }
 
-    public interface iOwnerPersona
+    public interface IOwnerPersona
     {
         int IdOwnerPersona { get; }
     }
 
-    public interface iOwnerFinca
+    public interface IOwnerFinca
     {
         int IdOwnerFinca { get; }
     }
 
-    public interface iOwnerProveedor
+    public interface IOwnerProveedor
     {
         int? IdOwnerProveedor { get; }
     }
 
-    public interface iOwnerPropietario
+    public interface IOwnerPropietario
     {
         int IdOwnerPropietario { get; }
     }
 
-    public interface iOwnerCuota
+    public interface IOwnerCuota
     {
         int IdOwnerCuota { get; }
     }
 
-    public interface iOwnerRecibo
+    public interface IOwnerRecibo
     {
         int IdOwnerRecibo { get; }
     }
 
-    public interface iOwnerFactura
+    public interface IOwnerFactura
     {
         int? IdOwnerFactura { get; }
     }
 
-    public interface iOwnerDevolucion
+    public interface IOwnerDevolucion
     {
         int IdOwnerDevolucion { get; }
     }
 
-    public interface iOwnerPresupuesto
+    public interface IOwnerPresupuesto
     {
         int IdOwnerPresupuesto { get; }
     }
 
-    public interface iOwnerGrupoGasto
+    public interface IOwnerGrupoGasto
     {
         int IdOwnerGrupoGasto { get; }
     }

@@ -9,7 +9,7 @@ namespace Mapper
 {
     public class PrePostFixesParser
     {
-        public PrePostFixesParser(iDapperMapper mapper)
+        public PrePostFixesParser(IDapperMapper mapper)
         {
             Tuple<string[], bool> prefixes = mapper != null ? mapper.Prefixes : null;
             Tuple<string[], bool> postfixes = mapper != null ? mapper.Postfixes : null;

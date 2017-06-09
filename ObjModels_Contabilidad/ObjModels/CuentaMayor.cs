@@ -11,7 +11,7 @@ namespace ModuloContabilidad.ObjModels
     /// <summary>
     /// Class for ledge account
     /// </summary>
-    public class CuentaMayor : iObjModelBase, iOwnerComunidad, iOwnerEjercicio
+    public class CuentaMayor : IObjModelBase, IOwnerComunidad, IOwnerEjercicio
     {
         public CuentaMayor(string accountNumber, int id, int idComunidad, int idEjercicio, string nombre, bool cuentaFalsa = false)
         {
@@ -25,7 +25,7 @@ namespace ModuloContabilidad.ObjModels
             this._Subgrupo = new sSubgrupoContable(accountNumber);
         }
 
-        public class CuentaMayorDLO : iObjModelBase, iDataListObject
+        public class CuentaMayorDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new AdConta.CustomException_DataListObjects(); }
             public void SetProperties(

@@ -544,7 +544,7 @@ namespace AdConta.Models
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
             public async Task ReArrangeAsientosAsync<T>(bool byDate)
-                where T : iObjModelConCodigoConComunidadYEjercicio
+                where T : IObjModelConCodigoConComunidadYEjercicio
             {
                 //TODO
             }

@@ -12,6 +12,7 @@ using AdConta.Models;
 using ModuloContabilidad.ObjModels;
 using ModuloGestion.ObjModels;
 using Mapper;
+using Repository;
 
 namespace AdConta
 {
@@ -50,7 +51,7 @@ namespace AdConta
         #endregion
 
         #region repositories
-        //public PersonaRepository PersonasRepository { get; private set; }
+        public PersonaRepository PersonaRepo { get; private set; }
         #endregion
 
         protected override void OnStartup(StartupEventArgs e)

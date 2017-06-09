@@ -9,7 +9,7 @@ using AdConta.ViewModel;
 
 namespace ModuloGestion
 {
-    public class VMTabProps : VMTabBase
+    public class VMTabProps : aVMTabBase
     {
         public VMTabProps()
         {

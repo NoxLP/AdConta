@@ -24,7 +24,7 @@ namespace QBuilder
         #endregion
 
         #region properties
-        public dynamic Parameters { get { return this._Parameters; } }
+        public ExpandoObject Parameters { get { return this._Parameters as ExpandoObject; } }
         #endregion
 
         #region helpers

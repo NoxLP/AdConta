@@ -13,7 +13,7 @@ namespace Mapper
     [Flags]
     public enum MemberTypeInfo { BuiltIn = 1, Nested = 2, Creator = 4, IEnumerable = 8, Dictionary = 16, Interface = 32, Ignore = 64 }
     
-    public interface iDapperMapper
+    public interface IDapperMapper
     {
         Type TType { get; }
         IEnumerable<string> NamesList { get; }
@@ -26,7 +26,7 @@ namespace Mapper
         bool CheckIfDynamicHasAllTypeMembersByName(dynamic dyn);
     }
 
-    public class DapperMapper<T> : DMStatic_Mapper, iDapperMapper
+    public class DapperMapper<T> : DMStatic_Mapper, IDapperMapper
     {
         public DapperMapper(MapperStore store)
         {
@@ -226,7 +226,7 @@ Incorrect type of value?: {kvp.Value.ToString()}",
                                 if (genericIsInterfaceNotIEnumerable) genericType = ResolveInterface(genericType, dapperResult);
                             }
 
-                            iDapperMapper nestedMapper = MappersStore.GetMapper(genericType);
+                            IDapperMapper nestedMapper = MappersStore.GetMapper(genericType);
                             var nestedParser = new PrePostFixesParser(nestedMapper);
 
                             iEnumDapperResult = dapperResult
@@ -289,7 +289,7 @@ Incorrect type of value?: {kvp.Value.ToString()}",
                         mType = ResolveInterface(mType, dapperResult);
 
                     //access generic Map method through nongeneric interface method
-                    iDapperMapper nestedMapper = MappersStore.GetMapper(mType);
+                    IDapperMapper nestedMapper = MappersStore.GetMapper(mType);
 
                     if (nestedMapper == null)
                         throw new CustomException_DapperMapper(

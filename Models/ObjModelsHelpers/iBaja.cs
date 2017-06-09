@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdConta.Models
 {
-    public interface iBaja
+    public interface IBaja
     {
         bool Baja { get; }
 

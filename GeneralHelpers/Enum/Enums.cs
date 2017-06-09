@@ -33,6 +33,8 @@ namespace AdConta
     public enum SituacionReciboCobroEntaCta : int { Normal = 0, Devuelto}
 
     public enum TipoRepartoPresupuesto : int { Lineal = 0, SoloCoeficientes, CoeficientesYGrupos}
+
+    public enum TipoGastoPago : int { Gasto = 0, Pago }
     /// <summary>
     /// Tipo de mensaje SQL para la clase AutoCodigo.
     /// </summary>
@@ -135,6 +137,6 @@ namespace AdConta
         public new string Description { get; set; }
     }
 
-    public enum TipoGastoPago : int { Gasto = 0, Pago }
+    public enum ConditionTCType { equal, diff, greater, lesser, greatOrEq, lessOrEq }
     #endregion
 }

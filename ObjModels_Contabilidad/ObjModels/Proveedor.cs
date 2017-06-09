@@ -39,7 +39,7 @@ namespace ModuloContabilidad.ObjModels
         }
         #endregion
 
-        public class ProveedorDLO : iObjModelBase, iDataListObject
+        public class ProveedorDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(

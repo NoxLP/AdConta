@@ -482,7 +482,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
 
         #region do
         public async Task<bool> TryApplyCodigoChangesAsync<T>(int idCdad, aAutoCodigoBase caller)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(caller.CurrentCodigo, idCdad);
             ACodigoCCheckType objModelType = caller.CCheckType;
@@ -554,7 +554,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public async Task<bool> TryApplyCodigoChangesAsync<T>(int idCdad, int idEjer, aAutoCodigoBase caller)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             long cantorId = idCdad.CantorPair(idEjer);
             Tuple<int, long> id = new Tuple<int, long>(caller.CurrentCodigo, cantorId);
@@ -625,7 +625,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public async Task<bool> TryCancelCodigoChangesAsync<T>(int? codigoOnHold, int idCdad, aAutoCodigoBase caller)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             ACodigoCCheckType objModelType = caller.CCheckType;
             int codigo = codigoOnHold ?? caller.CodigoOnHold;
@@ -672,7 +672,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public async Task<bool> TryCancelCodigoChangesAsync<T>(int? codigoOnHold, int idCdad, int idEjer, aAutoCodigoBase caller)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             ACodigoCCheckType objModelType = caller.CCheckType;
             int codigo = codigoOnHold ?? caller.CodigoOnHold;
@@ -723,7 +723,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
 
         #region add/remove on hold
         public bool TrySetCodigoOnHold<T>(aAutoCodigoBase caller, int idCdad)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             ACodigoCCheckType objModelType = caller.CCheckType;
             //If codigo have been set on hold previously by this user (in another tab f.i.), return false
@@ -779,7 +779,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TrySetCodigoOnHold<T>(aAutoCodigoBase caller, int idCdad, int idEjer)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             ACodigoCCheckType objModelType = caller.CCheckType;
             long id = idCdad.CantorPair(idEjer);
@@ -873,7 +873,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
         }
 
         public bool TryAddNextCodigoSQLOnHold<T>(aAutoCodigoBase caller, int idCdad, string SQL, ExpandoObject values, int noConToRemoveCount = 0)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(caller.CurrentCodigo, idCdad);
             if (!_SQL_OnHold.TryAdd(id, () => NextCodigoQueryMultipleAsync(SQL, values, caller.CodigoOnHold, noConToRemoveCount)))
@@ -881,7 +881,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddNextCodigoSQLOnHold<T>(aAutoCodigoBase caller, int idCdad, int idEjer, string SQL, ExpandoObject values, int noConToRemoveCount = 0)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(caller.CurrentCodigo, idCdad.CantorPair(idEjer));
             if (!_SQL_OnHold.TryAdd(id, () => NextCodigoQueryMultipleAsync(SQL, values, caller.CodigoOnHold, noConToRemoveCount)))
@@ -889,7 +889,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddDeletedCodigoSQLOnHold<T>(int codigo, int idCdad, string SQL, ExpandoObject values, bool noConChanges, bool maxChanges)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             if (!_SQL_OnHold.TryAdd(id, () => DeleteCodigoQueryMultipleAsync(SQL, values, noConChanges, maxChanges)))
@@ -897,7 +897,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddDeletedCodigoSQLOnHold<T>(int codigo, int idCdad, int idEjer, string SQL, ExpandoObject values, bool noConChanges, bool maxChanges)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             if (!_SQL_OnHold.TryAdd(id, () => DeleteCodigoQueryMultipleAsync(SQL, values, noConChanges, maxChanges)))
@@ -905,7 +905,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddCheckCodigoSQLOnHold<T>(int codigo, int idCdad, string SQL, ExpandoObject values, bool previousMax, bool maxChanges)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             if (!_SQL_OnHold.TryAdd(id, () => CheckCodigoQueryMultipleAsync(SQL, values, previousMax, maxChanges)))
@@ -913,7 +913,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddCheckCodigoSQLOnHold<T>(int codigo, int idCdad, int idEjer, string SQL, ExpandoObject values, bool previousMax, bool maxChanges)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             if (!_SQL_OnHold.TryAdd(id, () => CheckCodigoQueryMultipleAsync(SQL, values, previousMax, maxChanges)))
@@ -922,21 +922,21 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
         }
 
         public bool TrySetNewMaxOnHold<T>(int codigo, int idCdad, int nuevoMax)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             if (!_Max_OnHold.TryAdd(id, nuevoMax)) return false;
             return true;
         }
         public bool TrySetNewMaxOnHold<T>(int codigo, int idCdad, int idEjer, int nuevoMax)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             if (!_Max_OnHold.TryAdd(id, nuevoMax)) return false;
             return true;
         }
         public bool TryAddToDeletedOnHold<T>(int codigo, int idCdad, int codigoToAdd, ACodigoCCheckType t)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             Action newAction = () =>
@@ -950,7 +950,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddToDeletedOnHold<T>(int codigo, int idCdad, int idEjer, int codigoToAdd, ACodigoCCheckType t)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             Action newAction = () =>
@@ -964,7 +964,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryRemoveFromDeletedOnHold<T>(int codigo, int idCdad, int codigoToRemove, ACodigoCCheckType t)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             Action newAction = () =>
@@ -978,7 +978,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryRemoveFromDeletedOnHold<T>(int codigo, int idCdad, int idEjer, int codigoToRemove, ACodigoCCheckType t)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             Action newAction = () =>
@@ -992,7 +992,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddToNoConOnHold<T>(int codigo, int idCdad, int codigoToAdd, ACodigoCCheckType t)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             List<Func<Task>> old;
@@ -1015,7 +1015,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryAddToNoConOnHold<T>(int codigo, int idCdad, int idEjer, int codigoToAdd, ACodigoCCheckType t)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             List<Func<Task>> old;
@@ -1038,7 +1038,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryRemoveFromNoConOnHold<T>(int codigo, int idCdad, int codigoToRemove, ACodigoCCheckType t)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad);
             List<Func<Task>> old;
@@ -1061,7 +1061,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             return true;
         }
         public bool TryRemoveFromNoConOnHold<T>(int codigo, int idCdad, int idEjer, int codigoToRemove, ACodigoCCheckType t)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             Tuple<int, long> id = new Tuple<int, long>(codigo, idCdad.CantorPair(idEjer));
             List<Func<Task>> old;
@@ -1183,7 +1183,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             //TODO: Progress bar?
         }
         public void ReArrangeAsientos<T>(bool byDate)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             //TODO
         }

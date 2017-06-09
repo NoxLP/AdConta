@@ -8,14 +8,14 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public interface iIngresoPropietario : iObjModelBase, iOwnerPersona, iOwnerRecibo
+    public interface iIngresoPropietario : IObjModelBase, IOwnerPersona, IOwnerRecibo
     {
         Date Fecha { get; }
         decimal Importe { get; }
         SituacionReciboCobroEntaCta Situacion { get; }
     }
 
-    public class Cobro : iObjModelBase, iIngresoPropietario, iOwnerCuota
+    public class Cobro : IObjModelBase, iIngresoPropietario, IOwnerCuota
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }
@@ -42,7 +42,7 @@ namespace ModuloGestion.ObjModels
         }
     }
 
-    public class EntACta : iObjModelBase, iIngresoPropietario, iOwnerFinca
+    public class EntACta : IObjModelBase, iIngresoPropietario, IOwnerFinca
     {
         public int Id { get; private set; }
         public int IdOwnerRecibo { get; private set; }        

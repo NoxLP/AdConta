@@ -14,7 +14,7 @@ namespace AdConta.ViewModel
     /// <summary>
     /// Base for all Abletabcontrol tabs's viewmodels.
     /// </summary>
-    public class VMTabBase : DataTableHelperVMBase, IPublicNotify
+    public abstract class aVMTabBase : DataTableHelperVMBase/*<- OJO esto ya no es necesario*/, IPublicNotify
     {
         #region fields
         private int _TabComCod = 0;
@@ -163,5 +163,7 @@ namespace AdConta.ViewModel
             this._TabComCod = cod;
         }
         #endregion
+
+        public abstract void CleanUnitOfWork();
     }
 }

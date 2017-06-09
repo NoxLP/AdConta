@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class IngresoDevuelto : iOwnerDevolucion
+    public class IngresoDevuelto : IOwnerDevolucion
     {
         public int Id { get; private set; }
         public int IdOwnerDevolucion { get; private set; }
@@ -32,7 +32,7 @@ namespace ModuloGestion.ObjModels
     }
 
     //TODO: ¿¿¿¿¿¿no le hace falta ningun método??????
-    public class Devolucion : iObjModelBase, iOwnerComunidad
+    public class Devolucion : IObjModelBase, IOwnerComunidad
     {
         private Devolucion() { }
         public Devolucion(int id, int idComunidad, Date fecha, List<IngresoDevuelto> devoluciones)

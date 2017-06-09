@@ -59,8 +59,8 @@
     <Compile Include="AutoCodigo\AutoCodigo.cs" />
     <Compile Include="AutoCodigo\AutoCodigoConsistencyChecker.cs" />
     <Compile Include="AutoCodigo\AutoCodigoData.cs" />
-    <Compile Include="Base\iBaja.cs" />
-    <Compile Include="Base\iConCodigo.cs" />
+    <Compile Include="ObjModelsHelpers\iBaja.cs" />
+    <Compile Include="ObjModelsHelpers\iConCodigo.cs" />
     <Compile Include="Comunidad.cs" />
     <Compile Include="DapperMapperQueryBuilder\Mapper\Mapper.cs" />
     <Compile Include="DapperMapperQueryBuilder\Mapper\MapperConfig.cs" />

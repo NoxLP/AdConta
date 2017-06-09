@@ -47,7 +47,7 @@ namespace AdConta.Models
         //    return false;
         //}
         protected ACodigoCCheckType GetCCheckType<T>()
-            where T : iConCodigo
+            where T : IConCodigo
         {
             //Type t = typeof(T);
             //if (t == typeof(Comunidad)) return ACodigoCCheckType.Comunidad;
@@ -78,7 +78,7 @@ namespace AdConta.Models
             return codigo;
         }
         protected bool TrySetOnHoldAndGetIfConsistencyCheckNeeded<T>(ref int newCodigo, int idCdad)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             if (!this._Data.TrySetCodigoOnHold<T>(this, idCdad))
             {
@@ -95,7 +95,7 @@ namespace AdConta.Models
             return false;
         }
         protected bool TrySetOnHoldAndGetIfConsistencyCheckNeeded<T>(ref int newCodigo, int idCdad, int idEjer)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             if (!this._Data.TrySetCodigoOnHold<T>(this, idCdad, idEjer))
             {
@@ -123,7 +123,7 @@ namespace AdConta.Models
             int noconCount, 
             bool nocon,
             bool prevMax = false)
-            where T : iObjModelConCodigo
+            where T : IObjModelConCodigo
         {
             string msgData = $@"
 Type: {typeof(T)}
@@ -176,7 +176,7 @@ Comunidad: {id}";
             int noconCount,
             bool nocon,
             bool prevMax = false)
-            where T : iObjModelConCodigoConComunidadYEjercicio
+            where T : IObjModelConCodigoConComunidadYEjercicio
         {
             string msgData = $@"
 Type: {typeof(T)}
@@ -255,7 +255,7 @@ Ejercicio: {id.Item2}";
     }
 
     public sealed class AutoCodigoNoOwner<T> : aAutoCodigoBase
-        where T : iObjModelConCodigo
+        where T : IObjModelConCodigo
     {
         public AutoCodigoNoOwner(AutoCodigoData data, int currentCodigo = 0) : base(data, currentCodigo)
         {
@@ -636,7 +636,7 @@ No se pudo ocupar el codigo por error al intentar añadir SQLOnHold.";
     }
 
     public sealed class AutoCodigoOwnerCdad<T> : aAutoCodigoBase
-        where T : iObjModelConCodigoConComunidad
+        where T : IObjModelConCodigoConComunidad
     {
         public AutoCodigoOwnerCdad(AutoCodigoData data, ACodigoCCheckType type, int currentCodigo = 0) : base(data, currentCodigo)
         {
@@ -1050,7 +1050,7 @@ No se pudo ocupar el codigo por error al intentar añadir SQLOnHold.";
     }
 
     public sealed class AutoCodigoOwnerCdEj<T> : aAutoCodigoBase
-        where T : iObjModelConCodigoConComunidadYEjercicio
+        where T : IObjModelConCodigoConComunidadYEjercicio
     {
         public AutoCodigoOwnerCdEj(AutoCodigoData data, int currentCodigo = 0) : base(data, currentCodigo)
         {

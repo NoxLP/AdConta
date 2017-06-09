@@ -16,9 +16,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_ModifyButtonClick : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_ModifyButtonClick(VMTabBase tab)
+        public Command_ModifyButtonClick(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -45,9 +45,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_SaveButtonClick : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_SaveButtonClick(VMTabBase tab)
+        public Command_SaveButtonClick(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -77,9 +77,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_CopyAccount : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_CopyAccount(VMTabBase tab)
+        public Command_CopyAccount(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -106,9 +106,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_PasteAccount : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_PasteAccount(VMTabBase tab)
+        public Command_PasteAccount(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -137,9 +137,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_NextRecord_Cdad : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_NextRecord_Cdad(VMTabBase tab)
+        public Command_NextRecord_Cdad(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -165,9 +165,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_PrevRecord_Cdad : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_PrevRecord_Cdad(VMTabBase tab)
+        public Command_PrevRecord_Cdad(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -193,9 +193,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_NextRecord_Mayor : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_NextRecord_Mayor(VMTabBase tab)
+        public Command_NextRecord_Mayor(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -222,9 +222,9 @@ namespace AdConta.ViewModel
     /// </summary>
     public class Command_PrevRecord_Mayor : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_PrevRecord_Mayor(VMTabBase tab)
+        public Command_PrevRecord_Mayor(aVMTabBase tab)
         {
             this._tab = tab;
         }

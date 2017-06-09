@@ -8,7 +8,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Recibo : iObjModelBase, iOwnerComunidad
+    public class Recibo : IObjModelBase, IOwnerComunidad
     {
         private Recibo() { }
         public Recibo(int id, int idCdad, decimal importe, Date fecha, string concepto, List<Cobro> cobros, List<EntACta> entACtas)

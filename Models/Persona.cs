@@ -7,7 +7,7 @@ using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
-    public class Persona : iObjModelBase
+    public class Persona : IObjModelBase
     {
         public Persona(int id, string nif, string nombre, bool forceInvalidNIF = false)
         {

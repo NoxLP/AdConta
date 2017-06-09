@@ -7,7 +7,7 @@ using Dapper.Contrib.Extensions;
 
 namespace AdConta.Models
 {
-    public class Concepto : iObjModelBase
+    public class Concepto : IObjModelBase
     {
         public Concepto(int id)
         {

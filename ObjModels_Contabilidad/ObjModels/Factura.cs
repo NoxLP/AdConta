@@ -9,7 +9,7 @@ using Extensions;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Factura : iObjModelBase, iOwnerProveedor, iOwnerComunidad
+    public class Factura : IObjModelBase, IOwnerProveedor, IOwnerComunidad
     {
         #region constructors
         private Factura() { }
@@ -63,7 +63,7 @@ namespace ModuloContabilidad.ObjModels
         }
         #endregion
 
-        public class FacturaDLO : iObjModelBase, iDataListObject
+        public class FacturaDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(

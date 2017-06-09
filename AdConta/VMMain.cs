@@ -24,12 +24,12 @@ namespace AdConta
     {
         public VMMain()
         {
-            Tabs = new ObservableCollection<VMTabBase>();
+            Tabs = new ObservableCollection<aVMTabBase>();
             this.SetMinMaxLedgeAccountsCod();
         }
 
         #region fields
-        private ObservableCollection<VMTabBase> _Tabs;
+        private ObservableCollection<aVMTabBase> _Tabs;
         private int _LastComCod = 0;
         private int _zIndex = 1;
         #endregion
@@ -38,7 +38,7 @@ namespace AdConta
         /// <summary>
         /// Collection Abletabcontrol tabs. Binded here.
         /// </summary>
-        public ObservableCollection<VMTabBase> Tabs
+        public ObservableCollection<aVMTabBase> Tabs
         {
             get { return this._Tabs; }
             set
@@ -98,7 +98,7 @@ namespace AdConta
         /// <param name="type">See enum</param>
         public void AddTab(TabType type)
         {
-            VMTabBase tab;
+            aVMTabBase tab;
             TabHeader TabHeaders = new TabHeader();
             AbleTabControl.AbleTabControl ATC = (App.Current.MainWindow as MainWindow).AbleTabControl;
             TabbedExpander TopTabExp = ATC.FindVisualChild<TabbedExpander>(x => (x as TabbedExpander).Name == "TopTabbedExpander");

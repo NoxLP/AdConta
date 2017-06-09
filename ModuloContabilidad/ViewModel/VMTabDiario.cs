@@ -37,6 +37,11 @@ namespace ModuloContabilidad
         {
             throw new NotImplementedException();
         }
+
+        public override void CleanUnitOfWork()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

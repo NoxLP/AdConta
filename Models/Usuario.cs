@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdConta.Models
 {
-    public class Usuario : iObjModelBase
+    public class Usuario : IObjModelBase
     {
         public Usuario(string nick, int id)
         {

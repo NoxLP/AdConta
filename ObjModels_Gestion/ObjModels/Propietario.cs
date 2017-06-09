@@ -9,7 +9,7 @@ using AdConta.Models;
 
 namespace ModuloGestion.ObjModels
 {
-    public class Propietario : Persona, iOwnerComunidad
+    public class Propietario : Persona, IOwnerComunidad
     {
         public Propietario(int id, int idComunidad, string nif, string nombre, bool forceInvalidNIF = false) 
             : base(id, nif, nombre, forceInvalidNIF)
@@ -18,7 +18,7 @@ namespace ModuloGestion.ObjModels
             this._IdOwnerComunidad = idComunidad;
         }
 
-        public class PropietarioDLO : iObjModelBase, iDataListObject
+        public class PropietarioDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(

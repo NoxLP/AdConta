@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class Apunte : iObjModelBase, iOwnerComunidad
+    public class Apunte : IObjModelBase, IOwnerComunidad
     {
         public Apunte() { }
         public Apunte(int id, int idComunidad, Asiento asiento, string FacturaId = null)
@@ -74,7 +74,7 @@ namespace ModuloContabilidad.ObjModels
         #endregion
     }
 
-    public class Asiento : iObjModelBase, iObjModelConCodigoConComunidadYEjercicio, iOwnerComunidad, iOwnerEjercicio 
+    public class Asiento : IObjModelBase, IObjModelConCodigoConComunidadYEjercicio, IOwnerComunidad, IOwnerEjercicio 
         //<- owners Incluidos en iObjModelConCodigoConComunidad
     {
         public Asiento(int id, int idComunidad, int idEjercicio, int codigo, AutoCodigoData ACData)
@@ -229,11 +229,6 @@ namespace ModuloContabilidad.ObjModels
 
             _Abierto = false;
             return true;
-        }
-
-        public bool TrySetCodigo(int codigo, ref List<int> codigos)
-        {
-            return false;
         }
 
         public Tuple<int, int> GetOwnersIds()

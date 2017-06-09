@@ -8,11 +8,12 @@ using AdConta.Models;
 using ModuloContabilidad.ObjModels;
 using ModuloGestion.ObjModels;
 
-namespace AdConta
+namespace Repository
 {
     public interface iAppRepositories
     {
         #region general
+        PersonaRepository PersonaRepo { get; }
         /*Repository<Concepto> ConceptosRepository { get; }
         Repository<Ejercicio> EjerciciosRepository { get; }
         #endregion

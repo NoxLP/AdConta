@@ -49,7 +49,7 @@
     <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
     <Compile Include="TabbedExpanderItemsVM\aTabbedExpanderFillerBase.cs" />
     <Compile Include="VMAsientoBase.cs" />
-    <Compile Include="VMTabBase.cs" />
+    <Compile Include="aVMTabBase.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

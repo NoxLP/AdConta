@@ -10,7 +10,7 @@ using AdConta.Models;
 namespace ModuloGestion.ObjModels
 {
     public class Finca : 
-        iObjModelBase, iObjModelConCodigoConComunidad, iOwnerComunidad /*<- owner Incluido en iObjModelConCodigoConComunidad*/, iBaja//, iObjWithDLO<Finca.FincaDLO>
+        IObjModelBase, IObjModelConCodigoConComunidad, IOwnerComunidad /*<- owner Incluido en iObjModelConCodigoConComunidad*/, IBaja//, iObjWithDLO<Finca.FincaDLO>
     {
         #region constructors
         private Finca() { }
@@ -72,7 +72,7 @@ namespace ModuloGestion.ObjModels
         }
         #endregion
 
-        public class FincaDLO : iObjModelBase, iOwnerComunidad, iDataListObject
+        public class FincaDLO : IObjModelBase, IOwnerComunidad, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(

@@ -18,7 +18,7 @@ namespace MQBStatic
 
         #region fields
         protected static readonly object _StoreLockObject = new object();
-        protected static Dictionary<Type, iDapperMapper> _Mappers;
+        protected static Dictionary<Type, IDapperMapper> _Mappers;
         protected static List<Type> _TypesToMap;
         #endregion
 
@@ -30,7 +30,7 @@ namespace MQBStatic
                 lock (_StoreLockObject)
                 {
                     if (_Mappers == null)
-                        _Mappers = new Dictionary<Type, iDapperMapper>();
+                        _Mappers = new Dictionary<Type, IDapperMapper>();
                 }
             }
             if (_TypesToMap == null)

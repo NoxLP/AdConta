@@ -19,7 +19,7 @@ namespace Mapper
             bool isAnInterface,
             bool cleanResult, 
             Type memberType, 
-            iDapperMapper masterMapper)
+            IDapperMapper masterMapper)
         {
             Type masterType = masterMapper.TType;
             if(!cleanResult && !nested)
@@ -38,14 +38,14 @@ namespace Mapper
         #endregion
 
         #region result parsers
-        protected dynamic GetCleanResult(IEnumerable<dynamic> result, iDapperMapper mapper, bool clean)
+        protected dynamic GetCleanResult(IEnumerable<dynamic> result, IDapperMapper mapper, bool clean)
         {
             PrePostFixesParser parser = new PrePostFixesParser(mapper);
 
             if (!clean) return result.Select(dyn => parser.GetTypeMembersWithoutPrePostFixes(dyn, mapper.NamesList));
             else return result.Select(dyn => parser.RemovePrePostFixesFromDictionary(dyn));
         }
-        protected dynamic GetCleanResult(dynamic dyn, iDapperMapper keysMapper, iDapperMapper valuesMapper, bool clean)
+        protected dynamic GetCleanResult(dynamic dyn, IDapperMapper keysMapper, IDapperMapper valuesMapper, bool clean)
         {
             var KeysParser = new PrePostFixesParser(keysMapper);
             var ValuesParser = new PrePostFixesParser(valuesMapper);
@@ -68,7 +68,7 @@ namespace Mapper
 
             return typeMembers;
         }
-        protected dynamic GetCleanResult(dynamic dyn, iDapperMapper keysMapper, string valuesName, bool clean)
+        protected dynamic GetCleanResult(dynamic dyn, IDapperMapper keysMapper, string valuesName, bool clean)
         {
             var KeysParser = new PrePostFixesParser(keysMapper);
             var typeMembers = new ExpandoObject() as IDictionary<string, object>;
@@ -86,7 +86,7 @@ namespace Mapper
 
             return typeMembers;
         }
-        protected dynamic GetCleanResult(dynamic dyn, string keysName, iDapperMapper valuesMapper, bool clean)
+        protected dynamic GetCleanResult(dynamic dyn, string keysName, IDapperMapper valuesMapper, bool clean)
         {
             var ValuesParser = new PrePostFixesParser(valuesMapper);
             var typeMembers = new ExpandoObject() as IDictionary<string, object>;
@@ -166,8 +166,8 @@ required to create dictionary {memberName} keys in {masterType.Name}. Key-value 
                     if (valuesAreInterface)
                         valuesType = ResolveInterface(valuesType, dResult);
                 }
-                iDapperMapper keysNestedMapper = store.GetMapper(keysType);
-                iDapperMapper valuesNestedMapper = store.GetMapper(valuesType);
+                IDapperMapper keysNestedMapper = store.GetMapper(keysType);
+                IDapperMapper valuesNestedMapper = store.GetMapper(valuesType);
 
                 //if there aren't any key correct, exception
                 if (keysNestedMapper != null && !keysNestedMapper.CheckIfDynamicHasAllTypeMembersByName(dResult.First()))
@@ -285,7 +285,7 @@ required to create dictionary {memberName} in {masterType.Name}. Key-value names
                         !(typeof(IEnumerable).IsAssignableFrom(genericType) && !typeof(string).IsAssignableFrom(genericType));
                 if (genericIsInterface) genericType = ResolveInterface(genericType, cleanDapperResult);
                 MapperStore store = new MapperStore();
-                iDapperMapper nestedMapper = store.GetMapper(genericType);
+                IDapperMapper nestedMapper = store.GetMapper(genericType);
 
                 if (typeof(IList).IsAssignableFrom(enumType))
                 {

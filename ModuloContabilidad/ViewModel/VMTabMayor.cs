@@ -14,6 +14,7 @@ using AdConta.ViewModel;
 using ModuloContabilidad.Models;
 using TabbedExpanderCustomControl;
 using Extensions;
+using Repository;
 
 namespace ModuloContabilidad
 {
@@ -295,9 +296,9 @@ namespace ModuloContabilidad
     /// </summary>
     public class Command_NewAsientoSimple : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_NewAsientoSimple(VMTabBase tab)
+        public Command_NewAsientoSimple(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -358,9 +359,9 @@ namespace ModuloContabilidad
 
     public class Command_Punteo : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_Punteo(VMTabBase tab)
+        public Command_Punteo(aVMTabBase tab)
         {
             this._tab = tab;
         }

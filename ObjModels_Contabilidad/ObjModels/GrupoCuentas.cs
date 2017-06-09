@@ -7,7 +7,7 @@ using AdConta.Models;
 
 namespace ModuloContabilidad.ObjModels
 {
-    public class GrupoCuentas : iObjModelBase, iOwnerComunidadNullable
+    public class GrupoCuentas : IObjModelBase, IOwnerComunidadNullable
     {
         #region constructors
         public GrupoCuentas(int id, int idComunidad, string accountNumber)

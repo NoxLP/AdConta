@@ -15,7 +15,7 @@ namespace AdConta.Models
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
 
-    public interface iGrupoGastos : iObjModelBase, iOwnerComunidad, iOwnerPresupuesto
+    public interface iGrupoGastos : IObjModelBase, IOwnerComunidad, IOwnerPresupuesto
     {
         bool CoeficientesCustom { get; }
         decimal Importe { get; }
@@ -44,7 +44,7 @@ namespace AdConta.Models
             this._Importe = this.Cuentas.Select(x => x.SaldoAlAñadirLaCuenta).Sum();
         }
 
-        public class GrupoGastosDLO : iObjModelBase, iDataListObject
+        public class GrupoGastosDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(
@@ -294,7 +294,7 @@ namespace AdConta.Models
         }
 
         #region data structs
-        public struct sDatosFincaGGAceptado : iOwnerFinca, iOwnerGrupoGasto
+        public struct sDatosFincaGGAceptado : IOwnerFinca, IOwnerGrupoGasto
         {
             public int Id { get; private set; }
             public int IdOwnerFinca { get; private set; }
@@ -318,7 +318,7 @@ namespace AdConta.Models
                 this.CodigoFinca = codigoF;
             }
         }
-        public struct sDatosCuotaGGAceptado : iOwnerGrupoGasto, iOwnerCuota
+        public struct sDatosCuotaGGAceptado : IOwnerGrupoGasto, IOwnerCuota
         {
             public int Id { get; private set; }
             public int IdOwnerGrupoGasto { get; private set; }
@@ -334,7 +334,7 @@ namespace AdConta.Models
                 this.Concepto = concepto;
             }
         }
-        public struct sDatosCuentaGGAceptado : iOwnerGrupoGasto
+        public struct sDatosCuentaGGAceptado : IOwnerGrupoGasto
         {
             public int Id { get; private set; }
             public int IdOwnerGrupoGasto { get; private set; }

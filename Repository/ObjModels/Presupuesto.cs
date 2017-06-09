@@ -14,7 +14,7 @@ namespace AdConta.Models
     //Si se cambia el GrupoGasto original, cuando se abra el presupuesto debería haber un mensaje de advertencia, pidiendo si se quiere
     //usar los nuevos datos, o los ya guardados.
     //---------------------------------------------------
-    public class Presupuesto : iObjModelBase, iObjModelConCodigoConComunidad, iOwnerEjercicio, iOwnerComunidad //<- ownerComunidad Incluido en iObjModelConCodigoConComunidad
+    public class Presupuesto : IObjModelBase, IObjModelConCodigoConComunidad, IOwnerEjercicio, IOwnerComunidad //<- ownerComunidad Incluido en iObjModelConCodigoConComunidad
     {
         private Presupuesto() { }
         public Presupuesto(
@@ -29,7 +29,7 @@ namespace AdConta.Models
             this._GruposDeGasto = new List<iGrupoGastos>();
         }
 
-        public class PresupuestoDLO : iObjModelBase, iDataListObject
+        public class PresupuestoDLO : IObjModelBase, IDataListObject
         {
             public void SetProperties() { throw new CustomException_DataListObjects(); }
             public void SetProperties(
