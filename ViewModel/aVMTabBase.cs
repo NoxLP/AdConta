@@ -11,10 +11,15 @@ using System.Collections.Specialized;
 
 namespace AdConta.ViewModel
 {
+    interface IVMTabBaseWithUoW
+    {
+        void CleanUnitOfWork();
+        Task InitUoWAsync();
+    }
     /// <summary>
     /// Base for all Abletabcontrol tabs's viewmodels.
     /// </summary>
-    public abstract class aVMTabBase : DataTableHelperVMBase/*<- OJO esto ya no es necesario*/, IPublicNotify
+    public abstract class aVMTabBase : DataTableHelperVMBase/*<- OJO esto ya no deberia ser necesario*/, IPublicNotify, IVMTabBaseWithUoW
     {
         #region fields
         private int _TabComCod = 0;
@@ -165,5 +170,6 @@ namespace AdConta.ViewModel
         #endregion
 
         public abstract void CleanUnitOfWork();
+        public abstract Task InitUoWAsync();
     }
 }

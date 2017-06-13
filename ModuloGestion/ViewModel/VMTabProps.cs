@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using AdConta;
 using AdConta.ViewModel;
+using Repository;
+using Extensions;
 
 namespace ModuloGestion
 {
@@ -21,7 +23,12 @@ namespace ModuloGestion
                 MessageBox.Show("No se pudo abrir la pestaña de libro mayor por falta del código de Comunidad");
                 return;
             }
+            InitUoWAsync().Forget().ConfigureAwait(false);
         }
+
+        #region properties
+        public UnitOfWork UOW { get; private set; }
+        #endregion
 
         #region datatablehelpers overrided methods
         public override T GetValueFromTable<T>(string column)
@@ -36,6 +43,27 @@ namespace ModuloGestion
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region UoW
+        /// <summary>
+        /// Llamado por AbleTabControl cuando se cierra la pestaña
+        /// </summary>
+        public override void CleanUnitOfWork()
+        {
+            this.UOW.RemoveVMTabReferencesFromRepos();
+        }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task InitUoWAsync()
+        {
+            iAppRepositories appRepos = (iAppRepositories)Application.Current;
+            HashSet<iRepository> repos = new HashSet<iRepository>();
+
+            repos.Add(appRepos.PropietarioRepo);
+
+            this.UOW = new UnitOfWork(repos, this);
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
     }
 }

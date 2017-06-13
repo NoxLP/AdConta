@@ -77,7 +77,9 @@ namespace ModuloContabilidad.ObjModels
         private decimal _IGICIVA;
         private double _PerUnitIRPF;
         private decimal _IRPF;
+#pragma warning disable CS0169
         private decimal _Total;
+#pragma warning restore CS0169
         private decimal _Pendiente;
         #endregion
 

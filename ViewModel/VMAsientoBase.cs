@@ -13,7 +13,9 @@ namespace AdConta.ViewModel
         #region fields
         private TabExpTabType _Type;
         private int _TabComCod = 0;
+#pragma warning disable CS0414
         private bool _Expandible = true;
+#pragma warning restore CS0414
 
         private bool _IsSelected;
         private bool _IsWindowed;

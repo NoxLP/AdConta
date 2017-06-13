@@ -57,7 +57,7 @@ namespace AdConta
             {
                 this._LastComCod = value;
                 Messenger.Messenger.RegisterMsg("LastComCod", value);
-                int i = 0;
+                //int i = 0;
 
             }
         }

@@ -32,6 +32,9 @@ namespace ModuloContabilidad
                 MessageBox.Show("No se pudo abrir la pestaña de libro mayor por falta del código de Comunidad");
                 return;
             }
+
+            Task.Run(()=> InitUoWAsync()).Forget().ConfigureAwait(false);
+
             this._model = new TabMayorModel(base.TabComCod);
             this._StatusGridSource = new DataTable();
             this.PopulateStatusGrid();
@@ -57,6 +60,7 @@ namespace ModuloContabilidad
         #endregion
 
         #region properties
+        public UnitOfWork UOW { get; private set; }
         public string Nombre { get; set; }
         public string AccountCod
         {
@@ -288,6 +292,28 @@ namespace ModuloContabilidad
         {
             return this._model.CurrentAccount.IsLastAccount();
         }
+        #endregion
+
+        #region UoW
+        /// <summary>
+        /// Llamado por AbleTabControl cuando se cierra la pestaña
+        /// </summary>
+        public override void CleanUnitOfWork()
+        {
+            this.UOW.RemoveVMTabReferencesFromRepos();
+        }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task InitUoWAsync()
+        {
+            iAppRepositories appRepos = (iAppRepositories)Application.Current;
+            HashSet<iRepository> repos = new HashSet<iRepository>();
+
+            repos.Add(appRepos.CuentaMayorRepo);
+            repos.Add(appRepos.AsientoRepo);
+
+            this.UOW = new UnitOfWork(repos, this);
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
     }
 

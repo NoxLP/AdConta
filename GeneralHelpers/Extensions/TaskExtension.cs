@@ -12,7 +12,9 @@ namespace Extensions
             {
                 await task.ConfigureAwait(false);
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 throw;
             }

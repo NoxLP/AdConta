@@ -1113,6 +1113,8 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
                 con.Close();
             }
         }
+#pragma warning disable CS0628 // New protected member declared in sealed class
+        //Protected members for use with AutoCodigoData.AutoCodigoConsistencyCheker
         protected void AddOrUpdateMax(ACodigoCCheckType t, long id, int newMax)
         {
             if (!this._MaxCodigos.ContainsKey(t))
@@ -1139,6 +1141,7 @@ SELECT codigo FROM codigoscomunidades WHERE maximo=@max;"
             if (!this._DeletedCodigos.ContainsKey(t) || !this._DeletedCodigos[t].ContainsKey(id)) return;
             else this._DeletedCodigos[t][id] = this._DeletedCodigos[t][id].Except(deleted).ToList();
         }
+#pragma warning restore CS0628 // New protected member declared in sealed class
         #endregion
 
         #region consistency and others

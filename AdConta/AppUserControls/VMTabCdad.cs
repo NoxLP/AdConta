@@ -14,6 +14,8 @@ using System.Reflection;
 using AdConta.Models;
 using AdConta.ViewModel;
 using TabbedExpanderCustomControl;
+using Repository;
+using Extensions;
 
 namespace AdConta
 {
@@ -25,6 +27,8 @@ namespace AdConta
         public VMTabCdad() 
         {
             this.Type = TabType.Cdad;
+            InitUoWAsync().Forget().ConfigureAwait(false);
+
             base.InitializeComcod((App.Current.MainWindow.DataContext as VMMain).LastComCod);
             this._model = new TabCdadModel(this.TabComCod);
             this._model.CuentaBancaria = new CuentaBancaria();
@@ -52,6 +56,7 @@ namespace AdConta
         #endregion
 
         #region properties
+        public UnitOfWork UOW { get; private set; }
         public bool ReadOnlyALL
         {
             get { return this._ReadOnlyAll; }
@@ -688,6 +693,27 @@ namespace AdConta
             else
                 MessageBox.Show("El texto que intenta pegar no es una cuenta bancaria:" + "\n\r" + Clipboard.GetText());*/
         }
+        #endregion
+
+        #region UoW
+        /// <summary>
+        /// Llamado por AbleTabControl cuando se cierra la pestaña
+        /// </summary>
+        public override void CleanUnitOfWork()
+        {
+            this.UOW.RemoveVMTabReferencesFromRepos();
+        }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task InitUoWAsync()
+        {
+            iAppRepositories appRepos = (iAppRepositories)Application.Current;
+            HashSet<iRepository> repos = new HashSet<iRepository>();
+
+            repos.Add(appRepos.ComunidadRepo);
+
+            this.UOW = new UnitOfWork(repos, this);
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
     }
 }

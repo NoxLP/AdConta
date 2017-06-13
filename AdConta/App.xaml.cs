@@ -13,6 +13,7 @@ using ModuloContabilidad.ObjModels;
 using ModuloGestion.ObjModels;
 using Mapper;
 using Repository;
+using Extensions;
 
 namespace AdConta
 {
@@ -35,7 +36,8 @@ namespace AdConta
             //*************************
 
             this.ACData = new AutoCodigoData(this.UsuarioLogueado);
-            ConfigMappers();
+            Task.Run(() => ConfigMappersAsync()).Forget().ConfigureAwait(false);
+            Task.Run(() => InitRepositoriesAsync()).Forget().ConfigureAwait(false);
             //Genera lista de objModels en excel
             //Propietario p = new Propietario(0, 1, "0", "hola", true);
             //NameSpaceObjectsList.NamespaceObjectsList objsList = new NameSpaceObjectsList.NamespaceObjectsList(
@@ -51,7 +53,20 @@ namespace AdConta
         #endregion
 
         #region repositories
+        #region general
         public PersonaRepository PersonaRepo { get; private set; }
+        public ComunidadRepository ComunidadRepo { get; private set; }
+        #endregion
+
+        #region contabilidad
+        public CuentaMayorRepository CuentaMayorRepo { get; private set; }
+        public AsientoRepository AsientoRepo { get; private set; }
+        public ApunteRepository ApunteRepo { get; private set; }
+        #endregion
+
+        #region gestion
+        public PropietarioRepository PropietarioRepo { get; private set; }
+        #endregion
         #endregion
 
         protected override void OnStartup(StartupEventArgs e)
@@ -65,7 +80,19 @@ namespace AdConta
         }
 
         #region helpers
-        private void ConfigMappers()
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        private async Task InitRepositoriesAsync()
+        {
+            this.PersonaRepo = new PersonaRepository();
+            this.ComunidadRepo = new ComunidadRepository();
+
+            this.CuentaMayorRepo = new CuentaMayorRepository();
+            this.AsientoRepo = new AsientoRepository();
+            this.ApunteRepo = new ApunteRepository();
+
+            this.PropietarioRepo = new PropietarioRepository();
+        }
+        private async Task ConfigMappersAsync()
         {
             string[] namespaces = new string[] { "ModuloContabilidad.ObjModels", "ModuloGestion.ObjModels", "AdConta.Models"};
             MapperConfig mConfig = new MapperConfig(namespaces);
@@ -501,6 +528,7 @@ namespace AdConta
                 .AddNestedProperty<Recibo>(false, "_EntregasACuenta")
                 .EndConfig<Recibo>();
         }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
 
         /*protected override void OnExit(ExitEventArgs e)

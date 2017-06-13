@@ -17,7 +17,9 @@ namespace ModuloContabilidad.ObjModels
         #region fields
         private int _Id;
         private int _IdOwnerComunidad;
+#pragma warning disable CS0649
         private int _OrdenEnAsiento;
+#pragma warning restore CS0649
         private Asiento _Asiento;
         private DebitCredit _DebeHaber;
         private decimal _Importe;

@@ -27,34 +27,34 @@ namespace Repository
 
     public class UnitOfWork : iUnitOfWork
     {
-        public UnitOfWork(IEnumerable<iRepository> repositories, aVMTabBase tab, bool rollbackAllIfRollback = false)
+        public UnitOfWork(HashSet<iRepository> repositories, aVMTabBase tab, bool rollbackAllIfRollback = false)
         {
             this.RollbackAllIfRollback = rollbackAllIfRollback;
-            this._Repositories = repositories;
+            this.Repositories = repositories;
             this._Tab = tab;
-            InitRepoTransactions();
+            InitRepositories();
         }
 
         #region fields
         protected readonly string _strCon = GlobalSettings.Properties.Settings.Default.conta1ConnectionString;
-        private IEnumerable<iRepository> _Repositories;
         private aVMTabBase _Tab;
         private IDictionary<string,object> _Values;
         private ConditionsToCommitSQL _ConditionsToCommit = new ConditionsToCommitSQL();
         #endregion
 
         #region properties
+        public HashSet<iRepository> Repositories { get; private set; }
         public bool RollbackAllIfRollback { get; set; }
         public ConditionsToCommitSQL ConditionsToCommit { get { return this._ConditionsToCommit; } }
         #endregion
 
         #region helpers
-        private void InitRepoTransactions() { Parallel.ForEach(this._Repositories, repo => repo.NewVM(this._Tab)); }
+        private void InitRepositories() { Parallel.ForEach(this.Repositories, repo => repo.NewVM(this._Tab)); }
         private string PrepareTransaction()
         {
             string SQL = $"START TRANSACTION;{Environment.NewLine}";
             
-            foreach (iRepository repo in this._Repositories)
+            foreach (iRepository repo in this.Repositories)
             {
                 List<Tuple<QueryBuilder, IConditionToCommit>> tuples = repo.Transactions[this._Tab];
                 foreach(Tuple<QueryBuilder, IConditionToCommit> tuple in tuples)
@@ -72,12 +72,12 @@ namespace Repository
         #endregion
 
         #region public methods
-        public void RemoveVMTabReferencesFromRepos() { Parallel.ForEach(this._Repositories, repo => repo.RemoveVMTabReferences(this._Tab)); }
+        public void RemoveVMTabReferencesFromRepos() { Parallel.ForEach(this.Repositories, repo => repo.RemoveVMTabReferences(this._Tab)); }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task RollbackAsync()
         {
-            Parallel.ForEach(this._Repositories, repo => repo.RollbackRepoAsync(this._Tab).Forget().ConfigureAwait(false));
+            Parallel.ForEach(this.Repositories, repo => repo.RollbackRepoAsync(this._Tab).Forget().ConfigureAwait(false));
             this._ConditionsToCommit.Clear();
             this._Values.Clear();
         }
@@ -120,7 +120,7 @@ namespace Repository
                 //    con.Close();
                 //}
 
-                Parallel.ForEach(this._Repositories, repo => repo.ApplyChangesAsync(this._Tab).Forget().ConfigureAwait(false));
+                Parallel.ForEach(this.Repositories, repo => repo.ApplyChangesAsync(this._Tab).Forget().ConfigureAwait(false));
                 this._ConditionsToCommit.Clear();
                 this._Values.Clear();
                 return true;

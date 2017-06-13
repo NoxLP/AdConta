@@ -15,6 +15,7 @@ namespace ModuloContabilidad.ObjModels
     {
         public CuentaMayor(string accountNumber, int id, int idComunidad, int idEjercicio, string nombre, bool cuentaFalsa = false)
         {
+            this._Id = id;
             this.Codigo = accountNumber;
             this._IdOwnerComunidad = idComunidad;
             this._IdOwnerEjercicio = idEjercicio;

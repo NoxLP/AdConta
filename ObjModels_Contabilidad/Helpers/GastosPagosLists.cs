@@ -67,7 +67,7 @@ namespace ModuloContabilidad.ObjModels
 
             base._List.RemoveRange(index, count);
         }
-        public ReadOnlyGastosPagosList<T> AsReadOnly()
+        public new ReadOnlyGastosPagosList<T> AsReadOnly()
         {
             return new ReadOnlyGastosPagosList<T>(this._List, this._Total);
         }

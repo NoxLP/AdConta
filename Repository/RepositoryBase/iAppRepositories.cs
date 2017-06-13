@@ -14,34 +14,17 @@ namespace Repository
     {
         #region general
         PersonaRepository PersonaRepo { get; }
-
-        /*Repository<Concepto> ConceptosRepository { get; }
-        Repository<Ejercicio> EjerciciosRepository { get; }
-        #endregion
-        #region gestion
-        Repository<Propietario> PropietariosRepository { get; }
-        Repository<Cuota> CuotasRepository { get; }
-        Repository<Devolucion> DevolucionesRepository { get; }
-        Repository<Finca> FincasRepository { get; }
-        Repository<Recibo> RecibosRepository { get; }
-        Repository<Cobro> CobrosRepository { get; }
-        Repository<EntACta> EntregasACtaRepository { get; }
-        #endregion
-        #region contabilidad
-        Repository<Proveedor> ProveedoresRepository { get; }
-        Repository<Apunte> ApuntesRepository { get; }
-        Repository<aAsiento> AsientosRepository { get; }
-        Repository<Factura> FacturasRepository { get; }
-        Repository<Gasto> GastosRepository { get; }
-        Repository<GruposCuentas> GruposCuentasRepository { get; }
-        Repository<CuentaMayor> CuentasMayorRepository { get; }
-        Repository<Pago> PagosRepository { get; }*/
+        ComunidadRepository ComunidadRepo { get; }
         #endregion
 
         #region contabilidad
+        CuentaMayorRepository CuentaMayorRepo { get; }
+        AsientoRepository AsientoRepo { get; }
+        ApunteRepository ApunteRepo { get; }
         #endregion
 
         #region gestion
+        PropietarioRepository PropietarioRepo { get; }
         #endregion
     }
 }

@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 using AdConta;
 using AdConta.ViewModel;
 using TabbedExpanderCustomControl;
+using Repository;
+using Extensions;
+using System.Windows;
 
 namespace ModuloContabilidad
 {
@@ -15,7 +18,12 @@ namespace ModuloContabilidad
         public VMTabDiario()
         {
             base.Type = TabType.Diario;
+            Task.Run(() => InitUoWAsync()).Forget().ConfigureAwait(false);
         }
+
+        #region properties
+        public UnitOfWork UOW { get; private set; }
+        #endregion
 
         #region tabbed expander
         public override ObservableCollection<TabExpTabItemBaseVM> TopTabbedExpanderItemsSource { get; set; }
@@ -37,11 +45,28 @@ namespace ModuloContabilidad
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+        #region UoW
+        /// <summary>
+        /// Llamado por AbleTabControl cuando se cierra la pestaña
+        /// </summary>
         public override void CleanUnitOfWork()
         {
-            throw new NotImplementedException();
+            this.UOW.RemoveVMTabReferencesFromRepos();
         }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task InitUoWAsync()
+        {
+            iAppRepositories appRepos = (iAppRepositories)Application.Current;
+            HashSet<iRepository> repos = new HashSet<iRepository>();
+
+            repos.Add(appRepos.ApunteRepo);
+            repos.Add(appRepos.AsientoRepo);
+
+            this.UOW = new UnitOfWork(repos, this);
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
     }
 }

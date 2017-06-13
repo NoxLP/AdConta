@@ -39,7 +39,7 @@ namespace AdConta.ModelControl
         private int _Id;
         internal Dictionary<int, Ejercicio> _Ejercicios;
         //internal Dictionary<int, Presupuesto> _Presupuestos;
-        internal List<int> prueba;
+        //internal List<int> prueba;
         #endregion
 
         #region properties

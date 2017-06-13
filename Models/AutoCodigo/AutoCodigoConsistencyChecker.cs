@@ -95,6 +95,7 @@ namespace AdConta.Models
                     con.Close();
                 }
             }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             public async Task ApplyDictionariesChangesToData()
             {
                 foreach (KeyValuePair<long, int> kvp in this.Changes_NewMax) this.Data.AddOrUpdateMax(CCheckType, kvp.Key, kvp.Value);
@@ -102,6 +103,7 @@ namespace AdConta.Models
                 foreach (KeyValuePair<long, HashSet<int>> kvp in this.Changes_AddToNoCon) this.Data.AddOrUnionNoCon(CCheckType, kvp.Key, kvp.Value);
                 foreach (KeyValuePair<long, HashSet<int>> kvp in this.Changes_RemoveFromDeleted) this.Data.TryRemoveFromDeleted(CCheckType, kvp.Key, kvp.Value);
             }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             #endregion
 
             #region max helpers
@@ -191,6 +193,7 @@ namespace AdConta.Models
 
                 return "";
             }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             private async Task<string> CheckMaxOwnerCdadAsync(IEnumerable<dynamic> dynamics, string table, IDictionary<string, object> values)
             {
                 SemaphoreSlim sphr = new SemaphoreSlim(1, 1);
@@ -263,6 +266,7 @@ namespace AdConta.Models
 
                 return sb.ToString();
             }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             #endregion
 
             #region nocon helpers
@@ -321,6 +325,7 @@ namespace AdConta.Models
                     (Id, set) => (HashSet<int>)set.Union(corrections.Changes_RemoveFromDeleted));
                 sphr.Release();
             }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             private async Task<string> CheckNoConNoOwnersAsync(IEnumerable<dynamic> dynamics, string table, IDictionary<string, object> values)
             {
                 IEnumerable<dynamic> noConSmallerThanMax = dynamics.Where(dyn => dyn.Codigo < this.CalculatedMaxs[0]);
@@ -410,13 +415,16 @@ namespace AdConta.Models
                 });
                 return sb.ToString();
             }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             #endregion
 
             #region public methods
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             public async Task CheckConsistencyOfTypeAsync(ACodigoCCheckType type)
             {
                 switch (type)
                 {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                     case ACodigoCCheckType.Comunidad:
                         ComunidadCheckConsistencyAsync().Forget().ConfigureAwait(false);
                         break;
@@ -430,8 +438,10 @@ namespace AdConta.Models
                         AsientoCheckConsistencyAsync().Forget().ConfigureAwait(false);
                         break;
                     default: return;
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 }
             }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             public async Task ComunidadCheckConsistencyAsync()
             {
                 IEnumerable<dynamic> comunidades;
@@ -543,11 +553,13 @@ namespace AdConta.Models
                 ExecuteAsyncSQLAsync(sb, (ExpandoObject)values).Forget().ConfigureAwait(false);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             public async Task ReArrangeAsientosAsync<T>(bool byDate)
                 where T : IObjModelConCodigoConComunidadYEjercicio
             {
                 //TODO
             }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             #endregion
         }
     }
