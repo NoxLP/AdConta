@@ -136,7 +136,7 @@ namespace AdConta
 
         public new string Description { get; set; }
     }
-
+    
     public enum ConditionTCType { equal, diff, greater, lesser, greatOrEq, lessOrEq }
     #endregion
 }

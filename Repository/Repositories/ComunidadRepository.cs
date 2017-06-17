@@ -9,7 +9,7 @@ using QBuilder;
 
 namespace Repository
 {
-    public class ComunidadRepository : aRepositoryBase, iRepository
+    public class ComunidadRepository : aRepositoryBase, IRepository
     {
         public ComunidadRepository()
         {

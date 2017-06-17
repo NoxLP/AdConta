@@ -41,6 +41,14 @@ namespace QBuilder
         {
             _Parameters.Add(name, value);
         }
+        /// <summary>
+        /// Only works with c# built-in objects. Name of the params is: "@{paramsPrefix}{param.ToString}".
+        /// </summary>
+        /// <param name="paramsObjects"></param>
+        public void StoreParameters(IEnumerable<object> paramsObjects, string paramsPrefix)
+        {
+            foreach (object param in paramsObjects) _Parameters.Add($"@{paramsPrefix}{param}", param);
+        }
         public void StoreParametersFrom<T>(T obj, string paramSuffix = "")
         {
             Type t = typeof(T);

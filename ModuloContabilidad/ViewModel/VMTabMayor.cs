@@ -18,6 +18,11 @@ using Repository;
 
 namespace ModuloContabilidad
 {
+    //++++++++++++++++++++++++++++++++++ OJO +++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //TODO: CUANDO SE CAMBIA DE CUENTA ESPERAR 2-3 SEGUNDOS ANTES DE PEDIR A LA BD LA NUEVA CUENTA
+    //POR SI SOLO SE ESTA PASANDO DE UNA CUENTA A OTRA LEJANA
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public enum Mayor_SearchType : int { Fecha = 0, Concepto, Importe, ImporteDebe, ImporteHaber, Recibo, Factura }
 
     public class VMTabMayor : aTabsWithTabExpVM
@@ -60,6 +65,9 @@ namespace ModuloContabilidad
         #endregion
 
         #region properties
+        public CuentaMayorRepository CuentaRepo { get; private set; }
+        public AsientoRepository AsientoRepo { get; private set; }
+        public ApunteRepository ApunteRepo { get; private set; }
         public UnitOfWork UOW { get; private set; }
         public string Nombre { get; set; }
         public string AccountCod
@@ -298,20 +306,27 @@ namespace ModuloContabilidad
         /// <summary>
         /// Llamado por AbleTabControl cuando se cierra la pestaña
         /// </summary>
-        public override void CleanUnitOfWork()
-        {
-            this.UOW.RemoveVMTabReferencesFromRepos();
-        }
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task CleanUnitOfWork()
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            this.UOW.RemoveVMTabReferencesFromRepos().Forget().ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
         public override async Task InitUoWAsync()
         {
             iAppRepositories appRepos = (iAppRepositories)Application.Current;
-            HashSet<iRepository> repos = new HashSet<iRepository>();
+            HashSet<IRepository> repos = new HashSet<IRepository>();
 
             repos.Add(appRepos.CuentaMayorRepo);
             repos.Add(appRepos.AsientoRepo);
-
+            repos.Add(appRepos.ApunteRepo);
             this.UOW = new UnitOfWork(repos, this);
+
+            this.CuentaRepo = appRepos.CuentaMayorRepo;
+            this.AsientoRepo = appRepos.AsientoRepo;
+            this.ApunteRepo = appRepos.ApunteRepo;
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion

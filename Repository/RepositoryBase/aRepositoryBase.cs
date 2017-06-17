@@ -14,10 +14,6 @@ namespace Repository
 {
     public abstract class aRepositoryBase : MQBStatic_QBuilder, IDisposable
     {
-        public aRepositoryBase()
-        {
-        }
-
         #region fields
         protected SemaphoreSlim _RepoSphr = new SemaphoreSlim(1, 1);
         protected readonly string _strCon = GlobalSettings.Properties.Settings.Default.conta1ConnectionString;
@@ -27,8 +23,32 @@ namespace Repository
         #endregion
 
         #region helpers
-        protected abstract QueryBuilder GetSelectSQL(int id);
+        public abstract Type GetObjModelType();
+        #endregion
+
+        #region SQL helpers
+        protected virtual QueryBuilder GetSelectSQL(int id)
+        {
+            Type t = GetObjModelType();
+            QueryBuilder qBuilder = new QueryBuilder();
+            qBuilder
+                .AddSelect(t)
+                .AddFrom(t)
+                .AddWhere(new SQLCondition("Id", "@id"));
+            qBuilder.StoreParameter("id", id);
+            return qBuilder;
+        }
         protected virtual QueryBuilder GetUpdateSQL(int id, aVMTabBase VM) { throw new NotImplementedException(); }
+        protected virtual QueryBuilder GetDeleteSQL(int id)
+        {
+            Type t = GetObjModelType();
+            QueryBuilder qBuilder = new QueryBuilder();
+            qBuilder
+                .AddDeleteFrom(t)
+                .AddWhere(new SQLCondition("Id", "@id"));
+            qBuilder.StoreParameter("id", id);
+            return qBuilder;
+        }
         #endregion
 
         #region public methods
@@ -66,4 +86,47 @@ namespace Repository
         #endregion
     }
 
+    public abstract class aRepositoryBaseWithOneOwner : aRepositoryBase, IRepositoryOwnerCdad
+    {
+        public int CurrentSingleOwner { get; protected set; }
+
+        public SQLCondition GetCurrentOwnerCondition(string condition = "=", string alias = "", string paramAlias = "")
+        {
+            return new SQLCondition("IdOwnerComunidad", alias, $"@{paramAlias}idCdad", "", condition, "");
+        }
+
+        #region Dispose
+        public override void Dispose()
+        {
+            if (this._RepoSphr != null)
+            {
+                this._RepoSphr.Dispose();
+                this._RepoSphr = null;
+            }
+        }
+        #endregion
+    }
+
+    public abstract class aRepositoryBaseWithTwoOwners : aRepositoryBase, IRepositoryOwnerCdadEjer
+    {
+        public int CurrentCdadOwner { get; protected set; }
+        public int CurrentEjerOwner { get; protected set; }
+
+        public IEnumerable<SQLCondition> GetCurrentOwnersCondition(string condition = "=", string separator = "AND", string tableAlias = "", string paramAlias = "")
+        {
+            yield return new SQLCondition("IdOwnerComunidad", tableAlias, $"@{paramAlias}idCdad", "", condition, separator);
+            yield return new SQLCondition("IdOwnerEjercicio", tableAlias, $"@{paramAlias}idEjer", "", condition, "");
+        }
+
+        #region Dispose
+        public override void Dispose()
+        {
+            if (this._RepoSphr != null)
+            {
+                this._RepoSphr.Dispose();
+                this._RepoSphr = null;
+            }
+        }
+        #endregion
+    }
 }

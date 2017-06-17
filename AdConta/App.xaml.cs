@@ -34,7 +34,7 @@ namespace AdConta
             //*************************TODO: pide usuario y rellena propiedad
             this.UsuarioLogueado = new Usuario("yo", 0);
             //*************************
-
+            
             this.ACData = new AutoCodigoData(this.UsuarioLogueado);
             Task.Run(() => ConfigMappersAsync()).Forget().ConfigureAwait(false);
             Task.Run(() => InitRepositoriesAsync()).Forget().ConfigureAwait(false);
@@ -190,6 +190,7 @@ namespace AdConta
             mConfig
                 .AddNestedProperty<Apunte>(false, "_Asiento")
                 .AddMemberCreator<Apunte>("_DebeHaber", x => (DebitCredit)x.DebeHaber)
+                .AddPrefixes<Apunte>(new string[] { "apu" })
                 .EndConfig<Apunte>();
             mConfig
                 .AddConstructor<ApunteDLO>(x => new ApunteDLO(x.Id, x.IdOwnerComunidad, x.OrdenEnAsiento, x.Asiento, x.Concepto, x.DebeHaber,
@@ -201,6 +202,7 @@ namespace AdConta
                 .AddConstructor<Asiento>(x => new Asiento(x.Id, x.IdOwnerComunidad, x.IdOwnerEjercicio, x.Codigo, this.ACData, x.FechaValor))
                 .AddNestedProperty<Asiento, ObservableApuntesList>(false, x => x.Apuntes)
                 .AddIgnoreProperty<Asiento>("Item")
+                .AddPrefixes<Asiento>(new string[] { "asi" })
                 .EndConfig<Asiento>();
             //Gasto-Pago-GastosPagosBase
             mConfig

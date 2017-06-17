@@ -13,13 +13,13 @@ namespace AdConta.ViewModel
 {
     interface IVMTabBaseWithUoW
     {
-        void CleanUnitOfWork();
+        Task CleanUnitOfWork();
         Task InitUoWAsync();
     }
     /// <summary>
     /// Base for all Abletabcontrol tabs's viewmodels.
     /// </summary>
-    public abstract class aVMTabBase : DataTableHelperVMBase/*<- OJO esto ya no deberia ser necesario*/, IPublicNotify, IVMTabBaseWithUoW
+    public abstract class aVMTabBase : DataTableHelperVMBase/*<- OJO esto ya no deberia ser necesario*/, IPublicNotify, IVMTabBaseWithUoW, IEquatable<aVMTabBase>
     {
         #region fields
         private int _TabComCod = 0;
@@ -72,6 +72,7 @@ namespace AdConta.ViewModel
                 }
             }
         }
+        public int TabIndex { get; private set; }
 
         #region virtual model properties
         public virtual int ComMaxCod
@@ -167,9 +168,34 @@ namespace AdConta.ViewModel
         {
             this._TabComCod = cod;
         }
+        /// <summary>
+        /// Used only by AbleTabControl. Store tab index for compare tabs.
+        /// </summary>
+        /// <param name="nuevoTabIndex"></param>
+        public void ChangeTabIndex(int nuevoTabIndex)
+        {
+            this.TabIndex = nuevoTabIndex;
+        }
         #endregion
 
-        public abstract void CleanUnitOfWork();
+        #region IEquatable
+        public bool Equals(aVMTabBase other)
+        {
+            return this.TabIndex == other.TabIndex && this.TabComCod == other.TabComCod && this.Type == other.Type;
+        }
+        public override int GetHashCode()
+        {
+            int hash = base.GetHashCode();
+            hash = (hash * 7) + this.TabComCod.GetHashCode();
+            hash = (hash * 7) + this.Type.GetHashCode();
+            hash = (hash * 7) + this.TabIndex.GetHashCode();
+            return hash;
+        }
+        #endregion
+
+        #region UoW
+        public abstract Task CleanUnitOfWork();
         public abstract Task InitUoWAsync();
+        #endregion
     }
 }

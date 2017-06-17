@@ -19,18 +19,19 @@ namespace Repository
     {
         bool RollbackAllIfRollback { get; set; }
         ConditionsToCommitSQL ConditionsToCommit { get; }
+        IEnumerable<dynamic> LastResults { get; }
 
-        Task<bool> CommitAsync();
+        Task<bool> CommitAsync(bool storeResults);
         Task RollbackAsync();
-        void RemoveVMTabReferencesFromRepos();
+        Task RemoveVMTabReferencesFromRepos();
     }
 
     public class UnitOfWork : iUnitOfWork
     {
-        public UnitOfWork(HashSet<iRepository> repositories, aVMTabBase tab, bool rollbackAllIfRollback = false)
+        public UnitOfWork(IEnumerable<IRepository> repositories, aVMTabBase tab, bool rollbackAllIfRollback = false)
         {
             this.RollbackAllIfRollback = rollbackAllIfRollback;
-            this.Repositories = repositories;
+            this.Repositories = (HashSet<IRepositoryInternal>)repositories.Select(x=>(IRepositoryInternal)x);
             this._Tab = tab;
             InitRepositories();
         }
@@ -43,9 +44,10 @@ namespace Repository
         #endregion
 
         #region properties
-        public HashSet<iRepository> Repositories { get; private set; }
+        internal HashSet<IRepositoryInternal> Repositories { get; private set; }
         public bool RollbackAllIfRollback { get; set; }
         public ConditionsToCommitSQL ConditionsToCommit { get { return this._ConditionsToCommit; } }
+        public IEnumerable<dynamic> LastResults { get; private set; }
         #endregion
 
         #region helpers
@@ -54,7 +56,7 @@ namespace Repository
         {
             string SQL = $"START TRANSACTION;{Environment.NewLine}";
             
-            foreach (iRepository repo in this.Repositories)
+            foreach (IRepository repo in this.Repositories)
             {
                 List<Tuple<QueryBuilder, IConditionToCommit>> tuples = repo.Transactions[this._Tab];
                 foreach(Tuple<QueryBuilder, IConditionToCommit> tuple in tuples)
@@ -62,6 +64,7 @@ namespace Repository
                     this._Values = this._Values
                         .Union(tuple.Item1 as IDictionary<string, object>)
                         .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    tuple.Item1.Append(Environment.NewLine);
                     SQL = SQL.Append(tuple.Item1.Query);
                     this._ConditionsToCommit.Add(tuple.Item2);
                 }
@@ -72,18 +75,19 @@ namespace Repository
         #endregion
 
         #region public methods
-        public void RemoveVMTabReferencesFromRepos() { Parallel.ForEach(this.Repositories, repo => repo.RemoveVMTabReferences(this._Tab)); }
-
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public async Task RemoveVMTabReferencesFromRepos() { Parallel.ForEach(this.Repositories, repo => repo.RemoveVMTabReferences(this._Tab)); }
+
         public async Task RollbackAsync()
         {
             Parallel.ForEach(this.Repositories, repo => repo.RollbackRepoAsync(this._Tab).Forget().ConfigureAwait(false));
             this._ConditionsToCommit.Clear();
             this._Values.Clear();
+            this.LastResults = null;
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
-        public async Task<bool> CommitAsync()
+        public async Task<bool> CommitAsync(bool storeResults)
         {
             string transaction = await Task.Run(() => PrepareTransaction()).ConfigureAwait(false);
             bool commit;
@@ -98,7 +102,10 @@ namespace Repository
                 if (!commit)
                     await con.ExecuteAsync("ROLLBACK;").ConfigureAwait(false);
                 else
+                {
+                    if(storeResults) this.LastResults = (IEnumerable<dynamic>)result;
                     await con.ExecuteAsync("COMMIT;").ConfigureAwait(false);
+                }
 
                 con.Close();
             }

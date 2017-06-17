@@ -707,7 +707,7 @@ namespace AdConta
         public override async Task InitUoWAsync()
         {
             iAppRepositories appRepos = (iAppRepositories)Application.Current;
-            HashSet<iRepository> repos = new HashSet<iRepository>();
+            HashSet<IRepository> repos = new HashSet<IRepository>();
 
             repos.Add(appRepos.ComunidadRepo);
 

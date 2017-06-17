@@ -108,12 +108,13 @@ namespace AdConta.AbleTabControl
         private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset) this.ItemsSourceProperty.Clear();
-
+            
             if (e.NewItems != null)
             {
                 foreach (aVMTabBase item in e.NewItems)
                 {
                     this.ItemsSourceProperty.Add(item);
+                    item.ChangeTabIndex(e.NewStartingIndex);
                 }
             }
 
@@ -173,7 +174,7 @@ namespace AdConta.AbleTabControl
         {
             Button button = sender as Button;
             TabItem tab = button.FindFirstParentOfType<TabItem>();
-            (tab.DataContext as aVMTabBase).CleanUnitOfWork();
+            Task.Run(() => (tab.DataContext as aVMTabBase).CleanUnitOfWork()).Forget().ConfigureAwait(false);
             this.ItemsSourceProperty.RemoveAt(this.ItemsSourceProperty.IndexOf(tab.DataContext as aVMTabBase));
         }
 

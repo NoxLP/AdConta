@@ -9,7 +9,7 @@ using QBuilder;
 
 namespace Repository
 {
-    public class PropietarioRepository : aRepositoryBase, iRepository
+    public class PropietarioRepository : aRepositoryBase, IRepository
     {
         public PropietarioRepository()
         {

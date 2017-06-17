@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace Repository
 {
-    public sealed class PersonaRepository : aRepositoryBase, iRepository
+    public sealed class PersonaRepository : aRepositoryBase, IRepositoryInternal
     {
         public PersonaRepository()
         {
@@ -36,11 +36,11 @@ namespace Repository
         #endregion
 
         #region helpers
-        public Type GetObjModelType()
+        public override Type GetObjModelType()
         {
             return typeof(Persona);
         }
-        public void NewVM(aVMTabBase VM)
+        void IRepositoryInternal.NewVM(aVMTabBase VM)
         {
             base._RepoSphr.Wait();
             if (!this.Transactions.ContainsKey(VM)) this.Transactions.TryAdd(VM, new List<Tuple<QueryBuilder, IConditionToCommit>>());
@@ -49,7 +49,8 @@ namespace Repository
             if (!base._DirtyMembers.ContainsKey(VM)) base._DirtyMembers.TryAdd(VM, new Dictionary<int, string[]>());
             base._RepoSphr.Release();
         }
-        public void RemoveVMTabReferences(aVMTabBase VM)
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        async Task IRepositoryInternal.RemoveVMTabReferences(aVMTabBase VM)
         {
             HashSet<Persona> setDump;
             List<Tuple<QueryBuilder, IConditionToCommit>> lDump;
@@ -62,7 +63,8 @@ namespace Repository
             base._DirtyMembers.TryRemove(VM, out dDump);
             base._RepoSphr.Release();
         }
-        public async Task RollbackRepoAsync(aVMTabBase VM)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        async Task IRepositoryInternal.RollbackRepoAsync(aVMTabBase VM)
         {
             await base._RepoSphr.WaitAsync();
 
@@ -77,7 +79,7 @@ namespace Repository
 
             base._RepoSphr.Release();
         }
-        public async Task ApplyChangesAsync(aVMTabBase VM)
+        async Task IRepositoryInternal.ApplyChangesAsync(aVMTabBase VM)
         {
             await base._RepoSphr.WaitAsync();
             foreach(Persona p in this._NewObjects[VM]) _ObjModels.TryAdd(p.Id, p); //All old new objects are now normal objects
@@ -90,24 +92,13 @@ namespace Repository
         #endregion
 
         #region SQL helpers
-        protected override QueryBuilder GetSelectSQL(int id)
-        {
-            Type t = typeof(Persona);
-            QueryBuilder qBuilder = new QueryBuilder();
-            qBuilder
-                .AddSelect(t)
-                .AddFrom(t)
-                .AddWhere(new SQLCondition("Id", "@id"));
-            qBuilder.StoreParameter("id", id);
-            return qBuilder;
-        }
         protected override QueryBuilder GetUpdateSQL(int id, aVMTabBase VM)
         {
-            if (this._NewObjects[VM].Select(p => p.Id).Contains(id) ||
-                !this._DirtyMembers[VM].ContainsKey(id))
+            if (this._NewObjects[VM].Select(p => p.Id).Contains(id) || //If the object have been newly created it needs an INSERT not an UPDATE
+                !this._DirtyMembers[VM].ContainsKey(id)) //If there are no dirty members the object haven't been modified
                 return null;
 
-            Type t = typeof(Persona);
+            Type t = GetObjModelType();
             QueryBuilder qBuilder = new QueryBuilder();
             qBuilder
                 .AddUpdate(t)
@@ -119,7 +110,7 @@ namespace Repository
         }
         private QueryBuilder GetInsertSQL(Persona p)
         {
-            Type t = typeof(Persona);
+            Type t = GetObjModelType();
             QueryBuilder qBuilder = new QueryBuilder();
             qBuilder
                 .AddInsertInto()
@@ -130,16 +121,6 @@ namespace Repository
                 .CloseBrackets()
                 .SemiColon();
             qBuilder.StoreParametersFrom(p);
-            return qBuilder;
-        }
-        private QueryBuilder GetDeleteSQL(int id)
-        {
-            Type t = typeof(Persona);
-            QueryBuilder qBuilder = new QueryBuilder();
-            qBuilder
-                .AddDeleteFrom(t)
-                .AddWhere(new SQLCondition("Id", "@id"));
-            qBuilder.StoreParameter("id", id);
             return qBuilder;
         }
         #endregion
@@ -158,11 +139,11 @@ namespace Repository
                     result = await con.QueryAsync(qBuilder.Query, qBuilder.Parameters).ConfigureAwait(false);
                     con.Close();
                 }
+                p = await Task.Run(() => this._Mapper.Map(result)).ConfigureAwait(false);
                 //Add object retrieved from DB
-                this._OriginalObjModels.TryAdd(id, this._Mapper.Map(result));
+                this._OriginalObjModels.TryAdd(id, p);
                 //Deep copy
-                this._ObjModels.TryAdd(id, this._Mapper.Map(result));
-                return p;
+                this._ObjModels.TryAdd(id, await Task.Run(() => this._Mapper.Map(result)).ConfigureAwait(false));
             }
             return p;
         }
