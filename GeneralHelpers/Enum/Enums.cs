@@ -30,7 +30,19 @@ namespace AdConta
     /// </summary>
     public enum AccountPart : int { IBAN = 0, Bank, Office, DC, Account }
 
-    public enum Situacion_Recibo_Cobro_EntaCta : int { Normal = 0, Devuelto}
+    public enum SituacionReciboCobroEntaCta : int { Normal = 0, Devuelto}
+
+    public enum TipoRepartoPresupuesto : int { Lineal = 0, SoloCoeficientes, CoeficientesYGrupos}
+
+    public enum TipoGastoPago : int { Gasto = 0, Pago }
+    /// <summary>
+    /// Tipo de mensaje SQL para la clase AutoCodigo.
+    /// </summary>
+    public enum ACodigoSQLType { Next, Deleted, Check }
+    /// <summary>
+    /// Tipo de objeto en el que se realiza el chequeo de consistencia.
+    /// </summary>
+    public enum ACodigoCCheckType : int { All = 0, Comunidad, Fincas, Pptos, Asientos }
     #endregion
 
     #region accounting specific
@@ -39,16 +51,15 @@ namespace AdConta
     /// </summary>
     public enum DebitCredit
     {
-        [Description("True")]
+        [DebitCreditAtttribute("False")]
         Debit = 0,
-        [Description("False")]
+        [DebitCreditAtttribute("True")]
         Credit
     }
-
     [AttributeUsage(AttributeTargets.All)]
     public class DebitCreditAtttribute : DescriptionAttribute
     {
-        public DebitCreditAtttribute(string description, string value)
+        public DebitCreditAtttribute(string description)
         {
             this.Description = bool.Parse(description);
         }
@@ -82,5 +93,50 @@ namespace AdConta
     public enum TabExpWhich : byte { Top = 0, Bottom}
 
     public enum ErrorSettingReciboDicts : int { None = 0, ImporteIncorrecto, VariasEACaMismaFinca}
+    /// <summary>
+    /// Enum of error trying to add/remove a range of objects to repository or/and DB:
+    /// 
+    /// </summary>
+    public enum ErrorTryingDBRange : int {
+        None = 0,
+        DB_ObjectsEnumerableError,
+        DB_NumberOfInsertedRows_LesserThanRange,
+        DB_Other,
+        Repo_ObjectsEnumerableError,
+        Repo_Other }
+
+    public enum ErrorCreatingObjModelInRepository : int { None = 0, ObjectAlreadyExistsInRepository, InsertToDBFails}
+
+    public enum ErrorCuadreFactura : int
+    {
+        None = 0,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe del impuesto IGIC/IVA no concuerda con los datos introducidos.")]
+        ErrorEnCalculoIGICIVA,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe del impuesto IRPF no concuerda con los datos introducidos.")]
+        ErrorEnCalculoIRPF,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe total de la factura no concuerda con los datos introducidos.")]
+        ErrorEnTotal,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe de los gastos introducidos para contabilizar no coincide con el subtotal de la factura.")]
+        GastosNoCoincidenConSubtotal,
+        [ErrorCuadreFacturaAtttribute(
+            "Existe un error en la factura introducida: El importe de los pagos introducidos para contabilizar no coincide con el pendiente de la factura.")]
+        PendienteDescuadrado
+    }
+    [AttributeUsage(AttributeTargets.All)]
+    public class ErrorCuadreFacturaAtttribute : DescriptionAttribute
+    {
+        public ErrorCuadreFacturaAtttribute(string description)
+        {
+            this.Description = description;
+        }
+
+        public new string Description { get; set; }
+    }
+    
+    public enum ConditionTCType { equal, diff, greater, lesser, greatOrEq, lessOrEq }
     #endregion
 }

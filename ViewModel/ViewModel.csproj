@@ -46,11 +46,11 @@
   <ItemGroup>
     <Compile Include="Commands\CommandsInCommon.cs" />
     <Compile Include="DataTableHelperVMBase.cs" />
-    <Compile Include="MoveUC\iWindow_UCContainer.cs" />
-    <Compile Include="TabbedExpanderVM\aTabsWithTabbedExpVM.cs" />
-    <Compile Include="TabbedExpanderVM\aTabbedExpanderFillerBase.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
+    <Compile Include="TabbedExpanderItemsVM\aTabbedExpanderFillerBase.cs" />
     <Compile Include="VMAsientoBase.cs" />
-    <Compile Include="VMTabBase.cs" />
+    <Compile Include="aVMTabBase.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

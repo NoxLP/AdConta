@@ -15,6 +15,6 @@ namespace ModuloContabilidad
 
         }
 
-        private DataSet _DSet;
+        //private DataSet _DSet;
     }
 }

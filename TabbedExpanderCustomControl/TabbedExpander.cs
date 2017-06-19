@@ -55,7 +55,9 @@ namespace TabbedExpanderCustomControl
         private List<ToggleButton> TogsList;
         private List<TabItem> TabsList;
         //private bool _CurrentChangingEventHandlerAdded = false;
+#pragma warning disable CS0169
         private int _SelectedIndex;
+#pragma warning restore CS0169
         #endregion
 
         #region properties

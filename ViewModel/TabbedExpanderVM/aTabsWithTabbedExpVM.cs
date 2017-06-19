@@ -9,7 +9,7 @@ using TabbedExpanderCustomControl;
 
 namespace AdConta.ViewModel
 {
-    public abstract class aTabsWithTabExpVM : VMTabBase
+    public abstract class aTabsWithTabExpVM : aVMTabBase
     {
         #region fields
         private bool _BTEExpanded;

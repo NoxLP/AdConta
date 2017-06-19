@@ -1,7 +1,13 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Dapper.Contrib.Extensions;
+
 namespace AdConta.Models
 {
-    public class Concepto
+    public class Concepto : IObjModelBase
     {
         public Concepto(int id)
         {

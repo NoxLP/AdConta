@@ -31,7 +31,7 @@ namespace AdConta.AbleTabControl
         {
             InitializeComponent();
             
-            ItemsSourceProperty = new ObservableCollection<VMTabBase>();
+            ItemsSourceProperty = new ObservableCollection<aVMTabBase>();
             this._NavigateSelectedTab = new Command_NavigateSelectedTab(this);
 
             this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)(() =>
@@ -78,11 +78,11 @@ namespace AdConta.AbleTabControl
 
         #region dependency properties
         public static readonly DependencyProperty ItemsSourcePropertyProperty = DependencyProperty.Register("ItemsSourceProperty",
-            typeof(ObservableCollection<VMTabBase>), typeof(AbleTabControl),
+            typeof(ObservableCollection<aVMTabBase>), typeof(AbleTabControl),
             new PropertyMetadata(OnItemsPropertyChanged));
-        public ObservableCollection<VMTabBase> ItemsSourceProperty
+        public ObservableCollection<aVMTabBase> ItemsSourceProperty
         {
-            get { return (ObservableCollection<VMTabBase>)GetValue(ItemsSourcePropertyProperty); }
+            get { return (ObservableCollection<aVMTabBase>)GetValue(ItemsSourcePropertyProperty); }
             set { SetValue(ItemsSourcePropertyProperty, value); }
         }
         private static void OnItemsPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
@@ -108,12 +108,13 @@ namespace AdConta.AbleTabControl
         private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Reset) this.ItemsSourceProperty.Clear();
-
+            
             if (e.NewItems != null)
             {
-                foreach (VMTabBase item in e.NewItems)
+                foreach (aVMTabBase item in e.NewItems)
                 {
                     this.ItemsSourceProperty.Add(item);
+                    item.ChangeTabIndex(e.NewStartingIndex);
                 }
             }
 
@@ -144,8 +145,8 @@ namespace AdConta.AbleTabControl
                 oldIndex > control.ItemsSourceProperty.Count - 1 || oldIndex < 0)
                 return;
 
-            VMTabBase newTab = control.ItemsSourceProperty[newIndex];
-            VMTabBase oldTab = control.ItemsSourceProperty[oldIndex];
+            aVMTabBase newTab = control.ItemsSourceProperty[newIndex];
+            aVMTabBase oldTab = control.ItemsSourceProperty[oldIndex];
             oldTab.IsSelected = false;
             oldTab.PublicNotifyPropChanged("IsSelected");
 
@@ -173,8 +174,8 @@ namespace AdConta.AbleTabControl
         {
             Button button = sender as Button;
             TabItem tab = button.FindFirstParentOfType<TabItem>();
-
-            this.ItemsSourceProperty.RemoveAt(this.ItemsSourceProperty.IndexOf(tab.DataContext as VMTabBase));
+            Task.Run(() => (tab.DataContext as aVMTabBase).CleanUnitOfWork()).Forget().ConfigureAwait(false);
+            this.ItemsSourceProperty.RemoveAt(this.ItemsSourceProperty.IndexOf(tab.DataContext as aVMTabBase));
         }
 
         private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -194,9 +195,9 @@ namespace AdConta.AbleTabControl
 
         private void TabItem_Drop(object sender, DragEventArgs e)
         {
-            VMTabBase tabItemTarget = (e.Source as TabItem).DataContext as VMTabBase;
+            aVMTabBase tabItemTarget = (e.Source as TabItem).DataContext as aVMTabBase;
 
-            VMTabBase tabItemSource = (e.Data.GetData(typeof(TabItem)) as TabItem).DataContext as VMTabBase;
+            aVMTabBase tabItemSource = (e.Data.GetData(typeof(TabItem)) as TabItem).DataContext as aVMTabBase;
 
             if (!tabItemTarget.Equals(tabItemSource))
             {

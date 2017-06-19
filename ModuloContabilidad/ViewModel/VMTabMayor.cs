@@ -14,9 +14,15 @@ using AdConta.ViewModel;
 using ModuloContabilidad.Models;
 using TabbedExpanderCustomControl;
 using Extensions;
+using Repository;
 
 namespace ModuloContabilidad
 {
+    //++++++++++++++++++++++++++++++++++ OJO +++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //TODO: CUANDO SE CAMBIA DE CUENTA ESPERAR 2-3 SEGUNDOS ANTES DE PEDIR A LA BD LA NUEVA CUENTA
+    //POR SI SOLO SE ESTA PASANDO DE UNA CUENTA A OTRA LEJANA
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public enum Mayor_SearchType : int { Fecha = 0, Concepto, Importe, ImporteDebe, ImporteHaber, Recibo, Factura }
 
     public class VMTabMayor : aTabsWithTabExpVM
@@ -31,10 +37,13 @@ namespace ModuloContabilidad
                 MessageBox.Show("No se pudo abrir la pestaña de libro mayor por falta del código de Comunidad");
                 return;
             }
+
+            Task.Run(()=> InitUoWAsync()).Forget().ConfigureAwait(false);
+
             this._model = new TabMayorModel(base.TabComCod);
             this._StatusGridSource = new DataTable();
             this.PopulateStatusGrid();
-
+            
             this.TopTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
             this.BottomTabbedExpanderItemsSource = new ObservableCollection<TabExpTabItemBaseVM>();
 
@@ -56,6 +65,10 @@ namespace ModuloContabilidad
         #endregion
 
         #region properties
+        public CuentaMayorRepository CuentaRepo { get; private set; }
+        public AsientoRepository AsientoRepo { get; private set; }
+        public ApunteRepository ApunteRepo { get; private set; }
+        public UnitOfWork UOW { get; private set; }
         public string Nombre { get; set; }
         public string AccountCod
         {
@@ -170,7 +183,7 @@ namespace ModuloContabilidad
         }
         private void GetMaxFromColumn(string column, out int maxResult)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
             {
                 maxResult = 0;
                 return;
@@ -189,7 +202,7 @@ namespace ModuloContabilidad
         }
         private void GetMaxFromColumn(string column, out DateTime maxResult)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
             {
                 maxResult = new DateTime(DateTime.Today.Year, 1, 1);
                 return;
@@ -208,7 +221,7 @@ namespace ModuloContabilidad
         }
         private decimal GetColumnSum(string column)
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
                 return 0;
 
             int sum = 0;
@@ -220,7 +233,7 @@ namespace ModuloContabilidad
         }
         private decimal GetSaldoPunteado()
         {
-            if (this._model.CurrentAccount.IsFakeAccount || this._model.DTable.Rows.Count == 0)
+            if (this._model.CurrentAccount.CuentaFalsa || this._model.DTable.Rows.Count == 0)
                 return 0;
 
             int sum = 0;
@@ -288,6 +301,35 @@ namespace ModuloContabilidad
             return this._model.CurrentAccount.IsLastAccount();
         }
         #endregion
+
+        #region UoW
+        /// <summary>
+        /// Llamado por AbleTabControl cuando se cierra la pestaña
+        /// </summary>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task CleanUnitOfWork()
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            this.UOW.RemoveVMTabReferencesFromRepos().Forget().ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        public override async Task InitUoWAsync()
+        {
+            iAppRepositories appRepos = (iAppRepositories)Application.Current;
+            HashSet<IRepository> repos = new HashSet<IRepository>();
+
+            repos.Add(appRepos.CuentaMayorRepo);
+            repos.Add(appRepos.AsientoRepo);
+            repos.Add(appRepos.ApunteRepo);
+            this.UOW = new UnitOfWork(repos, this);
+
+            this.CuentaRepo = appRepos.CuentaMayorRepo;
+            this.AsientoRepo = appRepos.AsientoRepo;
+            this.ApunteRepo = appRepos.ApunteRepo;
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        #endregion
     }
 
     /// <summary>
@@ -295,9 +337,9 @@ namespace ModuloContabilidad
     /// </summary>
     public class Command_NewAsientoSimple : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_NewAsientoSimple(VMTabBase tab)
+        public Command_NewAsientoSimple(aVMTabBase tab)
         {
             this._tab = tab;
         }
@@ -358,9 +400,9 @@ namespace ModuloContabilidad
 
     public class Command_Punteo : ICommand
     {
-        private VMTabBase _tab;
+        private aVMTabBase _tab;
 
-        public Command_Punteo(VMTabBase tab)
+        public Command_Punteo(aVMTabBase tab)
         {
             this._tab = tab;
         }

@@ -50,7 +50,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>AdConta.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -87,6 +94,7 @@
       <DependentUpon>DBTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\SideModel.cs" />
+    <Compile Include="NameSpaceObjectsList.cs" />
     <Compile Include="SideTool\SideTool.xaml.cs">
       <DependentUpon>SideTool.xaml</DependentUpon>
     </Compile>
@@ -157,6 +165,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -202,6 +211,18 @@
       <Project>{7055d918-5f2b-44ff-9b5c-8072eaf71a4b}</Project>
       <Name>ModuloGestion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ObjModels_Contabilidad\ObjModels_Contabilidad.csproj">
+      <Project>{d4ac8b21-1ffc-4b13-ad1c-ca3d7cb5c497}</Project>
+      <Name>ObjModels_Contabilidad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ObjModels_Gestion\ObjModels_Gestion.csproj">
+      <Project>{6086eaa3-02ee-4e05-a9a9-3362488be42a}</Project>
+      <Name>ObjModels_Gestion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{441f08bb-c1e9-484a-8ecb-f661004bf47f}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TabbedExpanderCustomControl\TabbedExpanderCustomControl.csproj">
       <Project>{e11c702f-ebbc-4d3a-beb7-7fb951db254d}</Project>
       <Name>TabbedExpanderCustomControl</Name>
@@ -239,6 +260,7 @@
       <DependentUpon>conta1.mdf</DependentUpon>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

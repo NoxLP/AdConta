@@ -66,8 +66,8 @@ namespace ModuloContabilidad.Models
 
                 //Update ledge accounts
                 DataTable Accounts = new DataTable();
-                SqlCommand ledgeCmd;
-                SqlDataAdapter ledgeDa;
+                //SqlCommand ledgeCmd;
+                //SqlDataAdapter ledgeDa;
 
 
 

@@ -309,7 +309,7 @@ namespace AdConta.Models
         #region properties
         public abstract string CreateCmd { get; }
         #endregion
-
+        
         #region database connection methods
         /// <summary>
         /// Using settings's connection string, set DataTable by provided SQL command and re-initialize class, 

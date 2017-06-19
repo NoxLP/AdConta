@@ -13,12 +13,14 @@ namespace ModuloContabilidad
     {
         #region fields
         private bool _IsSelected;
+#pragma warning disable CS0414
         private bool _Expandible = true;
+#pragma warning restore CS0414
         #endregion
 
         #region properties
         public override TabExpTabType TabExpType { get { return TabExpTabType.Diario; } }
-        public string Header { get { return "Vista diario"; } }
+        public override string Header { get { return "Vista diario"; } }
         public double DGridHeight { get; }
 
         public bool IsSelected

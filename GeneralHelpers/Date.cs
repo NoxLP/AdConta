@@ -190,6 +190,28 @@ namespace AdConta
             return false;
         }
         #endregion
+
+        public static implicit operator Date (DateTime dt)
+        {
+            Date d = new Date(dt);
+            return d;
+        }
+        public static implicit operator DateTime(Date d)
+        {
+            DateTime dt = d.GetDateTime();
+            return dt;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Date) return (Date)obj == this;
+            else return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class ReadOnlyDate

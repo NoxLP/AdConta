@@ -67,7 +67,7 @@ namespace TabbedExpanderCustomControl
             }
         }
         public object ParentVM { get; set; }
-        public string Header
+        public virtual string Header
         {
             get { return _Header; }
             set
