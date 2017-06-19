@@ -23,6 +23,8 @@ namespace ModuloContabilidad
 
         #region properties
         public UnitOfWork UOW { get; private set; }
+        public ApunteRepository ApunteRepo { get; private set; }
+        public AsientoRepository AsientoRepo { get; private set; }
         #endregion
 
         #region tabbed expander
@@ -51,20 +53,25 @@ namespace ModuloContabilidad
         /// <summary>
         /// Llamado por AbleTabControl cuando se cierra la pestaña
         /// </summary>
-        public override void CleanUnitOfWork()
-        {
-            this.UOW.RemoveVMTabReferencesFromRepos();
-        }
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task CleanUnitOfWork()
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            this.UOW.RemoveVMTabReferencesFromRepos().Forget().ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
         public override async Task InitUoWAsync()
         {
             iAppRepositories appRepos = (iAppRepositories)Application.Current;
             HashSet<IRepository> repos = new HashSet<IRepository>();
 
-            repos.Add(appRepos.ApunteRepo);
             repos.Add(appRepos.AsientoRepo);
-
+            repos.Add(appRepos.ApunteRepo);
             this.UOW = new UnitOfWork(repos, this);
+
+            this.AsientoRepo = appRepos.AsientoRepo;
+            this.ApunteRepo = appRepos.ApunteRepo;
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion
