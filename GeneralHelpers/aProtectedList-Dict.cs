@@ -31,7 +31,7 @@ namespace AdConta
             get
             {
                 T i = this._List[index];
-                return i;
+                return i; //return struct as value
             }
 
         }
@@ -88,7 +88,7 @@ namespace AdConta
             get
             {
                 T i = this._List[index];
-                return i;
+                return i; //return struct as value
             }
 
         }
@@ -138,7 +138,7 @@ namespace AdConta
             get
             {
                 T i = this._Dict[key];
-                return i;
+                return i; //return struct as value
             }
 
         }

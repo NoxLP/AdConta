@@ -26,7 +26,7 @@ namespace AdConta.Models
         public string GetDireccionSinCP()
         {
             return string.Concat(TipoVia, " ", Direccion);
-        }
+    }
     }
 
     public class DireccionPostalCompleta
