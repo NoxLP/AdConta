@@ -353,10 +353,19 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
+        Task IRepositoryDependent<Asiento>.RollbackDependentAsync(IEnumerable<int> ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IRepositoryDependent<Asiento>.ApplyDependentAsync(IEnumerable<int> idsToAdd, IEnumerable<int> idsToRemove)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<List<Apunte>> GetTodosApuntesAsiento(int codigoCuenta)
         {
-
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -365,6 +374,8 @@ namespace Repository
         {
             base.Dispose();
         }
+
+        
         #endregion
     }
 

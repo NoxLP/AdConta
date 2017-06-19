@@ -32,7 +32,7 @@ namespace Repository
         #endregion
 
         #region helpers
-        public Type GetObjModelType()
+        public override Type GetObjModelType()
         {
             return typeof(Asiento);
         }

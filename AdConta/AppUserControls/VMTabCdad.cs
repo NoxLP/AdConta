@@ -57,6 +57,7 @@ namespace AdConta
 
         #region properties
         public UnitOfWork UOW { get; private set; }
+        public ComunidadRepository ComunidadRepo { get; private set; }
         public bool ReadOnlyALL
         {
             get { return this._ReadOnlyAll; }
@@ -699,19 +700,23 @@ namespace AdConta
         /// <summary>
         /// Llamado por AbleTabControl cuando se cierra la pestaña
         /// </summary>
-        public override void CleanUnitOfWork()
-        {
-            this.UOW.RemoveVMTabReferencesFromRepos();
-        }
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public override async Task CleanUnitOfWork()
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            this.UOW.RemoveVMTabReferencesFromRepos().Forget().ConfigureAwait(false);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
         public override async Task InitUoWAsync()
         {
             iAppRepositories appRepos = (iAppRepositories)Application.Current;
             HashSet<IRepository> repos = new HashSet<IRepository>();
 
             repos.Add(appRepos.ComunidadRepo);
-
             this.UOW = new UnitOfWork(repos, this);
+
+            this.ComunidadRepo = appRepos.ComunidadRepo;
         }
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         #endregion

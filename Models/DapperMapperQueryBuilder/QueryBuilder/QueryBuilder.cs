@@ -9,6 +9,7 @@ using System.Reflection;
 using MQBStatic;
 using Exceptions;
 using Extensions;
+using AdConta.Models;
 
 namespace QBuilder
 {
@@ -175,7 +176,7 @@ namespace QBuilder
             Query = Query.Remove(Query.Length);
             return Query;
         }
-        public string Update<T>(T obj) where T : iObjModelBase
+        public string Update<T>(T obj) where T : IObjModelBase
         {
             Type t = typeof(T);
             AddUpdate(t);
@@ -184,7 +185,7 @@ namespace QBuilder
             StoreParametersFrom(obj);
             return Query;
         }
-        public string Update<T>(T obj, string tableName) where T : iObjModelBase
+        public string Update<T>(T obj, string tableName) where T : IObjModelBase
         {
             Type t = typeof(T);
             AddUpdate(tableName);
@@ -193,7 +194,7 @@ namespace QBuilder
             StoreParametersFrom(obj);
             return Query;
         }
-        public string Delete<T>(T obj) where T : iObjModelBase
+        public string Delete<T>(T obj) where T : IObjModelBase
         {
             Type t = typeof(T);
             AddDeleteFrom(t);
@@ -201,7 +202,7 @@ namespace QBuilder
             _Parameters.Add("Id", obj.Id);
             return Query;
         }
-        public string Delete<T>(T obj, string tableName) where T : iObjModelBase
+        public string Delete<T>(T obj, string tableName) where T : IObjModelBase
         {
             Type t = typeof(T);
             AddDeleteFrom(tableName);
