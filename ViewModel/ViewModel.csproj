@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandsInCommon.cs" />
     <Compile Include="DataTableHelperVMBase.cs" />
+    <Compile Include="MoveUC\iWindow_UCContainer.cs" />
     <Compile Include="TabbedExpanderItemsVM\aTabbedExpanderFillerBase.cs" />
     <Compile Include="TabbedExpanderItemsVM\aTabsWithTabbedExpVM.cs" />
     <Compile Include="ViewModelBase.cs" />
