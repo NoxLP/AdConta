@@ -1,0 +1,448 @@
+<Project>
+  <Name>01.09.16</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Sin titulo</Name>
+    <Language>CSharp</Language>
+    <Entities />
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Name>ObjModels_Contabilidad.dll</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GastosPagosList&lt;T&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1653" top="1161" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private decimal _Total</Member>
+        <Member type="Property">public decimal Total { get; }</Member>
+        <Member type="Constructor">public GastosPagosList()</Member>
+        <Member type="Method">public override void Add(T item)</Member>
+        <Member type="Method">public override void RemoveAt(int index)</Member>
+        <Member type="Method">public override void Clear()</Member>
+        <Member type="Method">public override void AddRange(IEnumerable&lt;T&gt; collection)</Member>
+        <Member type="Method">public override void RemoveRange(int index, int count)</Member>
+        <Member type="Method">public ReadOnlyGastosPagosList&lt;T&gt; AsReadOnly()</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>ReadOnlyGastosPagosList&lt;T&gt;</Name>
+        <Access>Public</Access>
+        <Location left="1603" top="856" />
+        <Size width="239" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private decimal _Total</Member>
+        <Member type="Property">public decimal Total { get; }</Member>
+        <Member type="Constructor">public ReadOnlyGastosPagosList(List&lt;T&gt; list, decimal? total)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>Apunte</Name>
+        <Access>Public</Access>
+        <Location left="825" top="1109" />
+        <Size width="162" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _Id</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Field">private decimal _Amount</Member>
+        <Member type="Field">private DebitCredit _DebeHaber</Member>
+        <Member type="Field">private aAsiento _Asiento</Member>
+        <Member type="Property">public int Id { get; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public CuentaMayor Account { get; set; }</Member>
+        <Member type="Property">public decimal Amount { get; set; }</Member>
+        <Member type="Property">public DebitCredit DebeHaber { get; set; }</Member>
+        <Member type="Property">public string Concepto { get; set; }</Member>
+        <Member type="Property">public bool Punteado { get; set; }</Member>
+        <Member type="Property">public string Recibo { get; set; }</Member>
+        <Member type="Property">public string Factura { get; set; }</Member>
+        <Member type="Constructor">public Apunte(aAsiento asiento)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>aAsiento</Name>
+        <Access>Public</Access>
+        <Location left="508" top="1051" />
+        <Size width="162" height="400" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected ObservableCollection&lt;Apunte&gt; _Apuntes</Member>
+        <Member type="Field">protected int _Id</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Property">public int Id { get; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public abstract DateTime Date { get; set; }</Member>
+        <Member type="Property">public abstract decimal Balance { get; protected set; }</Member>
+        <Member type="Property">public abstract bool IsNew { get; set; }</Member>
+        <Member type="Property">public abstract Apunte this[int i] { get; }</Member>
+        <Member type="Property">public virtual ObservableCollection&lt;Apunte&gt; Apuntes { get; }</Member>
+        <Member type="Constructor">protected aAsiento()</Member>
+        <Member type="Method">protected abstract decimal GetBalanceOfList(ObservableCollection&lt;Apunte&gt; apuntes)</Member>
+        <Member type="Method">protected virtual void SetBalance()</Member>
+        <Member type="Method">public virtual void SetBalance(Apunte apunte)</Member>
+        <Member type="Method">public abstract void ChangeBalance(Apunte apunte, decimal oldamount)</Member>
+        <Member type="Method">public virtual List&lt;Apunte&gt; GetApuntesAl(DebitCredit target)</Member>
+        <Member type="Method">public virtual bool AddApunte(Apunte apunte)</Member>
+        <Member type="Method">public virtual bool RemoveApunte(Apunte apunte)</Member>
+        <Member type="Method">public virtual int GetIndexOfApunte(Apunte apunte)</Member>
+        <Modifier>Abstract</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>AsientoComplejo</Name>
+        <Access>Public</Access>
+        <Location left="222" top="1122" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public override DateTime Date { get; set; }</Member>
+        <Member type="Property">public override decimal Balance { get; protected set; }</Member>
+        <Member type="Property">public override bool IsNew { get; set; }</Member>
+        <Member type="Property">public override Apunte this[int i] { get; }</Member>
+        <Member type="Property">public override ObservableCollection&lt;Apunte&gt; Apuntes { get; }</Member>
+        <Member type="Constructor">public AsientoComplejo(int nAsiento)</Member>
+        <Member type="Constructor">public AsientoComplejo(DateTime date, ObservableCollection&lt;Apunte&gt; apuntes, bool isNew)</Member>
+        <Member type="Method">protected virtual decimal GetBalanceOfList(ObservableCollection&lt;Apunte&gt; apuntes)</Member>
+        <Member type="Method">public override void ChangeBalance(Apunte apunte, decimal oldamount)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>AsientoSimple</Name>
+        <Access>Public</Access>
+        <Location left="10" top="1122" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public override DateTime Date { get; set; }</Member>
+        <Member type="Property">public override decimal Balance { get; protected set; }</Member>
+        <Member type="Property">public override bool IsNew { get; set; }</Member>
+        <Member type="Property">public override Apunte this[int i] { get; }</Member>
+        <Member type="Property">public override ObservableCollection&lt;Apunte&gt; Apuntes { get; }</Member>
+        <Member type="Constructor">public AsientoSimple(int nAsiento)</Member>
+        <Member type="Constructor">public AsientoSimple(DateTime date, ObservableCollection&lt;Apunte&gt; apuntes, bool isNew)</Member>
+        <Member type="Method">protected virtual decimal GetBalanceOfList(ObservableCollection&lt;Apunte&gt; apuntes)</Member>
+        <Member type="Method">public override void ChangeBalance(Apunte apunte, decimal oldamount)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>Factura</Name>
+        <Access>Public</Access>
+        <Location left="1994" top="665" />
+        <Size width="162" height="672" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _Id</Member>
+        <Member type="Field">private int _IdOwnerProveedor</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Field">private string _NFactura</Member>
+        <Member type="Field">private GastosPagosList&lt;Gasto&gt; _GastosFra</Member>
+        <Member type="Field">private GastosPagosList&lt;Pago&gt; _PagosFra</Member>
+        <Member type="Field">private decimal _Subtotal</Member>
+        <Member type="Field">private double _PerUnitIGICIVA</Member>
+        <Member type="Field">private decimal _IGICIVA</Member>
+        <Member type="Field">private double _PerUnitIRPF</Member>
+        <Member type="Field">private decimal _IRPF</Member>
+        <Member type="Field">private decimal _APagar</Member>
+        <Member type="Field">private decimal _Pendiente</Member>
+        <Member type="Property">public int Id { get; }</Member>
+        <Member type="Property">public int IdOwnerProveedor { get; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public string NFactura { get; }</Member>
+        <Member type="Property">public ReadOnlyGastosPagosList&lt;Gasto&gt; GastosFra { get; }</Member>
+        <Member type="Property">public ReadOnlyGastosPagosList&lt;Pago&gt; PagosFra { get; }</Member>
+        <Member type="Property">public Date Fecha { get; set; }</Member>
+        <Member type="Property">public bool AutoCalc { get; set; }</Member>
+        <Member type="Property">public decimal Subtotal { get; set; }</Member>
+        <Member type="Property">public double PerUnitIGICIVA { get; set; }</Member>
+        <Member type="Property">public decimal IGICIVA { get; set; }</Member>
+        <Member type="Property">public double PerUnitIRPF { get; set; }</Member>
+        <Member type="Property">public decimal IRPF { get; set; }</Member>
+        <Member type="Property">public decimal APagar { get; }</Member>
+        <Member type="Property">public decimal Pendiente { get; }</Member>
+        <Member type="Property">public string Concepto { get; set; }</Member>
+        <Member type="Property">public TipoPagoFacturas TipoPago { get; set; }</Member>
+        <Member type="Constructor">public Factura()</Member>
+        <Member type="Method">public bool Cuadrado(decimal subtotal, double perUnitII, decimal igiciva, double perUnitIRPF, decimal irpf)</Member>
+        <Member type="Method">public void ReCalculate()</Member>
+        <Member type="Method">public bool TrySetGastosPagos(GastosPagosList&lt;Gasto&gt; gastos, GastosPagosList&lt;Pago&gt; pagos)</Member>
+        <Member type="Method">public bool TryAddPago(Pago pago)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>Gasto</Name>
+        <Access>Public</Access>
+        <Location left="722" top="596" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _IdOwnerProveedor</Member>
+        <Member type="Property">public int IdOwnerProveedor { get; }</Member>
+        <Member type="Constructor">public Gasto(int id, int idComunidad, int idProveedor, Date fecha)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>GastosPagosBase</Name>
+        <Access>Public</Access>
+        <Location left="567" top="124" />
+        <Size width="162" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _Id</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Field">private List&lt;sImporteCuenta&gt; _CuentasAcreedoras</Member>
+        <Member type="Field">private List&lt;sImporteCuenta&gt; _CuentasDeudoras</Member>
+        <Member type="Field">private Date _Fecha</Member>
+        <Member type="Field">private decimal _Importe</Member>
+        <Member type="Property">public int Id { get; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public ReadOnlyCollection&lt;sImporteCuenta&gt; CuentasAcreedoras { get; }</Member>
+        <Member type="Property">public ReadOnlyCollection&lt;sImporteCuenta&gt; CuentasDeudoras { get; }</Member>
+        <Member type="Property">public Date Fecha { get; }</Member>
+        <Member type="Property">public string Concepto { get; set; }</Member>
+        <Member type="Property">public decimal Importe { get; }</Member>
+        <Member type="Constructor">public GastosPagosBase(int id, int idComunidad, Date fecha)</Member>
+        <Member type="Method">private bool CalculateTotal(ref List&lt;sImporteCuenta&gt; deudoras, ref List&lt;sImporteCuenta&gt; acreedoras)</Member>
+        <Member type="Method">public bool SetCuentasImportes(List&lt;sImporteCuenta&gt; deudores, List&lt;sImporteCuenta&gt; acreedores)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>GruposCuentas</Name>
+        <Access>Public</Access>
+        <Location left="1273" top="1091" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int Id { get; private set; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; private set; }</Member>
+        <Member type="Property">public GrupoContable Grupo { get; private set; }</Member>
+        <Member type="Property">public SubgrupoContable Subgrupo { get; private set; }</Member>
+        <Member type="Constructor">public GruposCuentas(int id, int idComunidad, string accountNumber)</Member>
+        <Member type="Constructor">public GruposCuentas(int id, int idComunidad, int accountNumber)</Member>
+        <Member type="Method">public bool Contains(ref CuentaMayor acc)</Member>
+        <Member type="Method">public bool Contains(CuentaMayor acc)</Member>
+        <Member type="Method">public bool Contains(ref string acc)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>CuentaMayor</Name>
+        <Access>Public</Access>
+        <Location left="1805" top="101" />
+        <Size width="162" height="383" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _Id</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Field">private string _Codigo</Member>
+        <Member type="Field">private GrupoContable _Grupo</Member>
+        <Member type="Field">private SubgrupoContable _Subgrupo</Member>
+        <Member type="Field">private int _Sufijo</Member>
+        <Member type="Property">public int Id { get; set; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public string Codigo { get; set; }</Member>
+        <Member type="Property">public string Nombre { get; set; }</Member>
+        <Member type="Property">public int Grupo { get; }</Member>
+        <Member type="Property">public int Subgrupo { get; }</Member>
+        <Member type="Property">public int Sufijo { get; }</Member>
+        <Member type="Property">public bool IsFakeAccount { get; set; }</Member>
+        <Member type="Constructor">public CuentaMayor(string accountNumber)</Member>
+        <Member type="Method">public bool IsLastAccount()</Member>
+        <Member type="Method">public bool IsFirstAccount()</Member>
+        <Member type="Method">public bool IsProveedor_Propietario(List&lt;GruposCuentas&gt; cuentasProveedores_Cobros)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>Pago</Name>
+        <Access>Public</Access>
+        <Location left="314" top="596" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _IdOwnerProveedor</Member>
+        <Member type="Field">private int _IdOwnerFactura</Member>
+        <Member type="Property">public int IdOwnerProveedor { get; }</Member>
+        <Member type="Property">public int IdOwnerFactura { get; }</Member>
+        <Member type="Constructor">public Pago(int id, int idComunidad, int idProveedor, int idFactura, Date fecha)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Class">
+        <Name>Proveedor</Name>
+        <Access>Public</Access>
+        <Location left="1411" top="121" />
+        <Size width="162" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private int _IdProveedor</Member>
+        <Member type="Field">private int _IdOwnerComunidad</Member>
+        <Member type="Field">private CuentaMayor _CuentaContableGasto</Member>
+        <Member type="Field">private CuentaMayor _CuentaContablePago</Member>
+        <Member type="Field">private CuentaMayor _CuentaContableProveedor</Member>
+        <Member type="Property">public int IdProveedor { get; }</Member>
+        <Member type="Property">public int IdOwnerComunidad { get; }</Member>
+        <Member type="Property">public string RazonSocial { get; set; }</Member>
+        <Member type="Property">public CuentaMayor CuentaContableGasto { get; }</Member>
+        <Member type="Property">public CuentaMayor CuentacontablePago { get; }</Member>
+        <Member type="Property">public CuentaMayor CuentaContableProveedor { get; }</Member>
+        <Member type="Property">public double IGICIVAPercent { get; set; }</Member>
+        <Member type="Property">public double IRPFPercent { get; set; }</Member>
+        <Member type="Property">public TipoPagoFacturas DefaultTipoPagoFacturas { get; set; }</Member>
+        <Member type="Constructor">public Proveedor(int id, int idPersona, int idComunidad, string nif, string nombre, bool forceInvalidNIF = False)</Member>
+        <Member type="Constructor">public Proveedor(CuentaMayor CuentaContProveedor, CuentaMayor CuentaContGasto, CuentaMayor CuentaContPago, int id, int idComunidad, string Razon, double IGICIVA, double IRPF, TipoPagoFacturas DefTPagoFacturas, int idPersona, string nif, string nombre, bool forceInvalidNIF = False)</Member>
+        <Modifier>None</Modifier>
+        <Stereotype>
+        </Stereotype>
+      </Entity>
+      <Entity type="Structure">
+        <Name>GrupoContable</Name>
+        <Access>Public</Access>
+        <Location left="2243" top="320" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int Digits { get; private set; }</Member>
+        <Member type="Constructor">public GrupoContable(string accountNumber)</Member>
+        <Member type="Constructor">public GrupoContable(int accountNumber)</Member>
+        <Member type="Method">public void SetGrupoByAccNumber(string accountNumber)</Member>
+        <Member type="Method">public void SetGrupoByAccNumber(int accountNumber)</Member>
+        <Member type="Method">public int GetGrupoDigitsFromString(ref string s)</Member>
+      </Entity>
+      <Entity type="Structure">
+        <Name>SubgrupoContable</Name>
+        <Access>Public</Access>
+        <Location left="2243" top="82" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int Digits { get; private set; }</Member>
+        <Member type="Constructor">public SubgrupoContable(string accountNumber)</Member>
+        <Member type="Constructor">public SubgrupoContable(int accountNumber)</Member>
+        <Member type="Method">public void SetSubgrupoByAccNumber(string accountNumber)</Member>
+        <Member type="Method">public void SetSubgrupoByAccNumber(int accountNumber)</Member>
+        <Member type="Method">public int GetSubgrupoDigitsFromString(ref string s)</Member>
+      </Entity>
+      <Entity type="Structure">
+        <Name>sImporteCuenta</Name>
+        <Access>Public</Access>
+        <Location left="314" top="182" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public decimal Importe { get; set; }</Member>
+        <Member type="Property">public string Cuenta { get; set; }</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Nesting" first="8" second="15">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="8">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_Asiento</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="6" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_GastosFra</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="6" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_PagosFra</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="10" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_Grupo</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="10" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_Subgrupo</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="12" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_CuentaContableGasto</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="12" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_CuentaContablePago</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="12" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_CuentaContableProveedor</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
